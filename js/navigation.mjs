@@ -17,6 +17,7 @@ if (menuButton && navigation) {
     'metronome.html': 'music.html',
     'reading-paths.html': 'library.html',
     'numbers.html': 'library.html',
+    'formulas.html': 'library.html',
     'timer.html': 'focus.html',
   }[currentPage] || currentPage;
 

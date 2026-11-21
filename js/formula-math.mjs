@@ -1,0 +1,23 @@
+// Native MathML: no network dependency for formula rendering.
+const esc = (value) => String(value).replace(/[&<>"']/g, (c) => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+export const v = (s) => `<mi>${esc(s)}</mi>`;
+export const b = (s) => `<mi mathvariant="bold">${esc(s)}</mi>`;
+export const o = (s) => `<mo>${esc(s)}</mo>`;
+export const n = (s) => `<mn>${esc(s)}</mn>`;
+export const t = (s) => `<mtext>${esc(s)}</mtext>`;
+export const row = (...s) => `<mrow>${s.join('')}</mrow>`;
+export const sub = (a, c) => `<msub>${a}${c}</msub>`;
+export const sup = (a, c) => `<msup>${a}${c}</msup>`;
+export const frac = (a, c) => `<mfrac>${a}${c}</mfrac>`;
+export const eq = (...s) => s.join(o('='));
+export const plus = (...s) => s.join(o('+'));
+export const par = (s) => row(o('('),s,o(')'));
+export const dot = (a,c) => row(a,o('·'),c);
+export const grad = (s) => row(o('∇'),s);
+export const div = (s) => dot(o('∇'),s);
+export const dt = (s) => frac(row(v('D'),s),row(v('D'),v('t')));
+export const pt = (s) => frac(row(o('∂'),s),row(o('∂'),v('t')));
+export const integral = (domain, body, measure='V') => row(sub(o('∫'),domain),body,v('d'),v(measure));
+export const surface = (body) => row(sub(o('∮'),row(o('∂'),v('Ω'))),body,v('d'),v('A'));
+export const math = (s) => `<math xmlns="http://www.w3.org/1998/Math/MathML" display="block">${s}</math>`;
+export const equation = (label,text,markup) => ({label,text,math:math(markup)});

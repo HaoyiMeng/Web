@@ -1,0 +1,59 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="theme-color" content="#0b0e13" />
+  <meta name="description" content="流体力学中的平衡方程：从物理图景、逐步推导到实际应用。" />
+  <title>公式 — Haoyi Studio</title>
+  <link rel="icon" type="image/svg+xml" href="./assets/favicon.svg" />
+  <link rel="stylesheet" href="./assets/styles.css" />
+  <link rel="stylesheet" href="./assets/sections.css" />
+  <link rel="stylesheet" href="./assets/workspace-v3.css" />
+  <link rel="stylesheet" href="./assets/numbers.css" />
+  <link rel="stylesheet" href="./assets/formulas.css" />
+  <script type="module" src="./js/site.mjs"></script>
+  <script type="module" src="./js/formulas-ui.mjs"></script>
+</head>
+<body class="workspace-page numbers-page formulas-page">
+  <a class="numbers-skip formula-skip" href="#main-content">跳到主要内容</a>
+  <div class="site-shell workspace-shell">
+    <header class="site-header workspace-header" id="top">
+      <a class="brand" href="./index.html" aria-label="Haoyi Studio 返回首页"><span class="brand-star">✳</span><span>HAOYI<span class="brand-dim">/</span>STUDIO</span></a>
+      <a class="numbers-library-link" href="./library.html">Library</a>
+    </header>
+    <main id="main-content" class="workspace-main" tabindex="-1">
+      <nav class="formula-breadcrumbs" aria-label="页面位置"><a href="./library.html">Library</a><span aria-hidden="true">/</span><a href="./formulas.html" aria-current="page">公式</a></nav>
+      <section id="formula-catalog" aria-labelledby="formula-heading">
+        <div class="formula-intro">
+          <div>
+            <span class="formula-kicker">EQUATIONS &amp; PHYSICAL MEANING</span>
+            <h1 id="formula-heading">公式，<em>读懂平衡。</em></h1>
+            <p>先看清一个物理量如何积累、流入和流出，<br class="formula-wide-break" />再一步步走到方程。每个公式，都有它的来处。</p>
+          </div>
+          <div class="formula-visual" aria-hidden="true">
+            <svg viewBox="0 0 260 175" fill="none">
+              <defs><marker id="formula-flow-tip" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse"><path d="m1 1 7 4-7 4" fill="none" stroke="currentColor" stroke-width="1.5" /></marker></defs>
+              <path class="formula-visual-guide" d="M14 33H246M14 87H246M14 141H246M75 16V160M185 16V160" />
+              <rect class="formula-control-volume" x="75" y="33" width="110" height="108" rx="9" />
+              <path class="formula-flux" d="M15 87H63M197 87H245" marker-end="url(#formula-flow-tip)" />
+              <path class="formula-inside" d="M97 63H163M97 87H143M97 111H163" />
+              <circle cx="165" cy="87" r="3" fill="currentColor" />
+            </svg>
+            <span>从控制体到微分形式</span>
+          </div>
+        </div>
+        <div class="formula-collection-label"><h2>从物理问题出发</h2><p>点开查看公式、推导与意义</p></div>
+        <div id="formula-grid" class="formula-grid"></div>
+        <noscript><p class="formula-conditions">请启用 JavaScript，查看平衡方程的公式与推导过程。</p></noscript>
+        <aside class="formula-reading-guide" aria-labelledby="formula-guide-heading">
+          <h2 id="formula-guide-heading">读方程，也读它的条件。</h2>
+          <p>先确定研究的是哪一块流体、边界朝向哪里，再辨认积累项、输运项和源项。简化方程时，逐项说明用了什么假设。</p>
+        </aside>
+      </section>
+      <section id="formula-detail" hidden aria-label="公式详情"></section>
+    </main>
+    <footer class="workspace-footer">Made to learn, at your own pace. © <span id="current-year">2026</span></footer>
+  </div>
+</body>
+</html>
