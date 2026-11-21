@@ -475,3 +475,14 @@ body.workspace-page {
 @media(prefers-reduced-motion:reduce){
   .workspace-page .space-card,.workspace-page .quick-row,.workspace-page .tile-arrow{transition:none}
 }
+
+/* Accent mapping for the catalog's independent tool tiles. */
+.workspace-page .space-card--metro{--tile-accent:#dec5f8;--tile-panel:#25222d}
+.workspace-page .space-card--notes,.workspace-page .space-card--book{--tile-accent:#f1d19c;--tile-panel:#28261f}
+.workspace-page .space-card--ambient{--tile-accent:#d0ebb3;--tile-panel:#1e2a26}
+.workspace-page .space-card--wing{--tile-accent:#bbdaf4;--tile-panel:#1c2832}
+.workspace-page .space-card--planned .tile-arrow{opacity:.4}
+@media(max-width:600px){
+  .workspace-page .desk-label strong{font-size:10px}
+  .workspace-page .desk-label span{max-width:52%;text-align:right;line-height:1.3;font-size:9px}
+}
