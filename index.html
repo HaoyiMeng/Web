@@ -8,14 +8,47 @@
   <title>Haoyi Studio — Curiosity, visualized.</title>
   <link rel="icon" type="image/svg+xml" href="./assets/favicon.svg" />
   <link rel="stylesheet" href="./assets/styles.css" />
+  <link rel="stylesheet" href="./assets/sections.css" />
   <script type="module" src="./js/app.mjs"></script>
+  <script type="module" src="./js/navigation.mjs"></script>
+  <script type="module" src="./js/focus.mjs"></script>
 </head>
 <body>
   <div class="site-shell">
     <header class="site-header" id="top">
       <a class="brand" href="#top" aria-label="Haoyi Studio 返回首页"><span class="brand-star">✳</span><span>HAOYI<span class="brand-dim">/</span>STUDIO</span></a>
-      <nav class="nav" aria-label="主要导航">
-        <a href="#work">Projects</a><a href="#nozzle-lab">Nozzle Lab</a><a href="#fretboard-lab">Music Lab</a>
+      <button class="nav-toggle" type="button" aria-controls="primary-nav" aria-expanded="false" aria-label="打开导航菜单"><span></span><span></span><span></span></button>
+      <nav class="nav" id="primary-nav" aria-label="主要导航">
+        <a class="nav-direct" href="#work">Projects</a>
+        <div class="nav-group">
+          <button class="nav-group-toggle" type="button" aria-controls="physics-menu" aria-expanded="false">Physics Lab <span class="nav-chevron" aria-hidden="true"></span></button>
+          <div class="nav-submenu" id="physics-menu">
+            <a href="#physics-lab"><strong>Physics Lab</strong><small>实验室总览</small></a>
+            <a href="#nozzle-lab"><strong>De Laval Nozzle</strong><small>交互式喷管模拟 · Live</small></a>
+            <a href="#thin-airfoil"><strong>Thin Airfoil Theory</strong><small>筹备中</small></a>
+          </div>
+        </div>
+        <div class="nav-group">
+          <button class="nav-group-toggle" type="button" aria-controls="library-menu" aria-expanded="false">Library <span class="nav-chevron" aria-hidden="true"></span></button>
+          <div class="nav-submenu" id="library-menu">
+            <a href="#library"><strong>Library</strong><small>阅读与思考的索引</small></a>
+            <a href="#reading-paths"><strong>Reading Paths</strong><small>主题阅读线索</small></a>
+          </div>
+        </div>
+        <div class="nav-group">
+          <button class="nav-group-toggle" type="button" aria-controls="music-menu" aria-expanded="false">Music Lab <span class="nav-chevron" aria-hidden="true"></span></button>
+          <div class="nav-submenu" id="music-menu">
+            <a href="#music-lab"><strong>Music Lab</strong><small>声音与结构</small></a>
+            <a href="#fretboard-lab"><strong>Bass Fretboard</strong><small>交互式指板 · Live</small></a>
+          </div>
+        </div>
+        <div class="nav-group">
+          <button class="nav-group-toggle" type="button" aria-controls="focus-menu" aria-expanded="false">Focus Mode <span class="nav-chevron" aria-hidden="true"></span></button>
+          <div class="nav-submenu" id="focus-menu">
+            <a href="#focus-mode"><strong>Focus Mode</strong><small>给思考留一段时间</small></a>
+            <a href="#focus-timer"><strong>Focus Timer</strong><small>25 分钟专注计时</small></a>
+          </div>
+        </div>
       </nav>
       <span class="nav-pill"><span class="live-dot"></span>Independent learning space</span>
     </header>
@@ -45,8 +78,14 @@
         <div class="project-grid">
           <a href="#nozzle-lab" class="project-card project-primary"><div class="project-top"><span class="category">FLUID MECHANICS</span><span class="status on">● LIVE MODEL</span></div><div class="project-graphic"><svg viewBox="0 0 350 150" role="img" aria-label="收缩扩张喷管的示意图"><defs><linearGradient id="project-flow"><stop stop-color="#3f91af"/><stop offset=".6" stop-color="#9d8ded"/><stop offset="1" stop-color="#dcecab"/></linearGradient></defs><path d="M20 14 C75 14 111 63 152 64 C210 65 241 18 330 18 L330 132 C241 132 210 85 152 86 C111 87 75 136 20 136Z" fill="url(#project-flow)" opacity=".30"/><path d="M20 14 C75 14 111 63 152 64 C210 65 241 18 330 18M20 136 C75 136 111 87 152 86 C210 85 241 132 330 132" fill="none" stroke="#d9e6e0" stroke-width="1.5"/><path d="M18 75H333" stroke="#d9e6e0" stroke-dasharray="3 7" opacity=".6"/></svg></div><h3>De Laval Nozzle</h3><p>背压、马赫数、阻塞流与正激波。拖动滑块，观察不同工况的喷管流动。</p><span class="card-arrow">Explore model ↗</span></a>
           <a href="#fretboard-lab" class="project-card project-music"><div class="project-top"><span class="category">MUSIC THEORY</span><span class="status on">● INTERACTIVE</span></div><div class="project-graphic fret-art"><div class="art-frets"><span>G</span><span>D</span><span>A</span><span>E</span></div></div><h3>Bass Fretboard</h3><p>四弦贝斯指板上的音名与音阶。把音程关系变成看得见的几何排列。</p><span class="card-arrow">Explore model ↗</span></a>
-          <div class="project-card project-upcoming"><div class="project-top"><span class="category">AERODYNAMICS</span><span class="status later">IN PLANNING</span></div><div class="project-graphic airfoil-art"><svg viewBox="0 0 350 150" role="presentation"><path d="M15 80 C105 22 220 46 335 81 C215 82 108 87 15 80" stroke="#c7b9e9" stroke-width="2" fill="#8b70bb" fill-opacity=".2"/><path d="M15 80H335" stroke="#c7b9e9" stroke-dasharray="5 7" opacity=".3"/></svg></div><h3>Thin Airfoil Theory</h3><p>涡量分布、环量、升力与翼型弯度。下一个想解决的可视化主题。</p><span class="card-arrow muted">Coming later</span></div>
+          <div class="project-card project-upcoming" id="thin-airfoil"><div class="project-top"><span class="category">AERODYNAMICS</span><span class="status later">IN PLANNING</span></div><div class="project-graphic airfoil-art"><svg viewBox="0 0 350 150" role="presentation"><path d="M15 80 C105 22 220 46 335 81 C215 82 108 87 15 80" stroke="#c7b9e9" stroke-width="2" fill="#8b70bb" fill-opacity=".2"/><path d="M15 80H335" stroke="#c7b9e9" stroke-dasharray="5 7" opacity=".3"/></svg></div><h3>Thin Airfoil Theory</h3><p>涡量分布、环量、升力与翼型弯度。下一个想解决的可视化主题。</p><span class="card-arrow muted">Coming later</span></div>
         </div>
+      </section>
+
+      <section class="domain-intro section" id="physics-lab" aria-labelledby="physics-heading">
+        <div><span class="overline">PHYSICS LAB / 物理实验室</span><h2 id="physics-heading">Make the invisible <em>visible.</em></h2></div>
+        <p>从流动到升力，用可以调节的模型检验直觉。目前开放喷管实验，翼型理论正在筹备。</p>
+        <a href="#nozzle-lab" class="domain-link">进入喷管实验 <span aria-hidden="true">↘</span></a>
       </section>
 
       <section class="lab section" id="nozzle-lab" aria-labelledby="nozzle-heading">
@@ -68,12 +107,35 @@
         </div>
       </section>
 
+      <section class="domain-intro section music-intro" id="music-lab" aria-labelledby="music-heading">
+        <div><span class="overline">MUSIC LAB / 音乐实验室</span><h2 id="music-heading">See the shape of <em>sound.</em></h2></div>
+        <p>把音程、音阶和指板位置连成一张地图。从四弦贝斯的十二个半音开始。</p>
+        <a href="#fretboard-lab" class="domain-link">进入指板实验 <span aria-hidden="true">↘</span></a>
+      </section>
+
       <section class="lab section music-section" id="fretboard-lab" aria-labelledby="bass-heading">
         <div class="section-heading"><div><div class="overline">03 / INTERACTIVE MUSIC</div><h2 id="bass-heading">Bass Fretboard<span class="period">.</span></h2></div><p>标准四弦调弦 E–A–D–G。选择根音与音阶，观察指板分布。</p></div>
         <div class="lab-surface bass-surface">
           <div class="bass-controls"><label for="root-select">Root note <select id="root-select"></select></label><label for="scale-select">Scale <select id="scale-select"><option value="major">Major / 大调</option><option value="minor">Natural minor / 自然小调</option><option value="pentatonic">Minor pentatonic / 小调五声</option><option value="chromatic">Chromatic / 半音阶</option></select></label><span class="bass-hint">点击任一音符查看音名与音程</span></div>
           <div class="fret-scroll"><div id="fretboard" class="fretboard" role="group" aria-label="四弦贝斯指板上的音符"></div></div>
           <div class="bass-readout"><span class="bass-selection" id="note-readout">点击指板上的音符</span><span id="scale-notes"></span></div>
+        </div>
+      </section>
+
+      <section class="library-section section" id="library" aria-labelledby="library-heading">
+        <div class="section-heading"><div><div class="overline">04 / THE LIBRARY</div><h2 id="library-heading">A shelf for questions<span class="period">.</span></h2></div><p>先整理想读、想推导、想反复回来看的主题。笔记会随着学习慢慢补齐。</p></div>
+        <div class="library-grid" id="reading-paths">
+          <article class="library-card"><span class="library-index">FLUID MECHANICS</span><h3>流动如何改变速度？</h3><p>从连续性方程、能量方程到可压缩流，把喷管实验背后的关系串起来。</p><span class="library-state">阅读笔记筹备中</span></article>
+          <article class="library-card"><span class="library-index">AERODYNAMICS</span><h3>机翼为什么有升力？</h3><p>循着环量、涡量与翼型几何，建立薄翼理论的阅读路线。</p><span class="library-state">阅读笔记筹备中</span></article>
+          <article class="library-card"><span class="library-index">MUSIC THEORY</span><h3>音阶为什么有形状？</h3><p>用指板上的距离理解音程、调式和常见音阶的结构。</p><span class="library-state">阅读笔记筹备中</span></article>
+        </div>
+      </section>
+
+      <section class="focus-section section" id="focus-mode" aria-labelledby="focus-heading">
+        <div class="section-heading"><div><div class="overline">05 / FOCUS MODE</div><h2 id="focus-heading">Give it some time<span class="period">.</span></h2></div><p>为眼前的问题留出一段连续的时间。计时器只保存在当前页面，不记录个人数据。</p></div>
+        <div class="focus-surface" id="focus-timer">
+          <div class="focus-copy"><span class="focus-kicker">ONE THING AT A TIME</span><h3>今天，先弄明白一件事。</h3><p>选择一段专注时间，开始之后让问题留在眼前。需要休息时，切换到短休息。</p><div class="focus-presets" role="group" aria-label="计时模式"><button type="button" class="active" data-focus-minutes="25" data-focus-label="专注">专注 25 分钟</button><button type="button" data-focus-minutes="5" data-focus-label="短休息">休息 5 分钟</button></div></div>
+          <div class="timer-panel"><span class="timer-caption" id="timer-mode">专注时间</span><output id="timer-display" aria-label="剩余时间">25:00</output><div class="timer-progress" aria-hidden="true"><span id="timer-progress-fill"></span></div><div class="timer-actions"><button type="button" id="timer-toggle" class="btn btn-primary">开始计时</button><button type="button" id="timer-reset" class="timer-reset">重置</button></div><p id="timer-status" class="timer-status" role="status" aria-live="polite">准备好时开始。</p></div>
         </div>
       </section>
       <section class="closing section"><span class="overline">A WORK IN PROGRESS</span><h2>Learning in public.<br/><em>At my own pace.</em></h2><p>这里的每个模型都先为解决我自己的问题而存在。它们会被修正，也会慢慢长大。</p><a href="#top" class="text-link">Back to top ↑</a></section>

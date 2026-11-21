@@ -1,0 +1,76 @@
+/* Navigation and new spaces */
+#physics-lab,#music-lab,#library,#reading-paths,#focus-mode,#focus-timer,#thin-airfoil{scroll-margin-top:32px}
+.site-header{position:relative;z-index:20;gap:22px}
+.nav{align-items:center;gap:10px;margin-left:auto;font-size:14px}
+.nav-direct,.nav-group-toggle{display:inline-flex;align-items:center;min-height:44px;padding:10px 12px;border:0;border-radius:7px;background:transparent;color:#c9d2d0;font-size:14px;font-weight:600;white-space:nowrap}
+.nav-direct:hover,.nav-group-toggle:hover,.nav-group.is-open>.nav-group-toggle{background:#202a2b;color:var(--accent)}
+.nav-group{position:relative}
+.nav-chevron{width:7px;height:7px;border-right:1.5px solid currentColor;border-bottom:1.5px solid currentColor;transform:rotate(45deg);margin:-4px 0 0 10px;transition:transform .18s}
+.nav-group.is-open .nav-chevron{transform:rotate(225deg);margin-top:3px}
+.nav-submenu{position:absolute;top:calc(100% + 10px);left:0;min-width:245px;padding:8px;background:#20282e;border:1px solid #3c4848;border-radius:11px;box-shadow:0 20px 55px #0008;display:grid;gap:2px}
+.nav-submenu[hidden]{display:none}
+.nav-submenu a{display:flex;flex-direction:column;gap:3px;padding:12px 13px;border-radius:6px}
+.nav-submenu a:hover,.nav-submenu a:focus-visible{background:#303d39}
+.nav-submenu strong{font-size:14px;font-weight:650;color:#f0f4ec}
+.nav-submenu small{font-size:12px;color:#afbab9}
+.nav-pill{font-size:12px}
+.nav-toggle{display:none}
+.domain-intro{display:grid;grid-template-columns:1.35fr 1fr auto;gap:32px;align-items:end;padding:88px 0 0}
+.domain-intro h2{font-size:clamp(30px,3.8vw,53px);line-height:1.12;letter-spacing:-.055em;font-weight:630;margin:15px 0 0}
+.domain-intro h2 em{font-style:normal;color:var(--accent)}
+.domain-intro p{font-size:16px;line-height:1.75;color:#b3bec1;margin:0 0 2px}
+.domain-link{font-size:14px;font-weight:700;color:var(--accent);white-space:nowrap;border-bottom:1px solid #6e8269;padding-bottom:7px;margin-bottom:3px}
+.domain-link:hover{color:#f0ffd7}
+.domain-link span{margin-left:5px}
+.domain-intro+.lab{padding-top:30px}
+.music-intro{padding-top:105px}
+.library-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:14px}
+.library-card{display:flex;flex-direction:column;min-height:245px;padding:26px;border:1px solid #35413f;border-radius:10px;background:linear-gradient(145deg,#1d2829,#171d24 72%)}
+.library-index{color:#c7dfaa;letter-spacing:.13em;font-size:12px;font-weight:700}
+.library-card h3{font-size:22px;letter-spacing:-.025em;line-height:1.35;margin:24px 0 8px}
+.library-card p{color:#b3bfc0;font-size:15px;line-height:1.7;margin:0 0 25px}
+.library-state{margin-top:auto;color:#aab9ae;font-size:13px}
+.focus-surface{display:grid;grid-template-columns:1fr .84fr;gap:45px;align-items:center;padding:38px;border:1px solid #405047;border-radius:12px;background:radial-gradient(circle at 78% 55%,#33463b 0,#202b29 30%,#171e23 70%)}
+.focus-kicker{color:#c3dba9;font-size:12px;letter-spacing:.16em;font-weight:740}
+.focus-copy h3{font-size:clamp(26px,3vw,38px);letter-spacing:-.04em;margin:22px 0 10px;font-weight:640}
+.focus-copy p{font-size:16px;color:#bdc9c4;line-height:1.8;max-width:470px}
+.focus-presets{display:flex;flex-wrap:wrap;gap:9px;margin-top:28px}
+.focus-presets button,.timer-reset{min-height:43px;padding:10px 16px;border:1px solid #718471;border-radius:7px;background:#1b2927;color:#dbe8db;font-size:14px}
+.focus-presets button:hover,.focus-presets button.active{background:#d8f1b4;border-color:#d8f1b4;color:#192519}
+.timer-panel{text-align:center;border:1px solid #4a5e52;border-radius:12px;background:#131c1e;padding:30px}
+.timer-caption{color:#c4d7c2;font-size:14px}
+#timer-display{display:block;font-size:clamp(66px,8vw,110px);font-weight:630;line-height:1.2;letter-spacing:-.07em;font-variant-numeric:tabular-nums;margin:10px 0 14px}
+.timer-progress{height:5px;background:#39463d;border-radius:5px;overflow:hidden}
+.timer-progress span{display:block;width:0;height:100%;background:#d8f1b4;transition:width .3s linear}
+.timer-actions{display:flex;justify-content:center;align-items:center;gap:10px;margin-top:25px}
+.timer-actions .btn{min-height:46px;font-size:14px;border:0;padding:13px 22px}
+.timer-reset{background:transparent;border-color:#4d6057}
+.timer-reset:hover{border-color:#c8dfb0;color:#fff}
+.timer-status{min-height:21px;color:#b1c0b8;font-size:13px;margin:19px 0 0}
+@media(max-width:1200px){.nav-pill{display:none}.site-header{gap:12px}.nav{gap:2px}.nav-direct,.nav-group-toggle{padding:10px 9px}}
+@media(max-width:850px){
+  .site-header{height:74px}
+  .nav-toggle{display:flex;flex-direction:column;justify-content:center;gap:5px;width:46px;height:44px;margin-left:auto;padding:11px;border:1px solid #47544c;border-radius:7px;background:#1a2427;color:#e8f3e4}
+  .nav-toggle span{display:block;width:100%;height:2px;background:currentColor;border-radius:2px}
+  .nav{display:none;position:absolute;top:calc(100% + 1px);left:0;right:0;max-height:calc(100vh - 86px);overflow:auto;margin:0;padding:13px;background:#151d22;border:1px solid #34413e;border-radius:0 0 12px 12px;box-shadow:0 24px 45px #0009;align-items:stretch;flex-direction:column;gap:3px}
+  .nav.is-open{display:flex}
+  .nav .nav-direct{display:flex}
+  .nav-direct,.nav-group-toggle{width:100%;min-height:49px;padding:12px 14px;justify-content:space-between;font-size:16px;text-align:left}
+  .nav-submenu{position:static;min-width:0;padding:4px 0 8px 13px;margin:0 0 4px 10px;border:0;border-left:1px solid #53645a;border-radius:0;background:transparent;box-shadow:none}
+  .nav-submenu a{min-height:52px}
+  .domain-intro{grid-template-columns:1fr auto;gap:17px}.domain-intro p{grid-column:1/-1;grid-row:2}.domain-link{grid-column:2;grid-row:1}
+  .library-grid{grid-template-columns:repeat(2,minmax(0,1fr))}
+  .focus-surface{grid-template-columns:1fr;gap:20px}
+}
+@media(max-width:690px){
+  .nav .nav-direct{display:flex}
+  .nav .nav-submenu a:first-child{display:flex}
+  .domain-intro{grid-template-columns:1fr;padding-top:70px}
+  .domain-intro h2{font-size:36px}.domain-intro p{grid-column:auto;grid-row:auto}.domain-link{grid-column:auto;grid-row:auto;justify-self:start}
+  .domain-intro+.lab{padding-top:26px}
+  .music-intro{padding-top:85px}
+  .library-grid{grid-template-columns:1fr}.library-card{min-height:0}
+  .focus-surface{padding:20px}.timer-panel{padding:25px 16px}
+  .timer-actions{flex-wrap:wrap}
+}
+@media(prefers-reduced-motion:reduce){html{scroll-behavior:auto}.nav-chevron,.timer-progress span{transition:none}}
