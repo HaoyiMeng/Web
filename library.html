@@ -1,34 +1,42 @@
 <!doctype html>
 <html lang="zh-CN">
 <head>
-  <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <meta name="theme-color" content="#101318" />
-  <meta name="description" content="Library 的阅读目录。" />
-  <title>Library — Haoyi Studio</title>
-  <link rel="icon" type="image/svg+xml" href="./assets/favicon.svg" />
-  <link rel="stylesheet" href="./assets/styles.css" />
-  <link rel="stylesheet" href="./assets/sections.css" />
-  <script type="module" src="./js/navigation.mjs"></script>
-  <script type="module" src="./js/site.mjs"></script>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<meta name="theme-color" content="#0b0e13" />
+<meta name="description" content="个人阅读路径与学习资料集合。" />
+<title>Library — Haoyi Studio</title>
+<link rel="icon" type="image/svg+xml" href="./assets/favicon.svg" />
+<link rel="stylesheet" href="./assets/styles.css" />
+<link rel="stylesheet" href="./assets/sections.css" />
+<link rel="stylesheet" href="./assets/workspace-v3.css" />
+<script type="module" src="./js/navigation.mjs"></script>
+<script type="module" src="./js/site.mjs"></script>
+
 </head>
 <body class="workspace-page">
-  <div class="site-shell workspace-shell">
-    <header class="site-header workspace-header" id="top">
-      <a class="brand" href="./index.html" aria-label="Haoyi Studio 返回首页"><span class="brand-star">✳</span><span>HAOYI<span class="brand-dim">/</span>STUDIO</span></a>
-      <span class="workspace-badge">Library</span>
-    </header>
-    <main id="main-content" class="workspace-main">
-      <section class="workspace-intro" aria-labelledby="workspace-title">
-        <a class="workspace-back" href="./index.html">← 所有空间</a><span class="workspace-kicker">LIBRARY</span>
-        <h1 id="workspace-title">Follow a question.</h1>
-        <p>沿着问题，慢慢建立自己的知识地图。</p>
-      </section>
-      <nav class="space-grid space-grid--submenu" aria-label="阅读空间菜单">
-          <a href="./reading-paths.html" class="space-card space-card--book"><span class="space-icon"><svg viewBox="0 0 24 24" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M12 6c-3-2-6-2-9-1v14c3-1 6-1 9 1m0-14c3-2 6-2 9-1v14c-3-1-6-1-9 1m0-14v14"/></svg></span><strong class="space-title">Reading Paths</strong><span class="space-description">流体 · 翼型 · 音乐理论</span></a>
-      </nav>
-    </main>
-    <footer class="workspace-footer">Made to learn, at your own pace.</footer>
-  </div>
+<div class="site-shell workspace-shell">
+<header class="site-header workspace-header" id="top"><a class="brand" href="./index.html" aria-label="Haoyi Studio 返回首页"><span class="brand-star">✳</span><span>HAOYI<span class="brand-dim">/</span>STUDIO</span></a><span class="workspace-badge">Library</span></header>
+<main id="main-content" class="workspace-main"><section class="workspace-intro" aria-labelledby="workspace-title">
+  <a class="workspace-back" href="./index.html">← Back to workspace</a>
+  <span class="workspace-kicker">04 / KNOWLEDGE</span>
+  <h1 id="workspace-title">Follow <em>a question.</em></h1>
+  <p>把零散的问题慢慢串成自己的知识地图。</p></section><div class="desk-label"><strong>YOUR COLLECTION</strong><span>01 LIVE / 01 IN PLANNING</span></div>
+<nav class="space-grid space-grid--submenu" aria-label="Library 工具目录"><a href="./reading-paths.html" class="space-card space-card--book">
+   <div class="tile-top"><span class="tile-icon"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 6c-3-2-6-2-9-1v14c3-1 6-1 9 1m0-14c3-2 6-2 9-1v14c-3-1-6-1-9 1m0-14v14"/></svg></span><span class="tile-arrow" aria-hidden="true">↗</span></div>
+   <span class="tile-art tile-art--book" aria-hidden="true"><svg viewBox="0 0 148 106"><path d="M10 21c25-6 43-3 61 10v63C53 80 35 77 10 84V21ZM71 31c18-13 37-16 61-10v63c-24-7-43-4-61 10V31Z"/><path d="M20 37h34M20 49h34M90 37h30M90 49h30"/></svg></span>
+   <div class="tile-main"><span class="tile-overline">EXPLORE A TOPIC</span><strong class="space-title">Reading Paths</strong><span class="space-description">跟着问题寻找下一份资料。</span></div>
+   <div class="tile-tags"><span>Physics</span><span>Music</span></div>
+ </a>
+<div class="space-card space-card--notes space-card--planned">
+   <div class="tile-top"><span class="tile-icon"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M7 3h10l4 4v14H7V3Zm10 0v4h4M10 12h8M10 16h6M3 7v14"/></svg></span><span class="tile-arrow" aria-hidden="true">·</span></div>
+   <span class="tile-art tile-art--notes" aria-hidden="true"><svg viewBox="0 0 148 106"><rect x="27" y="14" width="77" height="88" rx="6"/><path d="M46 39h40M46 53h40M46 67h31M46 81h24"/><path d="M89 13v18h18"/></svg></span>
+   <div class="tile-main"><span class="tile-overline">AN OPEN NOTEBOOK</span><strong class="space-title">My Notes</strong><span class="space-description">可视化笔记与个人知识库。</span></div>
+   <span class="tile-status">○ PLANNED · 即将探索</span>
+ </div></nav>
+<div class="desk-subnote"><strong>STUDIO NOTE</strong><span>这里会优先整理真正用于学习的内容，而不是为凑数量发布文章。</span></div>
+<div class="desk-footer-row"><strong>✳ HAOYI STUDIO</strong><span>Back anytime. Keep exploring.</span></div></main>
+<footer class="workspace-footer">Made to learn, at your own pace. © 2026</footer>
+</div>
 </body>
 </html>
