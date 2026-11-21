@@ -59,18 +59,19 @@ function setBpm(value) {
     nextNoteTime = Math.max(nextNoteTime, ctx.currentTime + 0.035);
   }
 }
-function currentStepDuration() { return 60 / settings.bpm / settings.subdivision; }
+function currentStepDuration() { return (60 / settings.bpm) / (settings.meter === 6 ? 2 : 1) / settings.subdivision; }
 
 function sound(at, beat, subdivision) {
   const oscillator = ctx.createOscillator();
   const gain = ctx.createGain();
   const main = subdivision===0;
   const accented = main && beat===0;
+  const secondary = main && settings.meter===6 && beat===3;
   oscillator.type='sine';
-  oscillator.frequency.setValueAtTime(accented?1150:main?890:620,at);
-  oscillator.frequency.exponentialRampToValueAtTime(accented?760:main?610:470,at + 0.038);
+  oscillator.frequency.setValueAtTime(accented?1150:secondary?990:main?890:620,at);
+  oscillator.frequency.exponentialRampToValueAtTime(accented?760:secondary?680:main?610:470,at + 0.038);
   gain.gain.setValueAtTime(0.0001,at);
-  gain.gain.exponentialRampToValueAtTime(accented?0.24:main?0.14:0.055,at + 0.004);
+  gain.gain.exponentialRampToValueAtTime(accented?0.24:secondary?0.19:main?0.14:0.055,at + 0.004);
   gain.gain.exponentialRampToValueAtTime(0.0001,at + 0.055);
   oscillator.connect(gain).connect(ctx.destination);
   oscillator.start(at);
