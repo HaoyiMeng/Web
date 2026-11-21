@@ -7,7 +7,7 @@ function renderSummary(){
   try{
     const parsed=JSON.parse(localStorage.getItem(KEY)||'{}');
     const records=Array.isArray(parsed.history)?parsed.history:[];
-    const today=new Date().toLocaleDateString('en-CA');
+    const d=new Date(); const today=[d.getFullYear(),String(d.getMonth()+1).padStart(2,'0'),String(d.getDate()).padStart(2,'0')].join('-');
     const recent=records.filter(item=>item && item.day===today);
     mins.textContent=String(recent.reduce((sum,item)=>sum+Number(item.minutes||0),0));
     sessions.textContent=String(recent.length);
