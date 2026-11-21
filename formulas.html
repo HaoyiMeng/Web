@@ -4,7 +4,7 @@
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="theme-color" content="#0b0e13" />
-  <meta name="description" content="流体力学中的平衡方程：从物理图景、逐步推导到实际应用。" />
+  <meta name="description" content="按颜色分类的流体力学公式库：nabla 运算、积分与输运定理、平衡方程和闭合模型，附推导与物理意义。" />
   <title>公式 — Haoyi Studio</title>
   <link rel="icon" type="image/svg+xml" href="./assets/favicon.svg" />
   <link rel="stylesheet" href="./assets/styles.css" />
@@ -29,7 +29,7 @@
           <div>
             <span class="formula-kicker">EQUATIONS &amp; PHYSICAL MEANING</span>
             <h1 id="formula-heading">公式，<em>读懂平衡。</em></h1>
-            <p>先看清一个物理量如何积累、流入和流出，<br class="formula-wide-break" />再一步步走到方程。每个公式，都有它的来处。</p>
+            <p>从基础运算、积分定理走到流体的平衡方程。<br class="formula-wide-break" />按类别查找，每个公式都有推导、意义和条件。</p>
           </div>
           <div class="formula-visual" aria-hidden="true">
             <svg viewBox="0 0 260 175" fill="none">
@@ -43,8 +43,9 @@
             <span>从控制体到微分形式</span>
           </div>
         </div>
-        <div class="formula-collection-label"><h2>从物理问题出发</h2><p>点开查看公式、推导与意义</p></div>
-        <div id="formula-grid" class="formula-grid"></div>
+        <div class="formula-collection-label"><h2>按公式的作用来查找</h2><p id="formula-count" role="status" aria-live="polite">正在整理公式…</p></div>
+        <div id="formula-group-filters" class="formula-group-filters" role="group" aria-label="按公式类别筛选"></div>
+        <div id="formula-grid" class="formula-collections"></div>
         <noscript><p class="formula-conditions">请启用 JavaScript，查看平衡方程的公式与推导过程。</p></noscript>
         <aside class="formula-reading-guide" aria-labelledby="formula-guide-heading">
           <h2 id="formula-guide-heading">读方程，也读它的条件。</h2>

@@ -1,6 +1,8 @@
 import {v,b,o,n,t,row,sub,sup,frac,eq,plus,par,dot,grad,div,dt,pt,integral,surface,equation} from './formula-math.mjs';
 import {energyFormulas} from './formulas-energy.mjs';
 import {navierStokesFormula} from './formulas-navier-stokes.mjs';
+import {vectorToolsFormula} from './formulas-vector.mjs';
+import {theoremFormulas} from './formulas-theorems.mjs';
 
 const rho=v('ρ'), vel=b('v'), sigma=b('σ'), tau=b('τ'), force=b('b');
 const vol=(s)=>integral(v('Ω'),s);
@@ -33,7 +35,7 @@ const coreFormulas=[
     meaning:['所有平衡方程都在回答同一件事：内部累积 = 净流入 + 源项。区别在于储存的是什么、怎样穿过表面、受到什么作用。','“平衡方程”也适用于加速、加热和随时间变化的流动。静态平衡或稳态，只是在特定条件下再删去某些变化项。'],
     conditions:['这里控制体固定；移动或变形控制体必须使用相对边界速度。','面积分与体积分的转换要求相应光滑性；一般守恒律也可用弱形式处理不连续流。','质量通常没有产生项；动量有外力；能量有功和热。不能把同一种源项机械地套给所有物理量。'],
     example:{title:'一个固定水箱的账本',text:'若入口流入 2 kg/s、出口流出 3 kg/s，且无质量源，水箱质量变化率为 −1 kg/s。箱内此刻仍可有 10 kg 水；“质量为 10 kg”与“每秒少 1 kg”是两种量。'},
-    related:['continuity','momentum','total-energy','vector-tools'],sources:[arizona,vt],
+    related:['gauss','reynolds-transport','continuity','momentum','total-energy'],sources:[arizona,vt],
   },
   {
     id:'continuity',name:'质量守恒',italian:'Equazione di continuità',symbol:'ρ',category:'质量平衡',
@@ -53,7 +55,7 @@ const coreFormulas=[
     meaning:['Dρ/Dt < 0 对应 ∇·v > 0：一小团流体膨胀，同一份质量被摊到更大的体积里，密度下降。','定常只意味着固定位置的 ∂ρ/∂t = 0。质点沿着空间变化的密度场运动，Dρ/Dt 仍可能非零。'],
     conditions:['不可压缩不等于压力恒定，也不等于速度处处相同。','定常一维管流且横截面量可用平均值表示时，得到 ṁ = ρAU = 常数。','入口、出口多个时，要把每个截面的有向质量流率相加。'],
     example:{title:'收缩管里的速度',text:'对于定常、密度相同、无泄漏的一进一出管道，A₁U₁ = A₂U₂。若出口面积减半，平均出口速度加倍；可压缩流则必须同时保留密度。'},
-    related:['balance','momentum','navier-stokes'],sources:[vt,arizona],
+    related:['reynolds-transport','balance','momentum','navier-stokes'],sources:[vt,arizona],
   },
   {
     id:'momentum',name:'动量平衡',italian:'Equazione della quantità di moto',symbol:'ρv',category:'力与运动',
@@ -76,27 +78,14 @@ const coreFormulas=[
     example:{title:'喷管中的净外力',text:'定常一进一出且沿同一轴线，若 ṁ = 2 kg/s，入口 U₁ = 3 m/s、出口 U₂ = 8 m/s，则流体受到的总外力为 2 × (8−3) = 10 N。这里总外力包含压力、壁面力与体力，不能直接当成壁面力。'},
     related:['continuity','kinetic-energy','navier-stokes','vector-tools'],sources:[vt],
   },
-  {
-    id:'vector-tools',name:'运算工具箱',italian:'Gradiente, divergenza e rotore',symbol:'∇',category:'读懂方程的基础',
-    summary:'从表面的不平衡理解梯度、散度、旋度和张量。',
-    question:'∇ 后面放不同对象、用不同运算，为什么结果的类型会改变？',
-    equations:[
-      equation('标量的梯度','∇φ = (∂φ/∂x, ∂φ/∂y, ∂φ/∂z)',eq(grad(v('φ')),row(o('('),frac(row(o('∂'),v('φ')),row(o('∂'),v('x'))),o(','),frac(row(o('∂'),v('φ')),row(o('∂'),v('y'))),o(','),frac(row(o('∂'),v('φ')),row(o('∂'),v('z'))),o(')')))),
-      equation('向量的散度与张量的散度','∇·v = Σ_i ∂v_i/∂x_i；(∇·A)_i = Σ_j ∂A_ij/∂x_j',row(div(vel),o('='),sub(o('∑'),v('i')),frac(row(o('∂'),sub(v('v'),v('i'))),row(o('∂'),sub(v('x'),v('i')))),t('；'),sub(par(div(b('A'))),v('i')),o('='),sub(o('∑'),v('j')),frac(row(o('∂'),sub(v('A'),v('ij'))),row(o('∂'),sub(v('x'),v('j')))))),
-    ],
-    terms:[['∇φ','标量 → 向量；指向 φ 增长最快的方向。'],['∇·v','向量 → 标量；单位体积的净流出强度。'],['∇×v','向量 → 向量；表示局部旋转，速度场的旋度称涡量。'],['∇v','向量 → 二阶张量；本页 (∇v)_ij = ∂v_i/∂x_j，逐方向记录各速度分量的变化。'],['∇·A','二阶张量 → 向量；本页取逐行散度，分量为 ∂A_ij/∂x_j 并对 j 求和。'],['⊗、:','⊗ 是张量积；A:B = Σ_iΣ_j A_ijB_ij 为双重收缩，结果是标量。']],
-    steps:[
-      {title:'从一对面上的差别理解梯度',text:'小流体块左右两面的压力若不同，压力产生的合力就不为零。在 x 方向，合力约为 −(∂p/∂x)dV；三个方向合起来就是 −∇p dV。'},
-      {title:'从六个面的净流出理解散度',text:'右面流出减去左面流入，再加上另外两对面的差，除以体积，得到 ∇·v。若换成质量通量 ρv，散度就是质量净流出率密度。',equations:[equation('散度定理','∮∂Ω F·n dA = ∫Ω ∇·F dV',eq(surface(dot(b('F'),b('n'))),vol(div(b('F')))))]},
-      {title:'从一圈的环流理解旋度',text:'绕小回路的速度切向分量积分，除以回路面积，对应旋度沿回路法向的分量。法向与绕行方向使用右手定则；刚体转动时涡量为角速度的 2 倍。',equations:[equation('涡量','ω = ∇×v',eq(b('ω'),row(o('∇'),o('×'),vel)))]},
-      {title:'从每个面的三个力分量理解张量',text:'一个应力张量把面法向 n 映射为该面上的牵引力 σn。对相对两面的力做差并合并，得到向量 ∇·σ，所以它能直接进入动量平衡。'},
-      {title:'用乘积法则连接守恒形式与质点形式',text:'连续、动量和能量方程中的展开都要保持对象类型一致。标量散度不能直接替换成向量梯度，张量积也不是点积。',equations:[equation('质量通量展开','∇·(ρv) = v·∇ρ + ρ∇·v',eq(div(par(row(rho,vel))),plus(dot(vel,grad(rho)),row(rho,div(vel)))))]},
-    ],
-    meaning:['∇ 是微分算子；结果是标量、向量还是张量，取决于输入对象和缩并方式。先检查类型，常能发现方程中漏掉的点积、散度或速度因子。','张量的各分量可以不为零，而它的散度为零：均匀应力在相对两面抵消，并不代表每个面上没有力。'],
-    conditions:['这里使用笛卡尔坐标；柱坐标和球坐标包含基向量随位置变化产生的额外项。','不同教材可能转置速度梯度或把张量散度定义在另一侧，必须把指标约定与牵引力公式一起核对。'],
-    example:{title:'一个会膨胀的速度场',text:'取 v = (ax, 0, 0)，a 为常数且单位 s⁻¹，则 ∇·v = a。a > 0 时右侧比左侧流得快，一小团流体沿 x 方向被拉长；由连续方程 Dρ/Dt = −aρ。'},
-    related:['balance','continuity','momentum','internal-energy'],sources:[arizona,vt],
-  },
+
+];
+
+export const formulaGroups = [
+  {id:'operations',label:'基础运算规则',description:'按 nabla 算子整理定义、输入输出和乘积规则。'},
+  {id:'theorems',label:'积分与输运定理',description:'连接局部与整体，以及物质系统与控制体。'},
+  {id:'balance',label:'平衡方程',description:'对质量、动量、能量和熵逐项记账。'},
+  {id:'models',label:'闭合与模型',description:'用材料和热力学关系补全可求解的方程组。'},
 ];
 
 export const formulas = [
@@ -104,5 +93,6 @@ export const formulas = [
   ...energyFormulas.filter(item=>item.id!=='entropy'),
   navierStokesFormula,
   ...energyFormulas.filter(item=>item.id==='entropy'),
-  coreFormulas[3],
-];
+  vectorToolsFormula,
+  ...theoremFormulas,
+].map(item=>({...item,group:item.id==='vector-tools'?'operations':item.id==='navier-stokes'?'models':theoremFormulas.some(theorem=>theorem.id===item.id)?'theorems':'balance'}));

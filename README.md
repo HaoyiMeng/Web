@@ -10,7 +10,7 @@ A personal interactive study space focused on physics, aerospace and music.
 - Quick links to live tools, with the two most recently visited topic pages remembered in the browser.
 - Library reading paths marked as planned; focus timer supports 15/25/50 minute sessions, local daily statistics and study tasks.
 - Library “数字” reference: 13 dimensionless numbers with Chinese explanations, native MathML formulas, symbols, worked examples, engineering applications and primary-source references. Search by Chinese/Italian/English name or symbol, filter by topic, and link directly to entries (e.g. `numbers.html#reynolds`).
-- Library “公式”: general balance, continuity, momentum, total/kinetic/internal energy, Navier–Stokes closure, entropy and vector calculus, with step-by-step derivations, physical meanings, conditions and examples. Deep links use `formulas.html#momentum` etc. Formulas use self-contained native MathML.
+- Library “公式”: 12 cards grouped by color and text labels into operator rules, integral/transport theorems, balance equations and closure models. Nabla rules are organized by gradient, divergence, curl, directional derivative and Laplacian, with expandable product identities and explicit tensor conventions. Includes Gauss, Stokes and Reynolds transport, step-by-step derivations, physical meanings and conditions. Deep links use `formulas.html#momentum` etc. Formulas use self-contained native MathML.
 - Browser-based metronome with tempo, time signature, subdivisions, and Tap Tempo; synthesized audio with Web Audio API.
 - Homepage daily focus summary from browser-local data.
 - Responsive static website; no backend or paid service is required.
