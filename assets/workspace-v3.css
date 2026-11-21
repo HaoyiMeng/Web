@@ -1,0 +1,477 @@
+/* Haoyi Studio — Workspace V3
+   Applies only to the five hub pages (workspace-page).
+   No external fonts, no runtime framework, and no tracking. */
+:root { --desk-ink:#eef2ee; --desk-muted:#9eabb3; --desk-bg:#0b0e13; }
+body.workspace-page {
+  margin:0;
+  min-height:100vh;
+  padding:0;
+  background:
+    radial-gradient(ellipse 42% 37% at 89% -3%,rgba(93,127,122,.10),transparent 76%),
+    radial-gradient(ellipse 47% 30% at -8% 62%,rgba(86,94,134,.065),transparent 80%),
+    #0b0e13;
+  color:var(--desk-ink);
+  -webkit-font-smoothing:antialiased;
+}
+.workspace-page .workspace-shell.site-shell {
+  width:min(1140px,100%);
+  min-height:100vh;
+  margin:auto;
+  padding:0 clamp(20px,5vw,58px);
+  border:0;
+  border-radius:0;
+  background:transparent;
+  box-shadow:none;
+  overflow:visible;
+}
+.workspace-page .workspace-header.site-header {
+  min-height:88px;
+  height:auto;
+  display:flex;
+  align-items:center;
+  gap:16px;
+  justify-content:space-between;
+  border-bottom:1px solid rgba(206,220,220,.10);
+}
+.workspace-page .workspace-header .brand {
+  display:inline-flex;
+  align-items:center;
+  gap:11px;
+  color:#f6f8f4;
+  font-size:clamp(14px,2vw,17px);
+  font-weight:790;
+  letter-spacing:.022em;
+}
+.workspace-page .workspace-header .brand-star {
+  display:inline-grid;
+  place-items:center;
+  width:39px;
+  height:39px;
+  flex:none;
+  font-size:24px;
+  border-radius:12px;
+  background:#dceebc;
+  color:#15231b;
+  box-shadow:0 5px 18px rgba(190,231,164,.12);
+}
+.workspace-page .brand-dim { color:#789181; padding:0 4px; }
+.workspace-page .workspace-badge {
+  min-height:0;
+  display:inline-flex;
+  align-items:center;
+  gap:8px;
+  font-size:11px;
+  font-weight:670;
+  letter-spacing:.035em;
+  padding:9px 12px;
+  background:#1a2227;
+  border:1px solid #2c383c;
+  border-radius:100px;
+  color:#c6d1d2;
+}
+.workspace-page .workspace-badge::before {
+  content:"";
+  display:block;
+  width:6px;
+  height:6px;
+  border-radius:50%;
+  background:#c6e7ad;
+  box-shadow:0 0 8px rgba(191,233,172,.35);
+}
+.workspace-page .workspace-main{padding:0 0 72px;min-height:0}
+.workspace-page .workspace-intro {
+  position:relative;
+  padding:51px 0 29px;
+  max-width:none;
+}
+.workspace-page .workspace-intro .workspace-kicker,
+.workspace-page .workspace-kicker {
+  display:inline-flex;
+  align-items:center;
+  gap:10px;
+  font-size:10px;
+  font-weight:760;
+  line-height:1.4;
+  letter-spacing:.18em;
+  text-transform:uppercase;
+  color:#a8c0b2;
+}
+.workspace-page .workspace-intro .workspace-kicker::before {
+  content:"";
+  width:20px;
+  height:1px;
+  background:#a8c0b2;
+}
+.workspace-page .workspace-intro h1 {
+  margin:16px 0 12px;
+  max-width:880px;
+  font-size:clamp(34px,5vw,57px);
+  line-height:1.11;
+  font-weight:680;
+  letter-spacing:-.058em;
+  color:#f4f6f1;
+}
+.workspace-page .workspace-intro h1 em {
+  font-style:normal;
+  color:#d1edba;
+}
+.workspace-page .workspace-intro p {
+  margin:0;
+  max-width:750px;
+  font-size:clamp(13px,1.6vw,15px);
+  font-weight:450;
+  color:#a4b1b8;
+  line-height:1.75;
+}
+.workspace-page .workspace-back {
+  display:inline-flex;
+  align-items:center;
+  gap:8px;
+  font-size:12px;
+  min-height:34px;
+  font-weight:650;
+  margin:-14px 0 18px;
+  color:#b9cfbe;
+  text-decoration:none;
+  transition:color .16s;
+}
+.workspace-page .workspace-back:hover {color:#f0ffdb}
+.workspace-page .desk-label {
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  gap:14px;
+  margin:3px 0 15px;
+}
+.workspace-page .desk-label strong {
+  font-size:11px;
+  letter-spacing:.18em;
+  font-weight:760;
+  color:#c9d6d2;
+}
+.workspace-page .desk-label span {
+  font-size:11px;
+  letter-spacing:.04em;
+  color:#788992;
+}
+.workspace-page .space-grid,
+.workspace-page .space-grid--submenu {
+  display:grid;
+  grid-template-columns:repeat(2,minmax(0,1fr));
+  gap:16px;
+}
+.workspace-page .space-card {
+  --tile-accent:#d5edb8;
+  --tile-panel:#1c2625;
+  position:relative;
+  display:flex;
+  flex-direction:column;
+  justify-content:flex-start;
+  isolation:isolate;
+  min-width:0;
+  height:auto;
+  min-height:226px;
+  overflow:hidden;
+  padding:23px 25px 21px;
+  background:var(--tile-panel);
+  border:1px solid rgba(199,219,220,.10);
+  border-radius:20px;
+  color:#f4f6f2;
+  box-shadow:inset 0 1px 0 rgba(255,255,255,.025);
+  transition:border-color .19s ease,transform .19s ease,box-shadow .19s ease,background .19s ease;
+}
+.workspace-page .space-card--focus {--tile-accent:#d0ebb3;--tile-panel:#1e2a26;}
+.workspace-page .space-card--music {--tile-accent:#dec5f8;--tile-panel:#25222d;}
+.workspace-page .space-card--physics {--tile-accent:#bbdaf4;--tile-panel:#1c2832;}
+.workspace-page .space-card--library {--tile-accent:#f1d19c;--tile-panel:#28261f;}
+.workspace-page .space-card--nozzle,
+.workspace-page .space-card--wing {--tile-accent:#bbdaf4;--tile-panel:#1c2832;}
+.workspace-page .space-card--bass,
+.workspace-page .space-card--metronome {--tile-accent:#dec5f8;--tile-panel:#25222d;}
+.workspace-page .space-card--book {--tile-accent:#f1d19c;--tile-panel:#28261f;}
+.workspace-page .space-card--coming {--tile-accent:#b6c3d0;--tile-panel:#1c222a;}
+.workspace-page a.space-card:hover,
+.workspace-page a.space-card:focus-visible {
+  transform:translateY(-3px);
+  border-color:color-mix(in srgb,var(--tile-accent) 53%,transparent);
+  background:color-mix(in srgb,var(--tile-panel) 89%,var(--tile-accent));
+  box-shadow:0 16px 35px rgba(0,0,0,.17);
+}
+.workspace-page a.space-card:focus-visible {outline:2px solid var(--tile-accent);outline-offset:3px}
+.workspace-page .space-card--planned{opacity:.72;cursor:default}
+.workspace-page .space-card--planned:hover {transform:none}
+.workspace-page .tile-top {
+  display:flex;
+  justify-content:space-between;
+  align-items:flex-start;
+  gap:12px;
+  z-index:1;
+}
+.workspace-page .tile-icon {
+  display:grid;
+  place-items:center;
+  width:49px;
+  height:49px;
+  border-radius:14px;
+  flex:none;
+  color:var(--tile-accent);
+  background:color-mix(in srgb,var(--tile-accent) 12%,transparent);
+  border:1px solid color-mix(in srgb,var(--tile-accent) 12%,transparent);
+}
+.workspace-page .tile-icon svg {
+  display:block;
+  width:26px;
+  height:26px;
+  stroke:currentColor;
+  fill:none;
+  stroke-width:1.7;
+  stroke-linecap:round;
+  stroke-linejoin:round;
+}
+.workspace-page .tile-arrow {
+  display:grid;
+  place-items:center;
+  width:30px;
+  height:30px;
+  border:1px solid rgba(255,255,255,.13);
+  border-radius:50%;
+  color:#cad5d2;
+  font-size:16px;
+  transition:transform .18s ease;
+}
+.workspace-page a.space-card:hover .tile-arrow { transform:translate(2px,-2px); color:var(--tile-accent) }
+.workspace-page .tile-main {position:relative;z-index:1;margin-top:auto;padding-top:28px;max-width:92%}
+.workspace-page .tile-overline {
+  display:block;
+  margin:0 0 6px;
+  color:var(--tile-accent);
+  font-weight:750;
+  letter-spacing:.13em;
+  font-size:9px;
+}
+.workspace-page .space-title {
+  display:block;
+  margin:0;
+  font-size:clamp(23px,3vw,30px);
+  line-height:1.17;
+  letter-spacing:-.045em;
+  font-weight:680;
+}
+.workspace-page .space-description {
+  display:block;
+  margin:7px 0 0;
+  font-size:clamp(12px,1.4vw,14px);
+  line-height:1.58;
+  font-weight:450;
+  color:#afbabd;
+}
+.workspace-page .tile-tags {
+  display:flex;
+  align-items:center;
+  gap:6px;
+  flex-wrap:wrap;
+  margin-top:15px;
+  position:relative;
+  z-index:1;
+}
+.workspace-page .tile-tags span {
+  border:1px solid rgba(210,226,225,.13);
+  padding:5px 9px;
+  border-radius:100px;
+  background:rgba(0,0,0,.08);
+  color:#b8c6c5;
+  font-size:10px;
+  line-height:1;
+  white-space:nowrap;
+}
+.workspace-page .tile-art {
+  position:absolute;
+  right:19px;
+  top:48px;
+  width:145px;
+  height:116px;
+  z-index:0;
+  pointer-events:none;
+  color:var(--tile-accent);
+  opacity:.38;
+  transform:rotate(-6deg);
+}
+.workspace-page .tile-art svg{width:100%;height:100%;fill:none;stroke:currentColor;stroke-width:1.4}
+.workspace-page .tile-art--physics{top:34px;right:15px;transform:rotate(-2deg);opacity:.42}
+.workspace-page .tile-art--music{top:40px;right:19px;opacity:.31}
+.workspace-page .tile-art--books{top:38px;right:26px;opacity:.32}
+.workspace-page .tile-art--focus{top:32px;right:22px;opacity:.31}
+.workspace-page .tile-status {
+  display:inline-flex;
+  align-self:flex-start;
+  font-size:10px;
+  letter-spacing:.08em;
+  font-weight:700;
+  color:#aab5b5;
+  margin-top:13px;
+}
+.workspace-page .workspace-bottom{
+  display:grid;
+  grid-template-columns:minmax(0,.94fr) minmax(0,1.06fr);
+  gap:16px;
+  margin-top:18px;
+}
+.workspace-page .today-summary,
+.workspace-page .quick-panel {
+  margin:0;
+  min-width:0;
+  border:1px solid rgba(205,222,222,.10);
+  background:#171e24;
+  border-radius:20px;
+  box-shadow:inset 0 1px 0 rgba(255,255,255,.018);
+}
+.workspace-page .today-summary {
+  display:flex;
+  flex-direction:column;
+  gap:0;
+  padding:24px;
+}
+.workspace-page .today-summary-title .workspace-kicker,
+.workspace-page .quick-eyebrow{
+  color:#99b3a6;
+  font-size:10px;
+  letter-spacing:.16em;
+  font-weight:740;
+}
+.workspace-page .today-summary-title h2{
+  margin:9px 0 8px;
+  font-size:25px;
+  font-weight:690;
+  color:#e9f1e8;
+  letter-spacing:-.045em;
+}
+.workspace-page .today-summary-title p{color:#899ca4;font-size:12px;line-height:1.6;margin:0;min-height:19px}
+.workspace-page .today-summary-numbers{
+  display:flex;
+  flex:1;
+  align-items:center;
+  gap:0;
+  margin:24px 0 20px;
+}
+.workspace-page .today-summary-numbers div{
+  flex:1;
+  min-width:0;
+  text-align:left;
+  align-items:flex-start;
+  gap:2px;
+}
+.workspace-page .today-summary-numbers div+div{border-left:1px solid #344044;padding-left:24px}
+.workspace-page .today-summary-numbers strong{font-size:clamp(34px,4vw,48px);line-height:1.1;letter-spacing:-.055em;color:#e1f4c7;font-weight:640;font-variant-numeric:tabular-nums}
+.workspace-page .today-summary-numbers span{color:#9babaf;font-size:11px}
+.workspace-page .today-summary-link{
+  align-self:flex-start;
+  border:none;
+  border-radius:8px;
+  min-height:0;
+  background:transparent;
+  padding:0 0 5px;
+  font-size:12px;
+  font-weight:700;
+  color:#d2ebba;
+  border-bottom:1px solid #667e63;
+}
+.workspace-page .today-summary-link:hover{background:transparent;color:#f1ffdf}
+.workspace-page .quick-panel{padding:24px}
+.workspace-page .quick-head{display:flex;align-items:flex-start;gap:12px;justify-content:space-between;margin-bottom:17px}
+.workspace-page .quick-head h2{font-size:25px;font-weight:690;letter-spacing:-.04em;margin:0}
+.workspace-page .quick-head span{color:#95a6ae;font-size:11px;font-weight:550}
+.workspace-page .quick-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:9px}
+.workspace-page .quick-row {
+  display:flex;
+  flex-direction:column;
+  align-items:flex-start;
+  justify-content:space-between;
+  gap:13px;
+  min-height:112px;
+  min-width:0;
+  padding:15px;
+  background:#202930;
+  border:1px solid #303c44;
+  border-radius:13px;
+  color:#e8f0ee;
+  position:relative;
+  transition:transform .18s,border-color .18s;
+}
+.workspace-page .quick-row+.quick-row{border-top:1px solid #303c44}
+.workspace-page .quick-row:hover,.workspace-page .quick-row:focus-visible {transform:translateY(-2px);border-color:#748b83;color:#edf7ec}
+.workspace-page .quick-row:focus-visible {outline:2px solid #d0ebbd;outline-offset:2px}
+.workspace-page .quick-icon{
+  display:grid;
+  place-items:center;
+  flex:none;
+  width:31px;
+  height:31px;
+  border-radius:9px;
+  background:#2b414b;
+  color:#bdd8f1;
+}
+.workspace-page .quick-icon svg{width:19px;height:19px}
+.workspace-page .quick-row[data-category="music"] .quick-icon{background:#423448;color:#e2c1f0}
+.workspace-page .quick-row[data-category="focus"] .quick-icon{background:#32463d;color:#d7edbd}
+.workspace-page .quick-row[data-category="library"] .quick-icon{background:#453d30;color:#f4d7aa}
+.workspace-page .quick-copy{display:flex;flex-direction:column;gap:4px;max-width:100%}
+.workspace-page .quick-copy strong{font-size:13px;font-weight:660;line-height:1.25}
+.workspace-page .quick-copy small{font-size:11px;color:#8e9fa7;line-height:1.4}
+.workspace-page .quick-arrow{position:absolute;right:15px;top:16px;font-size:16px;color:#95a5a9}
+.workspace-page .workspace-footer{padding:4px 0 30px;border-top:1px solid #263039;font-size:11px;color:#788b90;letter-spacing:.02em;text-align:center}
+.workspace-page .desk-footer-row{display:flex;justify-content:space-between;align-items:center;gap:12px;padding-top:18px;font-size:11px;color:#72858b;letter-spacing:.04em}
+.workspace-page .desk-footer-row strong{color:#b5c8bd;font-weight:650}
+.workspace-page .space-grid--submenu .space-card{min-height:245px}
+.workspace-page .desk-subnote{display:flex;gap:10px;align-items:flex-start;margin:25px 0 0;padding:19px 20px;background:#171e24;border:1px solid #2a333a;border-radius:14px;font-size:12px;line-height:1.65;color:#95a4ab}
+.workspace-page .desk-subnote strong{color:#e1e9e7;white-space:nowrap}
+@media(max-width:800px){
+  .workspace-page .workspace-bottom{grid-template-columns:1fr}
+  .workspace-page .today-summary{display:grid;grid-template-columns:minmax(0,1fr) auto;gap:12px;align-items:center}
+  .workspace-page .today-summary-numbers{margin:0;gap:0}
+  .workspace-page .today-summary-link{grid-column:1/-1}
+}
+@media(max-width:600px){
+  .workspace-page .workspace-shell.site-shell{padding:0 18px;min-height:100vh;border:0;border-radius:0}
+  .workspace-page .workspace-header.site-header{min-height:72px}
+  .workspace-page .workspace-header .brand{font-size:14px;gap:8px}
+  .workspace-page .workspace-header .brand-star{width:34px;height:34px;font-size:22px;border-radius:10px}
+  .workspace-page .workspace-badge{font-size:10px;padding:7px 10px}
+  .workspace-page .workspace-intro{padding:42px 0 24px}
+  .workspace-page .workspace-intro h1{font-size:clamp(32px,9.4vw,42px);max-width:450px}
+  .workspace-page .desk-label{margin:0 0 12px}
+  .workspace-page .desk-label span{font-size:10px}
+  .workspace-page .space-grid,.workspace-page .space-grid--submenu{gap:11px;grid-template-columns:repeat(2,minmax(0,1fr))}
+  .workspace-page .space-card,.workspace-page .space-grid--submenu .space-card{min-height:178px;padding:15px;border-radius:16px}
+  .workspace-page .tile-icon{width:38px;height:38px;border-radius:11px}
+  .workspace-page .tile-icon svg{width:21px;height:21px}
+  .workspace-page .tile-arrow{width:25px;height:25px;font-size:14px}
+  .workspace-page .tile-main{padding-top:29px;max-width:100%}
+  .workspace-page .tile-overline{font-size:8px;margin-bottom:6px}
+  .workspace-page .space-title{font-size:clamp(18px,4.9vw,23px);line-height:1.18}
+  .workspace-page .space-description{font-size:11px;line-height:1.43;margin-top:5px}
+  .workspace-page .tile-tags{margin-top:10px;gap:4px}
+  .workspace-page .tile-tags span{padding:4px 6px;font-size:9px}
+  .workspace-page .tile-art{width:94px;height:74px;right:4px;top:43px;opacity:.23}
+  .workspace-page .tile-art--physics{top:35px}
+  .workspace-page .today-summary,.workspace-page .quick-panel{padding:20px;border-radius:17px}
+  .workspace-page .today-summary{display:flex;flex-direction:column;align-items:stretch;gap:0}
+  .workspace-page .today-summary-numbers{margin:19px 0 17px}
+  .workspace-page .quick-panel{padding:20px}
+  .workspace-page .quick-row{min-height:105px;padding:13px}
+  .workspace-page .workspace-bottom{gap:12px;margin-top:13px}
+  .workspace-page .desk-footer-row{flex-direction:column;align-items:flex-start;gap:5px}
+  .workspace-page .workspace-main{padding-bottom:40px}
+}
+@media(max-width:360px){
+  .workspace-page .workspace-shell.site-shell{padding:0 12px}
+  .workspace-page .space-grid,.workspace-page .space-grid--submenu{gap:9px}
+  .workspace-page .space-card,.workspace-page .space-grid--submenu .space-card{padding:12px;min-height:178px}
+  .workspace-page .space-title{font-size:17px}
+  .workspace-page .space-description{font-size:10.5px}
+  .workspace-page .tile-tags span{font-size:8.5px}
+  .workspace-page .tile-art{opacity:.16}
+  .workspace-page .workspace-badge{font-size:9px}
+}
+@media(prefers-reduced-motion:reduce){
+  .workspace-page .space-card,.workspace-page .quick-row,.workspace-page .tile-arrow{transition:none}
+}
