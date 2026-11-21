@@ -1,0 +1,84 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="theme-color" content="#101318" />
+  <meta name="description" content="Haoyi Studio — 自用优先的交互式理工科笔记与可视化实验。" />
+  <title>Haoyi Studio — Curiosity, visualized.</title>
+  <link rel="icon" type="image/svg+xml" href="./assets/favicon.svg" />
+  <link rel="stylesheet" href="./assets/styles.css" />
+  <script type="module" src="./js/app.mjs"></script>
+</head>
+<body>
+  <div class="site-shell">
+    <header class="site-header" id="top">
+      <a class="brand" href="#top" aria-label="Haoyi Studio 返回首页"><span class="brand-star">✳</span><span>HAOYI<span class="brand-dim">/</span>STUDIO</span></a>
+      <nav class="nav" aria-label="主要导航">
+        <a href="#work">Projects</a><a href="#nozzle-lab">Nozzle Lab</a><a href="#fretboard-lab">Music Lab</a>
+      </nav>
+      <span class="nav-pill"><span class="live-dot"></span>Independent learning space</span>
+    </header>
+
+    <main>
+      <section class="hero" aria-labelledby="hero-title">
+        <div class="hero-copy">
+          <div class="eyebrow"><span class="eyebrow-line"></span> A SPACE TO THINK & EXPERIMENT</div>
+          <h1 id="hero-title">Curiosity,<br/><em>visualized.</em></h1>
+          <p>一些我想弄明白的事。把抽象公式变成可以触碰的模型，让学习不止停留在纸面。</p>
+          <div class="hero-actions">
+            <a class="btn btn-primary" href="#nozzle-lab">Explore the lab <span aria-hidden="true">↗</span></a>
+            <a class="text-link" href="#work">Browse projects <span aria-hidden="true">↓</span></a>
+          </div>
+          <div class="hero-meta"><span>Physics</span><i></i><span>Aerospace</span><i></i><span>Music</span><i></i><span>Whatever comes next</span></div>
+        </div>
+        <div class="hero-visual" aria-hidden="true">
+          <div class="orbit orbit-one"></div><div class="orbit orbit-two"></div><div class="orbit orbit-three"></div>
+          <div class="hero-circle"><svg viewBox="0 0 240 240" role="presentation"><g fill="none" stroke-width="1"><path d="M45 143 Q120 35 195 143" stroke="#d1eeb0" opacity=".7"/><path d="M38 151 Q120 20 202 151" stroke="#d1eeb0" opacity=".28"/><path d="M45 146 Q120 206 195 146" stroke="#79a9df" opacity=".65"/><path d="M38 140 Q120 220 202 140" stroke="#79a9df" opacity=".24"/><path d="M120 35V205M28 120H212" stroke="#a1afb8" opacity=".18" stroke-dasharray="3 5"/><circle cx="120" cy="120" r="5" fill="#d1eeb0" stroke="none"/><circle cx="195" cy="143" r="3" fill="#79a9df" stroke="none"/></g></svg></div>
+          <div class="floating-note floating-note-1">M = 2.14 <span>↗</span></div><div class="floating-note floating-note-2">∮ V · dl = Γ</div>
+          <span class="hero-visual-label">FIG. 001 / EXPLORATION</span>
+        </div>
+      </section>
+
+      <section class="work section" id="work" aria-labelledby="work-heading">
+        <div class="section-heading"><div><div class="overline">01 / THE COLLECTION</div><h2 id="work-heading">Things I'm figuring out<span class="period">.</span></h2></div><p>不是百科全书，只收集真正帮助我理解问题的东西。</p></div>
+        <div class="project-grid">
+          <a href="#nozzle-lab" class="project-card project-primary"><div class="project-top"><span class="category">FLUID MECHANICS</span><span class="status on">● LIVE MODEL</span></div><div class="project-graphic"><svg viewBox="0 0 350 150" role="img" aria-label="收缩扩张喷管的示意图"><defs><linearGradient id="project-flow"><stop stop-color="#3f91af"/><stop offset=".6" stop-color="#9d8ded"/><stop offset="1" stop-color="#dcecab"/></linearGradient></defs><path d="M20 14 C75 14 111 63 152 64 C210 65 241 18 330 18 L330 132 C241 132 210 85 152 86 C111 87 75 136 20 136Z" fill="url(#project-flow)" opacity=".30"/><path d="M20 14 C75 14 111 63 152 64 C210 65 241 18 330 18M20 136 C75 136 111 87 152 86 C210 85 241 132 330 132" fill="none" stroke="#d9e6e0" stroke-width="1.5"/><path d="M18 75H333" stroke="#d9e6e0" stroke-dasharray="3 7" opacity=".6"/></svg></div><h3>De Laval Nozzle</h3><p>背压、马赫数、阻塞流与正激波。拖动滑块，观察不同工况的喷管流动。</p><span class="card-arrow">Explore model ↗</span></a>
+          <a href="#fretboard-lab" class="project-card project-music"><div class="project-top"><span class="category">MUSIC THEORY</span><span class="status on">● INTERACTIVE</span></div><div class="project-graphic fret-art"><div class="art-frets"><span>G</span><span>D</span><span>A</span><span>E</span></div></div><h3>Bass Fretboard</h3><p>四弦贝斯指板上的音名与音阶。把音程关系变成看得见的几何排列。</p><span class="card-arrow">Explore model ↗</span></a>
+          <div class="project-card project-upcoming"><div class="project-top"><span class="category">AERODYNAMICS</span><span class="status later">IN PLANNING</span></div><div class="project-graphic airfoil-art"><svg viewBox="0 0 350 150" role="presentation"><path d="M15 80 C105 22 220 46 335 81 C215 82 108 87 15 80" stroke="#c7b9e9" stroke-width="2" fill="#8b70bb" fill-opacity=".2"/><path d="M15 80H335" stroke="#c7b9e9" stroke-dasharray="5 7" opacity=".3"/></svg></div><h3>Thin Airfoil Theory</h3><p>涡量分布、环量、升力与翼型弯度。下一个想解决的可视化主题。</p><span class="card-arrow muted">Coming later</span></div>
+        </div>
+      </section>
+
+      <section class="lab section" id="nozzle-lab" aria-labelledby="nozzle-heading">
+        <div class="section-heading"><div><div class="overline">02 / INTERACTIVE PHYSICS</div><h2 id="nozzle-heading">De Laval Nozzle<span class="period">.</span></h2></div><p>准一维、定常、无黏、理想气体模型。通过背压控制工况。</p></div>
+        <div class="lab-surface">
+          <div class="lab-topbar"><div class="lab-top-label"><span class="live-dot"></span> LIVE SIMULATION <span class="separator">/</span> γ = 1.4</div><span class="lab-model-badge" id="flow-badge">SOLVING</span></div>
+          <div class="nozzle-container"><svg viewBox="0 0 720 235" id="nozzle-diagram" aria-label="交互式喷管流动示意图" role="img"></svg></div>
+          <div class="value-grid">
+            <div class="value-item"><span>THROAT MACH</span><strong id="throat-mach">—</strong><small>M at throat</small></div>
+            <div class="value-item"><span>EXIT MACH</span><strong id="exit-mach">—</strong><small>M at exit</small></div>
+            <div class="value-item"><span>EXIT PRESSURE</span><strong id="exit-pressure">—</strong><small>pₑ / p₀</small></div>
+            <div class="value-item"><span>SHOCK POSITION</span><strong id="shock-position">—</strong><small>x / L</small></div>
+          </div>
+          <div class="controls-grid">
+            <div class="control-panel"><div class="range-head"><label for="back-pressure">Back pressure <span class="muted">pᵦ / p₀</span></label><output id="pressure-output" for="back-pressure">0.700</output></div><input aria-label="背压与总压比值" id="back-pressure" type="range" min="0.05" max="0.995" value="0.70" step="0.005"/><div class="range-ends"><span>0.050</span><span>0.995</span></div><div class="preset-row"><button data-pressure="0.98" type="button">Subsonic</button><button data-pressure="0.70" type="button" class="active">Internal shock</button><button data-pressure="0.20" type="button">Supersonic</button><button data-pressure="0.055" type="button">Underexpanded</button></div><p class="explanation" id="flow-description" aria-live="polite"></p></div>
+            <div class="graph-panel"><div class="graph-heading"><span>AXIAL DISTRIBUTION</span><div class="legend"><span><i class="legend-mach"></i> Mach</span><span><i class="legend-pressure"></i> p/p₀</span></div></div><svg viewBox="0 0 540 215" id="flow-chart" role="img" aria-label="沿喷管长度的马赫数与静压分布曲线"></svg><div class="graph-foot"><span>INLET</span><span>THROAT</span><span>EXIT</span></div></div>
+          </div>
+          <div class="assumptions"><strong>Model notes</strong><span>理想气体 · γ = 1.4 · 定常准一维 · 无黏 · 无热交换 · 内部正激波满足守恒关系。喷口外的激波结构、膨胀波及边界层分离不在本模型内。参数采用无量纲化。</span></div>
+        </div>
+      </section>
+
+      <section class="lab section music-section" id="fretboard-lab" aria-labelledby="bass-heading">
+        <div class="section-heading"><div><div class="overline">03 / INTERACTIVE MUSIC</div><h2 id="bass-heading">Bass Fretboard<span class="period">.</span></h2></div><p>标准四弦调弦 E–A–D–G。选择根音与音阶，观察指板分布。</p></div>
+        <div class="lab-surface bass-surface">
+          <div class="bass-controls"><label for="root-select">Root note <select id="root-select"></select></label><label for="scale-select">Scale <select id="scale-select"><option value="major">Major / 大调</option><option value="minor">Natural minor / 自然小调</option><option value="pentatonic">Minor pentatonic / 小调五声</option><option value="chromatic">Chromatic / 半音阶</option></select></label><span class="bass-hint">点击任一音符查看音名与音程</span></div>
+          <div class="fret-scroll"><div id="fretboard" class="fretboard" role="group" aria-label="四弦贝斯指板上的音符"></div></div>
+          <div class="bass-readout"><span class="bass-selection" id="note-readout">点击指板上的音符</span><span id="scale-notes"></span></div>
+        </div>
+      </section>
+      <section class="closing section"><span class="overline">A WORK IN PROGRESS</span><h2>Learning in public.<br/><em>At my own pace.</em></h2><p>这里的每个模型都先为解决我自己的问题而存在。它们会被修正，也会慢慢长大。</p><a href="#top" class="text-link">Back to top ↑</a></section>
+    </main>
+    <footer class="footer"><span>✳ HAOYI STUDIO</span><span>Built out of curiosity. © <span id="current-year">2026</span></span><span>Made to learn, not to impress.</span></footer>
+  </div>
+</body>
+</html>
