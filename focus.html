@@ -12,31 +12,23 @@
   <script type="module" src="./js/navigation.mjs"></script>
   <script type="module" src="./js/site.mjs"></script>
 </head>
-<body>
-  <div class="site-shell">
-    <header class="site-header" id="top">
+<body class="workspace-page">
+  <div class="site-shell workspace-shell">
+    <header class="site-header workspace-header" id="top">
       <a class="brand" href="./index.html" aria-label="Haoyi Studio 返回首页"><span class="brand-star">✳</span><span>HAOYI<span class="brand-dim">/</span>STUDIO</span></a>
-      <button class="nav-toggle" type="button" aria-controls="primary-nav" aria-expanded="false" aria-label="打开导航菜单"><span></span><span></span><span></span></button>
-      <nav class="nav" id="primary-nav" aria-label="主要导航">
-        <a class="nav-direct" href="./physics.html">Physics Lab</a>
-        <a class="nav-direct" href="./music.html">Music Lab</a>
-        <a class="nav-direct" href="./library.html">Library</a>
-        <a class="nav-direct" href="./focus.html" aria-current="page">Focus Mode</a>
-      </nav>
-      <span class="nav-pill"><span class="live-dot"></span>Independent learning space</span>
+      <span class="workspace-badge">Focus Mode</span>
     </header>
-    <main id="main-content" class="page-main">
-      <section class="page-intro section" aria-labelledby="page-title">
-        <nav class="breadcrumbs" aria-label="页面位置"><a href="./index.html">首页</a><span aria-hidden="true"> / </span><span aria-current="page">Focus Mode</span></nav>
-        <div class="overline">FOCUS MODE / 专注空间</div>
-        <h1 id="page-title">Give it some <em>time.</em></h1>
-        <p>为眼前的问题留一段连续的时间。</p>
+    <main id="main-content" class="workspace-main">
+      <section class="workspace-intro" aria-labelledby="workspace-title">
+        <a class="workspace-back" href="./index.html">← 所有空间</a><span class="workspace-kicker">FOCUS MODE</span>
+        <h1 id="workspace-title">Make room to think.</h1>
+        <p>选一段时间，只做眼前的一件事。</p>
       </section>
-      <section class="section hub-section" aria-labelledby="focus-menu-title"><div class="section-heading"><div><div class="overline">FOCUS MODE / MENU</div><h2 id="focus-menu-title">选择一个工具<span class="period">.</span></h2></div></div><div class="hub-grid">
-          <a href="./timer.html" class="hub-card hub-card--focus"><span class="hub-kicker">TIME / ATTENTION</span><h3>Focus Timer</h3><p>选择 25 分钟专注或 5 分钟短休息。</p><span class="hub-action">打开计时器</span></a>
-        </div></section>
+      <nav class="space-grid space-grid--submenu" aria-label="专注空间菜单">
+          <a href="./timer.html" class="space-card space-card--focus"><span class="space-icon"><svg viewBox="0 0 24 24" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="13" r="8"/><path d="M12 13l3-3M9 2h6M12 5V3"/></svg></span><strong class="space-title">Focus Timer</strong><span class="space-description">25 分钟专注 · 5 分钟休息</span></a>
+      </nav>
     </main>
-    <footer class="footer"><span>✳ HAOYI STUDIO</span><span>Built out of curiosity. © <span id="current-year">2026</span></span><span>Made to learn, not to impress.</span></footer>
+    <footer class="workspace-footer">Made to learn, at your own pace.</footer>
   </div>
 </body>
 </html>

@@ -12,37 +12,31 @@
   <script type="module" src="./js/navigation.mjs"></script>
   <script type="module" src="./js/site.mjs"></script>
 </head>
-<body>
-  <div class="site-shell">
-    <header class="site-header" id="top">
+<body class="workspace-page">
+  <div class="site-shell workspace-shell">
+    <header class="site-header workspace-header" id="top">
       <a class="brand" href="./index.html" aria-label="Haoyi Studio 返回首页"><span class="brand-star">✳</span><span>HAOYI<span class="brand-dim">/</span>STUDIO</span></a>
-      <button class="nav-toggle" type="button" aria-controls="primary-nav" aria-expanded="false" aria-label="打开导航菜单"><span></span><span></span><span></span></button>
-      <nav class="nav" id="primary-nav" aria-label="主要导航">
-        <a class="nav-direct" href="./physics.html">Physics Lab</a>
-        <a class="nav-direct" href="./music.html">Music Lab</a>
-        <a class="nav-direct" href="./library.html">Library</a>
-        <a class="nav-direct" href="./focus.html">Focus Mode</a>
-      </nav>
-      <span class="nav-pill"><span class="live-dot"></span>Independent learning space</span>
+      <span class="workspace-badge">Workspace</span>
     </header>
-    <main id="main-content" class="page-main">
-      <section class="page-intro section" aria-labelledby="home-title">
-        <div class="overline">A SPACE TO THINK &amp; EXPERIMENT</div>
-        <h1 id="home-title">Curiosity,<br/><em>visualized.</em></h1>
-        <p>一些我想弄明白的事。先选一个空间，再进入它的目录，探索各自的实验、阅读和工具。</p>
+    <main id="main-content" class="workspace-main">
+      <section class="workspace-intro" aria-labelledby="workspace-title">
+        <span class="workspace-kicker">YOUR PERSONAL WORKSPACE</span>
+        <h1 id="workspace-title">What are we exploring today?</h1>
+        <p>Everything you need to learn, create and practice.</p>
       </section>
-      <section class="section hub-section" id="spaces" aria-labelledby="spaces-heading">
-        <div class="section-heading"><div><div class="overline">CHOOSE A SPACE</div><h2 id="spaces-heading">Where to explore<span class="period">.</span></h2></div><p>先选择一个方向，再进入它自己的目录和内容。</p></div>
-        <div class="hub-grid">
-          <a href="./physics.html" class="hub-card hub-card--physics"><span class="hub-kicker">PHYSICS / AEROSPACE</span><h3>Physics Lab</h3><p>喷管流动、翼型理论，以及让公式变得直观的实验。</p><span class="hub-action">查看实验目录</span></a>
-          <a href="./music.html" class="hub-card hub-card--music"><span class="hub-kicker">SOUND / STRUCTURE</span><h3>Music Lab</h3><p>用可视化指板探索音名、音程和音阶。</p><span class="hub-action">查看音乐目录</span></a>
-          <a href="./library.html" class="hub-card hub-card--library"><span class="hub-kicker">NOTES / READING</span><h3>Library</h3><p>沿着问题整理阅读路线和学习笔记。</p><span class="hub-action">查看阅读目录</span></a>
-          <a href="./focus.html" class="hub-card hub-card--focus"><span class="hub-kicker">TIME / ATTENTION</span><h3>Focus Mode</h3><p>为眼前的问题留一段完整的时间。</p><span class="hub-action">查看专注工具</span></a>
-        </div>
+      <nav class="space-grid" aria-label="选择空间">
+          <a href="./focus.html" class="space-card space-card--focus"><span class="space-icon"><svg viewBox="0 0 24 24" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="13" r="8"/><path d="M12 13l3-3M9 2h6M12 5V3"/></svg></span><strong class="space-title">Focus Mode</strong><span class="space-description">专注计时 · 短休息</span></a>
+          <a href="./music.html" class="space-card space-card--music"><span class="space-icon"><svg viewBox="0 0 24 24" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M3 10v4m4-8v12m4-15v18m4-12v6m4-10v14m4-9v4"/></svg></span><strong class="space-title">Music Lab</strong><span class="space-description">贝斯指板 · 音阶</span></a>
+          <a href="./physics.html" class="space-card space-card--physics"><span class="space-icon"><svg viewBox="0 0 24 24" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><ellipse cx="12" cy="12" rx="10" ry="4.2"/><ellipse cx="12" cy="12" rx="10" ry="4.2" transform="rotate(60 12 12)"/><ellipse cx="12" cy="12" rx="10" ry="4.2" transform="rotate(120 12 12)"/><circle cx="12" cy="12" r="1" fill="currentColor" stroke="none"/></svg></span><strong class="space-title">Physics Lab</strong><span class="space-description">流体力学 · 航空航天</span></a>
+          <a href="./library.html" class="space-card space-card--library"><span class="space-icon"><svg viewBox="0 0 24 24" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M4 5v15m0-15h4v15H4m5-15h4v15H9m6-15 4-1 4 16-4 1z"/></svg></span><strong class="space-title">Library</strong><span class="space-description">主题阅读 · 学习资料</span></a>
+      </nav>
+      <section class="quick-panel" data-quick-panel aria-labelledby="quick-heading">
+        <div class="quick-head"><h2 id="quick-heading" data-quick-heading>快速开始</h2><span>At your own pace</span></div>
+        <a class="quick-row" href="./nozzle.html" data-quick-row><span class="quick-icon" data-quick-icon><svg viewBox="0 0 24 24" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M2 5h4l5 5h3l5-5h3M2 19h4l5-5h3l5 5h3M3 12h18"/></svg></span><span class="quick-copy"><strong data-quick-title>De Laval Nozzle</strong><small data-quick-subtitle>调节背压，观察喷管流动</small></span><span class="quick-arrow" aria-hidden="true">↗</span></a>
+        <a class="quick-row" href="./bass.html" data-quick-row><span class="quick-icon" data-quick-icon><svg viewBox="0 0 24 24" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M4 4v16m5-16v16m5-16v16m5-16v16M2 8h20M2 15h20"/></svg></span><span class="quick-copy"><strong data-quick-title>Bass Fretboard</strong><small data-quick-subtitle>探索四弦贝斯音阶</small></span><span class="quick-arrow" aria-hidden="true">↗</span></a>
       </section>
-      <section class="closing section"><span class="overline">A WORK IN PROGRESS</span><h2>Learning in public.<br/><em>At my own pace.</em></h2><p>这里的每个模型都先为解决我自己的问题而存在。它们会被修正，也会慢慢长大。</p><a href="#top" class="text-link">Back to top ↑</a></section>
     </main>
-    <footer class="footer"><span>✳ HAOYI STUDIO</span><span>Built out of curiosity. © <span id="current-year">2026</span></span><span>Made to learn, not to impress.</span></footer>
+    <footer class="workspace-footer">Made to learn, at your own pace.</footer>
   </div>
 </body>
 </html>

@@ -6,7 +6,8 @@ A personal interactive study space focused on physics, aerospace and music.
 
 - De Laval nozzle explorer: quasi-one-dimensional steady, inviscid ideal-gas flow with choking and internal normal shocks.
 - Interactive four-string E–A–D–G bass fretboard, scales and intervals.
-- A homepage menu leading to separate Physics Lab, Music Lab, Library and Focus Mode menus. Each topic or tool opens on its own page.
+- An icon-based workspace dashboard leading to separate Physics Lab, Music Lab, Library and Focus Mode menus. Each topic or tool opens on its own page.
+- Quick links to live tools, with the two most recently visited topic pages remembered in the browser.
 - Library reading paths marked as planned, plus a browser-local focus and break timer.
 - Responsive static website; no backend or paid service is required.
 
