@@ -1,35 +1,42 @@
 <!doctype html>
 <html lang="zh-CN">
 <head>
-  <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <meta name="theme-color" content="#101318" />
-  <meta name="description" content="Physics Lab 的实验目录。" />
-  <title>Physics Lab — Haoyi Studio</title>
-  <link rel="icon" type="image/svg+xml" href="./assets/favicon.svg" />
-  <link rel="stylesheet" href="./assets/styles.css" />
-  <link rel="stylesheet" href="./assets/sections.css" />
-  <script type="module" src="./js/navigation.mjs"></script>
-  <script type="module" src="./js/site.mjs"></script>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<meta name="theme-color" content="#0b0e13" />
+<meta name="description" content="航空航天及理工科学习的交互实验目录。" />
+<title>Physics Lab — Haoyi Studio</title>
+<link rel="icon" type="image/svg+xml" href="./assets/favicon.svg" />
+<link rel="stylesheet" href="./assets/styles.css" />
+<link rel="stylesheet" href="./assets/sections.css" />
+<link rel="stylesheet" href="./assets/workspace-v3.css" />
+<script type="module" src="./js/navigation.mjs"></script>
+<script type="module" src="./js/site.mjs"></script>
+
 </head>
 <body class="workspace-page">
-  <div class="site-shell workspace-shell">
-    <header class="site-header workspace-header" id="top">
-      <a class="brand" href="./index.html" aria-label="Haoyi Studio 返回首页"><span class="brand-star">✳</span><span>HAOYI<span class="brand-dim">/</span>STUDIO</span></a>
-      <span class="workspace-badge">Physics Lab</span>
-    </header>
-    <main id="main-content" class="workspace-main">
-      <section class="workspace-intro" aria-labelledby="workspace-title">
-        <a class="workspace-back" href="./index.html">← 所有空间</a><span class="workspace-kicker">PHYSICS LAB</span>
-        <h1 id="workspace-title">Choose an experiment.</h1>
-        <p>让抽象的物理过程变得可操作。</p>
-      </section>
-      <nav class="space-grid space-grid--submenu" aria-label="物理实验室菜单">
-          <a href="./nozzle.html" class="space-card space-card--nozzle"><span class="space-icon"><svg viewBox="0 0 24 24" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M2 5h4l5 5h3l5-5h3M2 19h4l5-5h3l5 5h3M3 12h18"/></svg></span><strong class="space-title">De Laval Nozzle</strong><span class="space-description">喷管流动 · 正激波</span></a>
-          <div class="space-card space-card--wing space-card--planned"><span class="space-icon"><svg viewBox="0 0 24 24" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M2 15c5-7 10-8 20-3-8 1-14 3-20 3zM2 15h20"/></svg></span><strong class="space-title">Thin Airfoil Theory</strong><span class="space-description">翼型与升力</span><span class="space-status">筹备中</span></div>
-      </nav>
-    </main>
-    <footer class="workspace-footer">Made to learn, at your own pace.</footer>
-  </div>
+<div class="site-shell workspace-shell">
+<header class="site-header workspace-header" id="top"><a class="brand" href="./index.html" aria-label="Haoyi Studio 返回首页"><span class="brand-star">✳</span><span>HAOYI<span class="brand-dim">/</span>STUDIO</span></a><span class="workspace-badge">Physics Lab</span></header>
+<main id="main-content" class="workspace-main"><section class="workspace-intro" aria-labelledby="workspace-title">
+  <a class="workspace-back" href="./index.html">← Back to workspace</a>
+  <span class="workspace-kicker">03 / VISUAL SCIENCE</span>
+  <h1 id="workspace-title">Physics, <em>in motion.</em></h1>
+  <p>把公式、假设和曲线变成可以操作的模型。</p></section><div class="desk-label"><strong>EXPERIMENTS</strong><span>01 LIVE / 01 IN PLANNING</span></div>
+<nav class="space-grid space-grid--submenu" aria-label="Physics Lab 工具目录"><a href="./nozzle.html" class="space-card space-card--nozzle">
+   <div class="tile-top"><span class="tile-icon"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M2 5h4l5 5h3l5-5h3M2 19h4l5-5h3l5 5h3M3 12h18"/></svg></span><span class="tile-arrow" aria-hidden="true">↗</span></div>
+   <span class="tile-art tile-art--nozzle" aria-hidden="true"><svg viewBox="0 0 148 106"><path d="M4 10C35 10 40 48 70 48s40-38 72-38M4 95C35 95 40 57 70 57s40 38 72 38"/><path d="M2 53h144" stroke-dasharray="4 7"/><path d="M97 19v75" stroke-dasharray="2 5"/></svg></span>
+   <div class="tile-main"><span class="tile-overline">COMPRESSIBLE FLOW</span><strong class="space-title">De Laval Nozzle</strong><span class="space-description">从背压到阻塞流与正激波。</span></div>
+   <div class="tile-tags"><span>Live model</span><span>Quasi-1D</span></div>
+ </a>
+<div class="space-card space-card--wing space-card--planned">
+   <div class="tile-top"><span class="tile-icon"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M2 15c5-7 10-8 20-3-8 1-14 3-20 3zM2 15h20"/></svg></span><span class="tile-arrow" aria-hidden="true">·</span></div>
+   <span class="tile-art tile-art--wing" aria-hidden="true"><svg viewBox="0 0 148 106"><path d="M2 55C34 28 75 20 141 59 94 64 35 64 2 55Z"/><path d="M3 55h140" stroke-dasharray="4 6"/><path d="M62 27C74 7 94 10 109 22"/></svg></span>
+   <div class="tile-main"><span class="tile-overline">AERODYNAMICS</span><strong class="space-title">Thin Airfoil</strong><span class="space-description">环量、升力和翼型弯度。</span></div>
+   <span class="tile-status">○ PLANNED · 即将探索</span>
+ </div></nav>
+<div class="desk-subnote"><strong>STUDIO NOTE</strong><span>每个实验都尽量标注物理假设和适用范围。可视化帮助理解，但不能代替模型验证。</span></div>
+<div class="desk-footer-row"><strong>✳ HAOYI STUDIO</strong><span>Back anytime. Keep exploring.</span></div></main>
+<footer class="workspace-footer">Made to learn, at your own pace. © 2026</footer>
+</div>
 </body>
 </html>
