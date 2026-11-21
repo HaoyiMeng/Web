@@ -1,0 +1,20 @@
+name: Verify Haoyi Studio
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+jobs:
+  verify:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - name: Check JavaScript syntax
+        run: find js tests -type f -name '*.mjs' -print0 | xargs -0 -n1 node --check
+      - name: Check static pages and links
+        run: node tests/site.test.mjs
+      - name: Check nozzle model
+        run: node tests/nozzle.test.mjs
