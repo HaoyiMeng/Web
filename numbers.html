@@ -1,0 +1,67 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="theme-color" content="#0b0e13" />
+  <meta name="description" content="空气动力学与传热中的无量纲数：从公式、物理含义到工程应用。" />
+  <title>数字 — Haoyi Studio</title>
+  <link rel="icon" type="image/svg+xml" href="./assets/favicon.svg" />
+  <link rel="stylesheet" href="./assets/styles.css" />
+  <link rel="stylesheet" href="./assets/sections.css" />
+  <link rel="stylesheet" href="./assets/workspace-v3.css" />
+  <link rel="stylesheet" href="./assets/numbers.css" />
+  <script type="module" src="./js/site.mjs"></script>
+  <script type="module" src="./js/numbers-ui.mjs"></script>
+</head>
+<body class="workspace-page numbers-page">
+  <a class="numbers-skip" href="#main-content">跳到主要内容</a>
+  <div class="site-shell workspace-shell">
+    <header class="site-header workspace-header" id="top">
+      <a class="brand" href="./index.html" aria-label="Haoyi Studio 返回首页"><span class="brand-star">✳</span><span>HAOYI<span class="brand-dim">/</span>STUDIO</span></a>
+      <a class="numbers-library-link" href="./library.html">Library</a>
+    </header>
+    <main id="main-content" class="workspace-main" tabindex="-1">
+      <nav class="numbers-breadcrumbs" aria-label="页面位置"><a href="./library.html">Library</a><span aria-hidden="true">/</span><a href="./numbers.html" aria-current="page">数字</a></nav>
+      <section id="numbers-catalog" aria-labelledby="numbers-heading">
+        <div class="numbers-intro">
+          <div class="numbers-intro-copy">
+            <span class="numbers-kicker">DIMENSIONLESS NUMBERS</span>
+            <h1 id="numbers-heading">数字，<em>读懂流动。</em></h1>
+            <p>把复杂的流动，归结为几种物理作用的比较。<br class="numbers-wide-break" />点开一个数字，从公式走到实际应用。</p>
+          </div>
+          <div class="numbers-visual" aria-hidden="true">
+            <svg viewBox="0 0 280 180" fill="none">
+              <path class="numbers-guide" d="M14 42H266M14 90H266M14 138H266M64 18V162M140 18V162M216 18V162" />
+              <path class="numbers-stream" d="M8 52C67 52 89 33 142 33S221 52 272 52M8 77C73 77 88 56 142 56S217 77 272 77M8 104C72 104 86 127 142 127S217 104 272 104M8 129C66 129 89 151 142 151S221 129 272 129" />
+              <path class="numbers-airfoil" d="M79 94C106 64 162 73 220 94C166 104 113 111 79 94Z" />
+              <circle cx="79" cy="94" r="3" fill="currentColor" />
+            </svg>
+            <span>Re · Ma · Pr · Nu</span>
+          </div>
+        </div>
+        <div class="numbers-tools">
+          <div class="number-search-wrap">
+            <label for="number-search">查找一个数字</label>
+            <div class="number-search-field"><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="10.5" cy="10.5" r="6.5"/><path d="m16 16 4.5 4.5"/></svg><input id="number-search" type="search" placeholder="Re、雷诺数、惯性…" autocomplete="off" spellcheck="false" /></div>
+          </div>
+          <div id="number-filters" class="number-filters" role="group" aria-label="按物理主题筛选">
+            <button type="button" data-category="all" aria-pressed="true">全部</button>
+            <button type="button" data-category="flow" aria-pressed="false">流动与受力</button>
+            <button type="button" data-category="heat" aria-pressed="false">热传递</button>
+            <button type="button" data-category="unsteady" aria-pressed="false">非定常</button>
+            <button type="button" data-category="surface" aria-pressed="false">自由液面与界面</button>
+          </div>
+        </div>
+        <div class="number-collection-label"><h2>找到支配现象的比例</h2><p id="number-count" role="status" aria-live="polite">正在载入数字…</p></div>
+        <div id="number-grid" class="number-grid"></div>
+        <div id="number-empty" class="number-empty" hidden><h2>没有找到匹配的数字</h2><p>试试其他名称、符号或关键词，或选择“全部”。</p></div>
+        <noscript><p class="number-caution">请启用 JavaScript，查看无量纲数的公式与应用。</p></noscript>
+        <p class="numbers-reading-note">学习提示：先确定特征长度、速度和物性，再比较无量纲数。相同的符号，在不同资料中也可能采用不同定义。</p>
+      </section>
+      <section id="number-detail" hidden aria-label="数字详情"></section>
+    </main>
+    <footer class="workspace-footer">Made to learn, at your own pace. © <span id="current-year">2026</span></footer>
+  </div>
+</body>
+</html>

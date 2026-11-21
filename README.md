@@ -9,6 +9,7 @@ A personal interactive study space focused on physics, aerospace and music.
 - An icon-based workspace dashboard leading to separate Physics Lab, Music Lab, Library and Focus Mode menus. Each topic or tool opens on its own page.
 - Quick links to live tools, with the two most recently visited topic pages remembered in the browser.
 - Library reading paths marked as planned; focus timer supports 15/25/50 minute sessions, local daily statistics and study tasks.
+- Library “数字” reference: 13 dimensionless numbers with Chinese explanations, native MathML formulas, symbols, worked examples, engineering applications and primary-source references. Search by Chinese/Italian/English name or symbol, filter by topic, and link directly to entries (e.g. `numbers.html#reynolds`).
 - Browser-based metronome with tempo, time signature, subdivisions, and Tap Tempo; synthesized audio with Web Audio API.
 - Homepage daily focus summary from browser-local data.
 - Responsive static website; no backend or paid service is required.
@@ -28,6 +29,7 @@ A personal interactive study space focused on physics, aerospace and music.
 - `js/focus.mjs`: persistent focus timer and task list
 - `js/metronome.mjs`: Web Audio-based practice metronome
 - `js/dashboard.mjs`: homepage focus summaries
+- `numbers.html`, `assets/numbers.css`, `js/numbers-data.mjs`, `js/numbers-ui.mjs`: dimensionless-number catalog and linked details
 - `tests/nozzle.test.mjs`: basic numerical checks
 
 ## Run locally

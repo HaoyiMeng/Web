@@ -477,6 +477,7 @@ body.workspace-page {
 }
 
 /* Accent mapping for the catalog's independent tool tiles. */
+.workspace-page .space-card--numbers{--tile-accent:#bbdaf4;--tile-panel:#1c2832}
 .workspace-page .space-card--metro{--tile-accent:#dec5f8;--tile-panel:#25222d}
 .workspace-page .space-card--notes,.workspace-page .space-card--book{--tile-accent:#f1d19c;--tile-panel:#28261f}
 .workspace-page .space-card--ambient{--tile-accent:#d0ebb3;--tile-panel:#1e2a26}
