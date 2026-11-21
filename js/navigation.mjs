@@ -14,6 +14,7 @@ if (menuButton && navigation) {
   const parentPage = {
     'nozzle.html': 'physics.html',
     'bass.html': 'music.html',
+    'metronome.html': 'music.html',
     'reading-paths.html': 'library.html',
     'timer.html': 'focus.html',
   }[currentPage] || currentPage;
