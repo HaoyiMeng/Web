@@ -17,7 +17,7 @@ const taskAdd = $('task-add');
 const tasksElement = $('task-list');
 
 const secondsIn = (value) => Math.max(0, Math.floor(Number(value) || 0));
-const today = () => new Date().toLocaleDateString('en-CA');
+const today = () => { const d=new Date(); return [d.getFullYear(),String(d.getMonth()+1).padStart(2,'0'),String(d.getDate()).padStart(2,'0')].join('-'); };
 const fresh = () => ({
   mode: '专注', duration: 1500, remaining: 1500,
   running: false, deadline: null, focusTask: '', history: [], tasks: []
