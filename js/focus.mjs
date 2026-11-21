@@ -57,6 +57,12 @@ function complete() {
 }
 function tick() {
   if (!state.running) return;
+  if (Date.now() - Number(state.deadline) > 10 * 60 * 1000) {
+    state.running=false;state.deadline=null;state.remaining=state.duration;
+    window.clearInterval(interval);interval=null;
+    status.textContent='上次计时已中断，未计入专注记录。';
+    persist();renderTimer();return;
+  }
   state.remaining = Math.max(0, Math.ceil((Number(state.deadline) - Date.now()) / 1000));
   if (state.remaining === 0) {
     window.clearInterval(interval); interval = null;
@@ -124,7 +130,7 @@ function renderTasks() {
     const checkbox=document.createElement('input');checkbox.type='checkbox';checkbox.checked=Boolean(item.done);checkbox.setAttribute('aria-label','完成任务 '+item.text);
     checkbox.addEventListener('change',()=>{item.done=checkbox.checked;persist();renderTasks();});
     const title=document.createElement('span');title.textContent=item.text;if(item.done)title.classList.add('is-done');
-    const use=document.createElement('button');use.type='button';use.textContent='专注此项';use.addEventListener('click',()=>{state.focusTask=item.text;if(taskField)taskField.value=item.text;persist();window.scrollTo({top:0,behavior:'smooth'});});
+    const use=document.createElement('button');use.type='button';use.textContent='专注此项';use.addEventListener('click',()=>{state.focusTask=item.text;if(taskField)taskField.value=item.text;persist();document.getElementById('focus-timer')?.scrollIntoView({behavior:'smooth',block:'center'});});
     const del=document.createElement('button');del.type='button';del.textContent='×';del.className='focus-remove';del.setAttribute('aria-label','删除任务 '+item.text);del.addEventListener('click',()=>{state.tasks=state.tasks.filter(t=>t.id!==item.id);persist();renderTasks();});
     row.append(checkbox,title,use,del);tasksElement.append(row);
   });
@@ -146,7 +152,12 @@ if (display && toggle && reset && status && mode && progress && presets.length) 
   }));
   if (state.running) {
     const restoredRemaining = Math.max(0, Math.ceil((Number(state.deadline)-Date.now()) / 1000));
-    if (restoredRemaining===0) complete();
+    if (restoredRemaining===0) {
+      if (Date.now() - Number(state.deadline) > 10*60*1000) {
+        state.running=false;state.deadline=null;state.remaining=state.duration;
+        status.textContent='上次计时已过期，未计入记录。';persist();
+      } else complete();
+    }
     else {state.remaining=restoredRemaining;interval=window.setInterval(tick,250);status.textContent='已恢复上次的计时。';}
   }
   document.addEventListener('visibilitychange',()=>{if(!document.hidden)tick();});
