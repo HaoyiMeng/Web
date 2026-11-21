@@ -1,4 +1,4 @@
-import { area, THROAT_X, LIMITS, solveNozzle } from './nozzle.mjs';
+import { area, THROAT_X, solveNozzle } from './nozzle.mjs';
 const $ = id => document.getElementById(id);
 const svgEl = (tag, attrs={}, text='') => {
   const e = document.createElementNS('http://www.w3.org/2000/svg',tag);
@@ -40,9 +40,6 @@ function renderNozzle(state){
     svg.append(svgEl('text',{x,y:17,fill:'#facd93','font-size':10,'text-anchor':'middle'},'NORMAL SHOCK'));
   }
 }
-function plotPath(points,key,maxY,Y0=193,minY=21){
- return points.map((p,i)=>`${i?'L':'M'}${X(p.x).toFixed(2)} ${(Y0-(p[key]/maxY)*(Y0-minY)).toFixed(2)}`).join(' ');
-}
 function renderChart(state){
  const svg=$('flow-chart');svg.replaceChildren();
  const plotX=x=>38+466*x;const Y=v=>182-v/3.7*158;const PY=v=>182-v*158;
@@ -74,35 +71,9 @@ function renderPressure(pb){
  document.querySelectorAll('[data-pressure]').forEach(b=>b.classList.toggle('active',Math.abs(Number(b.dataset.pressure)-pb)<.0001));
  renderNozzle(state);renderChart(state);
 }
-const SLIDER=$('back-pressure');SLIDER.addEventListener('input',()=>renderPressure(Number(SLIDER.value)));
-document.querySelectorAll('[data-pressure]').forEach(btn=>btn.addEventListener('click',()=>{SLIDER.value=btn.dataset.pressure;renderPressure(Number(SLIDER.value));}));
-
-const NOTES=['C','C♯','D','D♯','E','F','F♯','G','G♯','A','A♯','B'];
-const STRINGS=[{name:'G',pitch:7},{name:'D',pitch:2},{name:'A',pitch:9},{name:'E',pitch:4}];
-const SCALES={major:[0,2,4,5,7,9,11],minor:[0,2,3,5,7,8,10],pentatonic:[0,3,5,7,10],chromatic:[0,1,2,3,4,5,6,7,8,9,10,11]};
-const INTERVALS=['P1','m2','M2','m3','M3','P4','TT','P5','m6','M6','m7','M7'];
-let currentSelection=null;
-function renderFretboard(){
- const root=Number($('root-select').value),scale=$('scale-select').value, intervals=SCALES[scale], el=$('fretboard');el.replaceChildren();
- STRINGS.forEach((string,stringIdx)=>{
-   const l=document.createElement('span');l.className='string-label';l.textContent=string.name;el.append(l);
-   for(let fret=0;fret<=12;fret++){
-     const note=(string.pitch+fret)%12,interval=(note-root+12)%12,active=intervals.includes(interval);
-     const cell=document.createElement('div');cell.className='fret-cell'+(fret===0?' open':'');
-     const b=document.createElement('button');b.type='button';b.className='note-dot'+(active?' in-scale':'')+(interval===0?' root':'');b.textContent=NOTES[note];
-     b.setAttribute('aria-label',`${string.name} string, fret ${fret}, ${NOTES[note]}, interval ${INTERVALS[interval]}`);
-     if(currentSelection && currentSelection.stringIdx===stringIdx && currentSelection.fret===fret)b.classList.add('selected');
-     b.addEventListener('click',()=>{currentSelection={stringIdx,fret};$('note-readout').textContent=`${string.name} 弦 · 第 ${fret} 品 · ${NOTES[note]} · ${INTERVALS[interval]}`;renderFretboard();});
-     cell.append(b);el.append(cell);
-   }
- });
- let cap=document.querySelector('.fret-caption');if(!cap){cap=document.createElement('div');cap.className='fret-caption';el.after(cap);}cap.replaceChildren();
- for(let n=-1;n<=12;n++){const e=document.createElement('span');e.className='fret-num';e.textContent=n===-1?'':String(n);cap.append(e);}
- $('scale-notes').textContent='Scale notes: '+intervals.map(i=>NOTES[(root+i)%12]).join(' · ');
+const SLIDER=$('back-pressure');
+if (SLIDER) {
+  SLIDER.addEventListener('input',()=>renderPressure(Number(SLIDER.value)));
+  document.querySelectorAll('[data-pressure]').forEach(btn=>btn.addEventListener('click',()=>{SLIDER.value=btn.dataset.pressure;renderPressure(Number(SLIDER.value));}));
+  renderPressure(Number(SLIDER.value));
 }
-NOTES.forEach((name,i)=>{const option=document.createElement('option');option.value=i;option.textContent=name;$('root-select').append(option);});
-$('root-select').value='0';
-$('root-select').addEventListener('change',renderFretboard);$('scale-select').addEventListener('change',renderFretboard);
-$('current-year').textContent=String(new Date().getFullYear());
-renderPressure(Number(SLIDER.value));renderFretboard();
-console.info('Haoyi Studio nozzle thresholds:',LIMITS);

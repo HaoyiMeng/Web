@@ -1,0 +1,48 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="theme-color" content="#101318" />
+  <meta name="description" content="交互式四弦贝斯指板。" />
+  <title>Bass Fretboard — Haoyi Studio</title>
+  <link rel="icon" type="image/svg+xml" href="./assets/favicon.svg" />
+  <link rel="stylesheet" href="./assets/styles.css" />
+  <link rel="stylesheet" href="./assets/sections.css" />
+  <script type="module" src="./js/navigation.mjs"></script>
+  <script type="module" src="./js/site.mjs"></script>
+  <script type="module" src="./js/bass-ui.mjs"></script>
+</head>
+<body>
+  <div class="site-shell">
+    <header class="site-header" id="top">
+      <a class="brand" href="./index.html" aria-label="Haoyi Studio 返回首页"><span class="brand-star">✳</span><span>HAOYI<span class="brand-dim">/</span>STUDIO</span></a>
+      <button class="nav-toggle" type="button" aria-controls="primary-nav" aria-expanded="false" aria-label="打开导航菜单"><span></span><span></span><span></span></button>
+      <nav class="nav" id="primary-nav" aria-label="主要导航">
+        <a class="nav-direct" href="./physics.html">Physics Lab</a>
+        <a class="nav-direct" href="./music.html" aria-current="page">Music Lab</a>
+        <a class="nav-direct" href="./library.html">Library</a>
+        <a class="nav-direct" href="./focus.html">Focus Mode</a>
+      </nav>
+      <span class="nav-pill"><span class="live-dot"></span>Independent learning space</span>
+    </header>
+    <main id="main-content" class="page-main">
+      <section class="page-intro section" aria-labelledby="page-title">
+        <nav class="breadcrumbs" aria-label="页面位置"><a href="./index.html">首页</a><span aria-hidden="true"> / </span><a href="./music.html">Music Lab</a><span aria-hidden="true"> / </span><span aria-current="page">Bass Fretboard</span></nav>
+        <div class="overline">MUSIC LAB / EXPERIMENT</div>
+        <h1 id="page-title">Bass <em>Fretboard.</em></h1>
+        <p>选择根音与音阶，查看它们在指板上的形状。</p>
+      </section>
+      <section class="lab section music-section" id="fretboard-lab" aria-labelledby="bass-heading">
+        <div class="section-heading"><div><div class="overline">INTERACTIVE MUSIC</div><h2 id="bass-heading">Bass Fretboard<span class="period">.</span></h2></div><p>标准四弦调弦 E–A–D–G。选择根音与音阶，观察指板分布。</p></div>
+        <div class="lab-surface bass-surface">
+          <div class="bass-controls"><label for="root-select">Root note <select id="root-select"></select></label><label for="scale-select">Scale <select id="scale-select"><option value="major">Major / 大调</option><option value="minor">Natural minor / 自然小调</option><option value="pentatonic">Minor pentatonic / 小调五声</option><option value="chromatic">Chromatic / 半音阶</option></select></label><span class="bass-hint">点击任一音符查看音名与音程</span></div>
+          <div class="fret-scroll"><div id="fretboard" class="fretboard" role="group" aria-label="四弦贝斯指板上的音符"></div></div>
+          <div class="bass-readout"><span class="bass-selection" id="note-readout">点击指板上的音符</span><span id="scale-notes"></span></div>
+        </div>
+      </section>
+    </main>
+    <footer class="footer"><span>✳ HAOYI STUDIO</span><span>Built out of curiosity. © <span id="current-year">2026</span></span><span>Made to learn, not to impress.</span></footer>
+  </div>
+</body>
+</html>

@@ -10,14 +10,25 @@ if (menuButton && navigation) {
     }))
     .filter(({ button, submenu }) => button && submenu);
 
-  function setGroupOpen(item, open) {
-    item.button.setAttribute('aria-expanded', String(open));
-    item.submenu.hidden = !open;
-    item.group.classList.toggle('is-open', open);
-  }
+  const currentPage = location.pathname.split('/').pop() || 'index.html';
+  const parentPage = {
+    'nozzle.html': 'physics.html',
+    'bass.html': 'music.html',
+    'reading-paths.html': 'library.html',
+    'timer.html': 'focus.html',
+  }[currentPage] || currentPage;
+
+  navigation.querySelectorAll('a[href]').forEach((link) => {
+    const target = new URL(link.href).pathname.split('/').pop() || 'index.html';
+    if (target === parentPage) link.classList.add('is-current');
+  });
 
   function closeGroups() {
-    groups.forEach((item) => setGroupOpen(item, false));
+    groups.forEach(({ group, button, submenu }) => {
+      button.setAttribute('aria-expanded', 'false');
+      submenu.hidden = true;
+      group.classList.remove('is-open');
+    });
   }
 
   function setMenuOpen(open) {
@@ -27,44 +38,39 @@ if (menuButton && navigation) {
     if (!open) closeGroups();
   }
 
-  groups.forEach((item) => {
-    setGroupOpen(item, false);
-    item.button.addEventListener('click', () => {
-      const shouldOpen = item.button.getAttribute('aria-expanded') !== 'true';
+  groups.forEach(({ group, button, submenu }) => {
+    submenu.hidden = true;
+    button.setAttribute('aria-expanded', 'false');
+    button.addEventListener('click', () => {
+      const open = button.getAttribute('aria-expanded') !== 'true';
       closeGroups();
-      if (shouldOpen) setGroupOpen(item, true);
+      if (open) {
+        submenu.hidden = false;
+        button.setAttribute('aria-expanded', 'true');
+        group.classList.add('is-open');
+      }
     });
   });
 
   setMenuOpen(false);
-
   menuButton.addEventListener('click', () => {
     setMenuOpen(menuButton.getAttribute('aria-expanded') !== 'true');
   });
 
   navigation.addEventListener('click', (event) => {
-    if (event.target instanceof Element && event.target.closest('a')) {
-      setMenuOpen(false);
-    }
+    if (event.target instanceof Element && event.target.closest('a')) setMenuOpen(false);
   });
 
   document.addEventListener('click', (event) => {
-    if (!navigation.contains(event.target) && !menuButton.contains(event.target)) {
-      setMenuOpen(false);
-    }
+    if (!navigation.contains(event.target) && !menuButton.contains(event.target)) setMenuOpen(false);
   });
 
   document.addEventListener('keydown', (event) => {
     if (event.key !== 'Escape') return;
-
-    const menuWasOpen = menuButton.getAttribute('aria-expanded') === 'true';
-    const openGroup = groups.find(({ button }) => button.getAttribute('aria-expanded') === 'true');
-    if (!menuWasOpen && !openGroup) return;
-
+    const open = menuButton.getAttribute('aria-expanded') === 'true';
+    if (!open && !groups.some(({ button }) => button.getAttribute('aria-expanded') === 'true')) return;
     event.preventDefault();
     setMenuOpen(false);
-    (menuWasOpen ? menuButton : openGroup.button).focus();
+    menuButton.focus();
   });
-
-  window.addEventListener('hashchange', () => setMenuOpen(false));
 }

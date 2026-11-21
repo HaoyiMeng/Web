@@ -6,19 +6,22 @@ A personal interactive study space focused on physics, aerospace and music.
 
 - De Laval nozzle explorer: quasi-one-dimensional steady, inviscid ideal-gas flow with choking and internal normal shocks.
 - Interactive four-string E–A–D–G bass fretboard, scales and intervals.
-- Two-level navigation for Physics Lab, Library, Music Lab and Focus Mode, with mobile and keyboard support.
+- A homepage menu leading to separate Physics Lab, Music Lab, Library and Focus Mode menus. Each topic or tool opens on its own page.
 - Library reading paths marked as planned, plus a browser-local focus and break timer.
 - Responsive static website; no backend or paid service is required.
 
 ## Files
 
-- `index.html`: homepage and interactive learning labs
+- `index.html`: homepage with the top-level space menu
+- `physics.html`, `music.html`, `library.html`, `focus.html`: separate space menus
+- `nozzle.html`, `bass.html`, `reading-paths.html`, `timer.html`: topic and tool pages
 - `assets/styles.css`: original responsive styling
 - `assets/sections.css`: navigation, new sections and timer styling
 - `assets/favicon.svg`: icon
 - `js/nozzle.mjs`: nozzle solver
-- `js/app.mjs`: controls and visualization
+- `js/nozzle-ui.mjs`, `js/bass-ui.mjs`: controls and visualizations for their respective pages
 - `js/navigation.mjs`: menu interactions
+- `js/site.mjs`: shared footer year
 - `js/focus.mjs`: focus timer
 - `tests/nozzle.test.mjs`: basic numerical checks
 

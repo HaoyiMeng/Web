@@ -1,0 +1,42 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="theme-color" content="#101318" />
+  <meta name="description" content="Library 的阅读目录。" />
+  <title>Library — Haoyi Studio</title>
+  <link rel="icon" type="image/svg+xml" href="./assets/favicon.svg" />
+  <link rel="stylesheet" href="./assets/styles.css" />
+  <link rel="stylesheet" href="./assets/sections.css" />
+  <script type="module" src="./js/navigation.mjs"></script>
+  <script type="module" src="./js/site.mjs"></script>
+</head>
+<body>
+  <div class="site-shell">
+    <header class="site-header" id="top">
+      <a class="brand" href="./index.html" aria-label="Haoyi Studio 返回首页"><span class="brand-star">✳</span><span>HAOYI<span class="brand-dim">/</span>STUDIO</span></a>
+      <button class="nav-toggle" type="button" aria-controls="primary-nav" aria-expanded="false" aria-label="打开导航菜单"><span></span><span></span><span></span></button>
+      <nav class="nav" id="primary-nav" aria-label="主要导航">
+        <a class="nav-direct" href="./physics.html">Physics Lab</a>
+        <a class="nav-direct" href="./music.html">Music Lab</a>
+        <a class="nav-direct" href="./library.html" aria-current="page">Library</a>
+        <a class="nav-direct" href="./focus.html">Focus Mode</a>
+      </nav>
+      <span class="nav-pill"><span class="live-dot"></span>Independent learning space</span>
+    </header>
+    <main id="main-content" class="page-main">
+      <section class="page-intro section" aria-labelledby="page-title">
+        <nav class="breadcrumbs" aria-label="页面位置"><a href="./index.html">首页</a><span aria-hidden="true"> / </span><span aria-current="page">Library</span></nav>
+        <div class="overline">LIBRARY / 阅读空间</div>
+        <h1 id="page-title">A shelf for <em>questions.</em></h1>
+        <p>把想读、想推导、想反复回来看的主题整理成路线。</p>
+      </section>
+      <section class="section hub-section" aria-labelledby="library-menu-title"><div class="section-heading"><div><div class="overline">LIBRARY / MENU</div><h2 id="library-menu-title">选择阅读方向<span class="period">.</span></h2></div></div><div class="hub-grid">
+          <a href="./reading-paths.html" class="hub-card hub-card--library"><span class="hub-kicker">READING PATHS</span><h3>主题阅读线索</h3><p>从流体力学、空气动力学和音乐理论三个问题开始。</p><span class="hub-action">查看主题目录</span></a>
+        </div></section>
+    </main>
+    <footer class="footer"><span>✳ HAOYI STUDIO</span><span>Built out of curiosity. © <span id="current-year">2026</span></span><span>Made to learn, not to impress.</span></footer>
+  </div>
+</body>
+</html>

@@ -1,0 +1,47 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="theme-color" content="#101318" />
+  <meta name="description" content="25 分钟专注与 5 分钟短休息计时器。" />
+  <title>Focus Timer — Haoyi Studio</title>
+  <link rel="icon" type="image/svg+xml" href="./assets/favicon.svg" />
+  <link rel="stylesheet" href="./assets/styles.css" />
+  <link rel="stylesheet" href="./assets/sections.css" />
+  <script type="module" src="./js/navigation.mjs"></script>
+  <script type="module" src="./js/site.mjs"></script>
+  <script type="module" src="./js/focus.mjs"></script>
+</head>
+<body>
+  <div class="site-shell">
+    <header class="site-header" id="top">
+      <a class="brand" href="./index.html" aria-label="Haoyi Studio 返回首页"><span class="brand-star">✳</span><span>HAOYI<span class="brand-dim">/</span>STUDIO</span></a>
+      <button class="nav-toggle" type="button" aria-controls="primary-nav" aria-expanded="false" aria-label="打开导航菜单"><span></span><span></span><span></span></button>
+      <nav class="nav" id="primary-nav" aria-label="主要导航">
+        <a class="nav-direct" href="./physics.html">Physics Lab</a>
+        <a class="nav-direct" href="./music.html">Music Lab</a>
+        <a class="nav-direct" href="./library.html">Library</a>
+        <a class="nav-direct" href="./focus.html" aria-current="page">Focus Mode</a>
+      </nav>
+      <span class="nav-pill"><span class="live-dot"></span>Independent learning space</span>
+    </header>
+    <main id="main-content" class="page-main">
+      <section class="page-intro section" aria-labelledby="page-title">
+        <nav class="breadcrumbs" aria-label="页面位置"><a href="./index.html">首页</a><span aria-hidden="true"> / </span><a href="./focus.html">Focus Mode</a><span aria-hidden="true"> / </span><span aria-current="page">Focus Timer</span></nav>
+        <div class="overline">FOCUS MODE / TIMER</div>
+        <h1 id="page-title">Focus <em>Timer.</em></h1>
+        <p>计时只保存在当前页面，不记录个人数据。</p>
+      </section>
+      <section class="focus-section section" id="focus-mode" aria-labelledby="focus-heading">
+        <div class="section-heading"><div><div class="overline">FOCUS MODE</div><h2 id="focus-heading">Give it some time<span class="period">.</span></h2></div><p>为眼前的问题留出一段连续的时间。计时器只保存在当前页面，不记录个人数据。</p></div>
+        <div class="focus-surface" id="focus-timer">
+          <div class="focus-copy"><span class="focus-kicker">ONE THING AT A TIME</span><h3>今天，先弄明白一件事。</h3><p>选择一段专注时间，开始之后让问题留在眼前。需要休息时，切换到短休息。</p><div class="focus-presets" role="group" aria-label="计时模式"><button type="button" class="active" data-focus-minutes="25" data-focus-label="专注">专注 25 分钟</button><button type="button" data-focus-minutes="5" data-focus-label="短休息">休息 5 分钟</button></div></div>
+          <div class="timer-panel"><span class="timer-caption" id="timer-mode">专注时间</span><output id="timer-display" aria-label="剩余时间">25:00</output><div class="timer-progress" aria-hidden="true"><span id="timer-progress-fill"></span></div><div class="timer-actions"><button type="button" id="timer-toggle" class="btn btn-primary">开始计时</button><button type="button" id="timer-reset" class="timer-reset">重置</button></div><p id="timer-status" class="timer-status" role="status" aria-live="polite">准备好时开始。</p></div>
+        </div>
+      </section>
+    </main>
+    <footer class="footer"><span>✳ HAOYI STUDIO</span><span>Built out of curiosity. © <span id="current-year">2026</span></span><span>Made to learn, not to impress.</span></footer>
+  </div>
+</body>
+</html>

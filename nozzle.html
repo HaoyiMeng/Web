@@ -1,0 +1,58 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="theme-color" content="#101318" />
+  <meta name="description" content="交互式 De Laval 喷管流动实验。" />
+  <title>De Laval Nozzle — Haoyi Studio</title>
+  <link rel="icon" type="image/svg+xml" href="./assets/favicon.svg" />
+  <link rel="stylesheet" href="./assets/styles.css" />
+  <link rel="stylesheet" href="./assets/sections.css" />
+  <script type="module" src="./js/navigation.mjs"></script>
+  <script type="module" src="./js/site.mjs"></script>
+  <script type="module" src="./js/nozzle-ui.mjs"></script>
+</head>
+<body>
+  <div class="site-shell">
+    <header class="site-header" id="top">
+      <a class="brand" href="./index.html" aria-label="Haoyi Studio 返回首页"><span class="brand-star">✳</span><span>HAOYI<span class="brand-dim">/</span>STUDIO</span></a>
+      <button class="nav-toggle" type="button" aria-controls="primary-nav" aria-expanded="false" aria-label="打开导航菜单"><span></span><span></span><span></span></button>
+      <nav class="nav" id="primary-nav" aria-label="主要导航">
+        <a class="nav-direct" href="./physics.html" aria-current="page">Physics Lab</a>
+        <a class="nav-direct" href="./music.html">Music Lab</a>
+        <a class="nav-direct" href="./library.html">Library</a>
+        <a class="nav-direct" href="./focus.html">Focus Mode</a>
+      </nav>
+      <span class="nav-pill"><span class="live-dot"></span>Independent learning space</span>
+    </header>
+    <main id="main-content" class="page-main">
+      <section class="page-intro section" aria-labelledby="page-title">
+        <nav class="breadcrumbs" aria-label="页面位置"><a href="./index.html">首页</a><span aria-hidden="true"> / </span><a href="./physics.html">Physics Lab</a><span aria-hidden="true"> / </span><span aria-current="page">De Laval Nozzle</span></nav>
+        <div class="overline">PHYSICS LAB / EXPERIMENT</div>
+        <h1 id="page-title">De Laval <em>Nozzle.</em></h1>
+        <p>调节背压，观察不同工况下的流动。</p>
+      </section>
+      <section class="lab section" id="nozzle-lab" aria-labelledby="nozzle-heading">
+        <div class="section-heading"><div><div class="overline">INTERACTIVE PHYSICS</div><h2 id="nozzle-heading">De Laval Nozzle<span class="period">.</span></h2></div><p>准一维、定常、无黏、理想气体模型。通过背压控制工况。</p></div>
+        <div class="lab-surface">
+          <div class="lab-topbar"><div class="lab-top-label"><span class="live-dot"></span> LIVE SIMULATION <span class="separator">/</span> γ = 1.4</div><span class="lab-model-badge" id="flow-badge">SOLVING</span></div>
+          <div class="nozzle-container"><svg viewBox="0 0 720 235" id="nozzle-diagram" aria-label="交互式喷管流动示意图" role="img"></svg></div>
+          <div class="value-grid">
+            <div class="value-item"><span>THROAT MACH</span><strong id="throat-mach">—</strong><small>M at throat</small></div>
+            <div class="value-item"><span>EXIT MACH</span><strong id="exit-mach">—</strong><small>M at exit</small></div>
+            <div class="value-item"><span>EXIT PRESSURE</span><strong id="exit-pressure">—</strong><small>pₑ / p₀</small></div>
+            <div class="value-item"><span>SHOCK POSITION</span><strong id="shock-position">—</strong><small>x / L</small></div>
+          </div>
+          <div class="controls-grid">
+            <div class="control-panel"><div class="range-head"><label for="back-pressure">Back pressure <span class="muted">pᵦ / p₀</span></label><output id="pressure-output" for="back-pressure">0.700</output></div><input aria-label="背压与总压比值" id="back-pressure" type="range" min="0.05" max="0.995" value="0.70" step="0.005"/><div class="range-ends"><span>0.050</span><span>0.995</span></div><div class="preset-row"><button data-pressure="0.98" type="button">Subsonic</button><button data-pressure="0.70" type="button" class="active">Internal shock</button><button data-pressure="0.20" type="button">Supersonic</button><button data-pressure="0.055" type="button">Underexpanded</button></div><p class="explanation" id="flow-description" aria-live="polite"></p></div>
+            <div class="graph-panel"><div class="graph-heading"><span>AXIAL DISTRIBUTION</span><div class="legend"><span><i class="legend-mach"></i> Mach</span><span><i class="legend-pressure"></i> p/p₀</span></div></div><svg viewBox="0 0 540 215" id="flow-chart" role="img" aria-label="沿喷管长度的马赫数与静压分布曲线"></svg><div class="graph-foot"><span>INLET</span><span>THROAT</span><span>EXIT</span></div></div>
+          </div>
+          <div class="assumptions"><strong>Model notes</strong><span>理想气体 · γ = 1.4 · 定常准一维 · 无黏 · 无热交换 · 内部正激波满足守恒关系。喷口外的激波结构、膨胀波及边界层分离不在本模型内。参数采用无量纲化。</span></div>
+        </div>
+      </section>
+    </main>
+    <footer class="footer"><span>✳ HAOYI STUDIO</span><span>Built out of curiosity. © <span id="current-year">2026</span></span><span>Made to learn, not to impress.</span></footer>
+  </div>
+</body>
+</html>

@@ -1,0 +1,43 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="theme-color" content="#101318" />
+  <meta name="description" content="Physics Lab 的实验目录。" />
+  <title>Physics Lab — Haoyi Studio</title>
+  <link rel="icon" type="image/svg+xml" href="./assets/favicon.svg" />
+  <link rel="stylesheet" href="./assets/styles.css" />
+  <link rel="stylesheet" href="./assets/sections.css" />
+  <script type="module" src="./js/navigation.mjs"></script>
+  <script type="module" src="./js/site.mjs"></script>
+</head>
+<body>
+  <div class="site-shell">
+    <header class="site-header" id="top">
+      <a class="brand" href="./index.html" aria-label="Haoyi Studio 返回首页"><span class="brand-star">✳</span><span>HAOYI<span class="brand-dim">/</span>STUDIO</span></a>
+      <button class="nav-toggle" type="button" aria-controls="primary-nav" aria-expanded="false" aria-label="打开导航菜单"><span></span><span></span><span></span></button>
+      <nav class="nav" id="primary-nav" aria-label="主要导航">
+        <a class="nav-direct" href="./physics.html" aria-current="page">Physics Lab</a>
+        <a class="nav-direct" href="./music.html">Music Lab</a>
+        <a class="nav-direct" href="./library.html">Library</a>
+        <a class="nav-direct" href="./focus.html">Focus Mode</a>
+      </nav>
+      <span class="nav-pill"><span class="live-dot"></span>Independent learning space</span>
+    </header>
+    <main id="main-content" class="page-main">
+      <section class="page-intro section" aria-labelledby="page-title">
+        <nav class="breadcrumbs" aria-label="页面位置"><a href="./index.html">首页</a><span aria-hidden="true"> / </span><span aria-current="page">Physics Lab</span></nav>
+        <div class="overline">PHYSICS LAB / 物理实验室</div>
+        <h1 id="page-title">Make the invisible <em>visible.</em></h1>
+        <p>从流动到升力，用可以调节的模型检验直觉。选择下面的主题进入具体内容。</p>
+      </section>
+      <section class="section hub-section" aria-labelledby="physics-menu-title"><div class="section-heading"><div><div class="overline">PHYSICS LAB / MENU</div><h2 id="physics-menu-title">选择一个实验<span class="period">.</span></h2></div></div><div class="hub-grid">
+          <a href="./nozzle.html" class="hub-card hub-card--physics"><span class="hub-kicker">FLUID MECHANICS</span><h3>De Laval Nozzle</h3><p>调节背压，观察喷管中的马赫数、静压与正激波。</p><span class="hub-action">打开交互实验</span></a>
+          <div class="hub-card hub-card--upcoming"><span class="hub-kicker">AERODYNAMICS</span><h3>Thin Airfoil Theory</h3><p>涡量分布、环量、升力与翼型弯度。</p><span class="hub-action">筹备中</span></div>
+        </div></section>
+    </main>
+    <footer class="footer"><span>✳ HAOYI STUDIO</span><span>Built out of curiosity. © <span id="current-year">2026</span></span><span>Made to learn, not to impress.</span></footer>
+  </div>
+</body>
+</html>

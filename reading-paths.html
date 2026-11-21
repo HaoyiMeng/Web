@@ -1,0 +1,47 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="theme-color" content="#101318" />
+  <meta name="description" content="流体力学、空气动力学与音乐理论的阅读线索。" />
+  <title>Reading Paths — Haoyi Studio</title>
+  <link rel="icon" type="image/svg+xml" href="./assets/favicon.svg" />
+  <link rel="stylesheet" href="./assets/styles.css" />
+  <link rel="stylesheet" href="./assets/sections.css" />
+  <script type="module" src="./js/navigation.mjs"></script>
+  <script type="module" src="./js/site.mjs"></script>
+</head>
+<body>
+  <div class="site-shell">
+    <header class="site-header" id="top">
+      <a class="brand" href="./index.html" aria-label="Haoyi Studio 返回首页"><span class="brand-star">✳</span><span>HAOYI<span class="brand-dim">/</span>STUDIO</span></a>
+      <button class="nav-toggle" type="button" aria-controls="primary-nav" aria-expanded="false" aria-label="打开导航菜单"><span></span><span></span><span></span></button>
+      <nav class="nav" id="primary-nav" aria-label="主要导航">
+        <a class="nav-direct" href="./physics.html">Physics Lab</a>
+        <a class="nav-direct" href="./music.html">Music Lab</a>
+        <a class="nav-direct" href="./library.html" aria-current="page">Library</a>
+        <a class="nav-direct" href="./focus.html">Focus Mode</a>
+      </nav>
+      <span class="nav-pill"><span class="live-dot"></span>Independent learning space</span>
+    </header>
+    <main id="main-content" class="page-main">
+      <section class="page-intro section" aria-labelledby="page-title">
+        <nav class="breadcrumbs" aria-label="页面位置"><a href="./index.html">首页</a><span aria-hidden="true"> / </span><a href="./library.html">Library</a><span aria-hidden="true"> / </span><span aria-current="page">Reading Paths</span></nav>
+        <div class="overline">LIBRARY / READING PATHS</div>
+        <h1 id="page-title">Reading <em>Paths.</em></h1>
+        <p>沿着一个问题，逐步建立理解。</p>
+      </section>
+      <section class="library-section section" id="library" aria-labelledby="library-heading">
+        <div class="section-heading"><div><div class="overline">THE LIBRARY</div><h2 id="library-heading">A shelf for questions<span class="period">.</span></h2></div><p>先整理想读、想推导、想反复回来看的主题。笔记会随着学习慢慢补齐。</p></div>
+        <div class="library-grid" id="reading-paths">
+          <article class="library-card"><span class="library-index">FLUID MECHANICS</span><h3>流动如何改变速度？</h3><p>从连续性方程、能量方程到可压缩流，把喷管实验背后的关系串起来。</p><span class="library-state">阅读笔记筹备中</span></article>
+          <article class="library-card"><span class="library-index">AERODYNAMICS</span><h3>机翼为什么有升力？</h3><p>循着环量、涡量与翼型几何，建立薄翼理论的阅读路线。</p><span class="library-state">阅读笔记筹备中</span></article>
+          <article class="library-card"><span class="library-index">MUSIC THEORY</span><h3>音阶为什么有形状？</h3><p>用指板上的距离理解音程、调式和常见音阶的结构。</p><span class="library-state">阅读笔记筹备中</span></article>
+        </div>
+      </section>
+    </main>
+    <footer class="footer"><span>✳ HAOYI STUDIO</span><span>Built out of curiosity. © <span id="current-year">2026</span></span><span>Made to learn, not to impress.</span></footer>
+  </div>
+</body>
+</html>
