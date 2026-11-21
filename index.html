@@ -11,6 +11,7 @@
   <link rel="stylesheet" href="./assets/sections.css" />
   <script type="module" src="./js/navigation.mjs"></script>
   <script type="module" src="./js/site.mjs"></script>
+  <script type="module" src="./js/dashboard.mjs"></script>
 </head>
 <body class="workspace-page">
   <div class="site-shell workspace-shell">
@@ -30,6 +31,11 @@
           <a href="./physics.html" class="space-card space-card--physics"><span class="space-icon"><svg viewBox="0 0 24 24" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><ellipse cx="12" cy="12" rx="10" ry="4.2"/><ellipse cx="12" cy="12" rx="10" ry="4.2" transform="rotate(60 12 12)"/><ellipse cx="12" cy="12" rx="10" ry="4.2" transform="rotate(120 12 12)"/><circle cx="12" cy="12" r="1" fill="currentColor" stroke="none"/></svg></span><strong class="space-title">Physics Lab</strong><span class="space-description">流体力学 · 航空航天</span></a>
           <a href="./library.html" class="space-card space-card--library"><span class="space-icon"><svg viewBox="0 0 24 24" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M4 5v15m0-15h4v15H4m5-15h4v15H9m6-15 4-1 4 16-4 1z"/></svg></span><strong class="space-title">Library</strong><span class="space-description">主题阅读 · 学习资料</span></a>
       </nav>
+      <section class="today-summary" aria-label="今日学习概览">
+        <div class="today-summary-title"><span class="workspace-kicker">TODAY / AT A GLANCE</span><h2>Keep moving, gently.</h2><p id="dashboard-activity">选一件想学的事，开始你的第一段专注。</p></div>
+        <div class="today-summary-numbers"><div><strong id="dashboard-minutes">0</strong><span>今天专注分钟</span></div><div><strong id="dashboard-sessions">0</strong><span>完成的专注</span></div></div>
+        <a href="./timer.html" class="today-summary-link">开始专注 <span aria-hidden="true">↗</span></a>
+      </section>
       <section class="quick-panel" data-quick-panel aria-labelledby="quick-heading">
         <div class="quick-head"><h2 id="quick-heading" data-quick-heading>快速开始</h2><span>At your own pace</span></div>
         <a class="quick-row" href="./nozzle.html" data-quick-row><span class="quick-icon" data-quick-icon><svg viewBox="0 0 24 24" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M2 5h4l5 5h3l5-5h3M2 19h4l5-5h3l5 5h3M3 12h18"/></svg></span><span class="quick-copy"><strong data-quick-title>De Laval Nozzle</strong><small data-quick-subtitle>调节背压，观察喷管流动</small></span><span class="quick-arrow" aria-hidden="true">↗</span></a>
