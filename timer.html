@@ -31,14 +31,32 @@
         <nav class="breadcrumbs" aria-label="页面位置"><a href="./index.html">首页</a><span aria-hidden="true"> / </span><a href="./focus.html">Focus Mode</a><span aria-hidden="true"> / </span><span aria-current="page">Focus Timer</span></nav>
         <div class="overline">FOCUS MODE / TIMER</div>
         <h1 id="page-title">Focus <em>Timer.</em></h1>
-        <p>计时只保存在当前页面，不记录个人数据。</p>
+        <p>完成的专注记录会保存在当前浏览器，不上传云端；更换设备不会自动同步。</p>
       </section>
       <section class="focus-section section" id="focus-mode" aria-labelledby="focus-heading">
         <div class="section-heading"><div><div class="overline">FOCUS MODE</div><h2 id="focus-heading">Give it some time<span class="period">.</span></h2></div><p>为眼前的问题留出一段连续的时间。计时器只保存在当前页面，不记录个人数据。</p></div>
         <div class="focus-surface" id="focus-timer">
-          <div class="focus-copy"><span class="focus-kicker">ONE THING AT A TIME</span><h3>今天，先弄明白一件事。</h3><p>选择一段专注时间，开始之后让问题留在眼前。需要休息时，切换到短休息。</p><div class="focus-presets" role="group" aria-label="计时模式"><button type="button" class="active" data-focus-minutes="25" data-focus-label="专注">专注 25 分钟</button><button type="button" data-focus-minutes="5" data-focus-label="短休息">休息 5 分钟</button></div></div>
+          <div class="focus-copy"><span class="focus-kicker">ONE THING AT A TIME</span><h3>今天，先弄明白一件事。</h3><p>选择一段专注时间，开始之后让问题留在眼前。需要休息时，切换到短休息。</p><label class="focus-task-label" for="focus-task">这次想学什么？<input id="focus-task" maxlength="120" type="text" autocomplete="off" placeholder="例如：薄翼理论的涡量分布" /></label><div class="focus-presets" role="group" aria-label="计时模式"><button type="button" data-focus-minutes="15" data-focus-label="专注">15 分钟</button><button type="button" class="active" data-focus-minutes="25" data-focus-label="专注">25 分钟</button><button type="button" data-focus-minutes="50" data-focus-label="专注">50 分钟</button><button type="button" data-focus-minutes="5" data-focus-label="短休息">休息 5 分钟</button></div></div>
           <div class="timer-panel"><span class="timer-caption" id="timer-mode">专注时间</span><output id="timer-display" aria-label="剩余时间">25:00</output><div class="timer-progress" aria-hidden="true"><span id="timer-progress-fill"></span></div><div class="timer-actions"><button type="button" id="timer-toggle" class="btn btn-primary">开始计时</button><button type="button" id="timer-reset" class="timer-reset">重置</button></div><p id="timer-status" class="timer-status" role="status" aria-live="polite">准备好时开始。</p></div>
         </div>
+        <div class="focus-workspace-grid">
+          <section class="focus-workspace-panel" aria-labelledby="focus-stats-title">
+            <div class="focus-panel-top"><span class="overline">YOUR TIME</span><h3 id="focus-stats-title">专注记录</h3></div>
+            <div class="focus-stats">
+              <div><strong id="today-minutes">0</strong><small>今日分钟</small></div>
+              <div><strong id="today-sessions">0</strong><small>今日轮数</small></div>
+              <div><strong id="week-minutes">0</strong><small>近 7 天分钟</small></div>
+            </div>
+            <h4 class="focus-subheading">最近完成</h4>
+            <div id="focus-recent-list" class="focus-records"></div>
+          </section>
+          <section class="focus-workspace-panel" aria-labelledby="focus-tasks-title">
+            <div class="focus-panel-top"><span class="overline">ONE THING AT A TIME</span><h3 id="focus-tasks-title">学习任务</h3></div>
+            <div class="focus-task-add"><input type="text" id="task-input" maxlength="120" placeholder="添加一个小目标..." aria-label="新学习任务" autocomplete="off" /><button id="task-add" type="button">添加</button></div>
+            <div id="task-list" class="focus-task-list"></div>
+          </section>
+        </div>
+        <p class="focus-privacy">🔒 数据仅保存在此设备的浏览器本地存储中。清除网站数据可能丢失记录；目前没有账号或跨设备同步。完成整段专注才会计入统计。</p>
       </section>
     </main>
     <footer class="footer"><span>✳ HAOYI STUDIO</span><span>Built out of curiosity. © <span id="current-year">2026</span></span><span>Made to learn, not to impress.</span></footer>
