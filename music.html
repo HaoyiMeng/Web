@@ -1,35 +1,42 @@
 <!doctype html>
 <html lang="zh-CN">
 <head>
-  <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <meta name="theme-color" content="#101318" />
-  <meta name="description" content="Music Lab 的实验目录。" />
-  <title>Music Lab — Haoyi Studio</title>
-  <link rel="icon" type="image/svg+xml" href="./assets/favicon.svg" />
-  <link rel="stylesheet" href="./assets/styles.css" />
-  <link rel="stylesheet" href="./assets/sections.css" />
-  <script type="module" src="./js/navigation.mjs"></script>
-  <script type="module" src="./js/site.mjs"></script>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<meta name="theme-color" content="#0b0e13" />
+<meta name="description" content="节奏、音阶和贝斯练习的小工具。" />
+<title>Music Lab — Haoyi Studio</title>
+<link rel="icon" type="image/svg+xml" href="./assets/favicon.svg" />
+<link rel="stylesheet" href="./assets/styles.css" />
+<link rel="stylesheet" href="./assets/sections.css" />
+<link rel="stylesheet" href="./assets/workspace-v3.css" />
+<script type="module" src="./js/navigation.mjs"></script>
+<script type="module" src="./js/site.mjs"></script>
+
 </head>
 <body class="workspace-page">
-  <div class="site-shell workspace-shell">
-    <header class="site-header workspace-header" id="top">
-      <a class="brand" href="./index.html" aria-label="Haoyi Studio 返回首页"><span class="brand-star">✳</span><span>HAOYI<span class="brand-dim">/</span>STUDIO</span></a>
-      <span class="workspace-badge">Music Lab</span>
-    </header>
-    <main id="main-content" class="workspace-main">
-      <section class="workspace-intro" aria-labelledby="workspace-title">
-        <a class="workspace-back" href="./index.html">← 所有空间</a><span class="workspace-kicker">MUSIC LAB</span>
-        <h1 id="workspace-title">Choose a sound lab.</h1>
-        <p>从指板和节拍开始，把练习工具放在同一个地方。</p>
-      </section>
-      <nav class="space-grid space-grid--submenu" aria-label="音乐实验室菜单">
-          <a href="./bass.html" class="space-card space-card--bass"><span class="space-icon"><svg viewBox="0 0 24 24" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M4 4v16m5-16v16m5-16v16m5-16v16M2 8h20M2 15h20"/></svg></span><strong class="space-title">Bass Fretboard</strong><span class="space-description">四弦贝斯 · 音名与音阶</span></a>
-          <a href="./metronome.html" class="space-card space-card--metronome"><span class="space-icon"><svg viewBox="0 0 24 24" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3a9 9 0 1 0 9 9M12 12l4-4M12 3v4M3 12h4M12 21v-4M4 4l2 2"/></svg></span><strong class="space-title">Metronome</strong><span class="space-description">BPM · 拍号 · 细分 · Tap Tempo</span></a>
-      </nav>
-    </main>
-    <footer class="workspace-footer">Made to learn, at your own pace.</footer>
-  </div>
+<div class="site-shell workspace-shell">
+<header class="site-header workspace-header" id="top"><a class="brand" href="./index.html" aria-label="Haoyi Studio 返回首页"><span class="brand-star">✳</span><span>HAOYI<span class="brand-dim">/</span>STUDIO</span></a><span class="workspace-badge">Music Lab</span></header>
+<main id="main-content" class="workspace-main"><section class="workspace-intro" aria-labelledby="workspace-title">
+  <a class="workspace-back" href="./index.html">← Back to workspace</a>
+  <span class="workspace-kicker">02 / SOUND & RHYTHM</span>
+  <h1 id="workspace-title">Practice <em>in color.</em></h1>
+  <p>从指板到节拍，把练习变得更直观。</p></section><div class="desk-label"><strong>PRACTICE TOOLS</strong><span>02 LIVE TOOLS</span></div>
+<nav class="space-grid space-grid--submenu" aria-label="Music Lab 工具目录"><a href="./metronome.html" class="space-card space-card--metro">
+   <div class="tile-top"><span class="tile-icon"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 3a9 9 0 1 0 9 9M12 12l4-4M12 3v4M4 5l2 2"/></svg></span><span class="tile-arrow" aria-hidden="true">↗</span></div>
+   <span class="tile-art tile-art--metro" aria-hidden="true"><svg viewBox="0 0 148 106"><circle cx="74" cy="53" r="42"/><path d="M74 53l21-21M74 53l-12-27M74 10v8M74 88v8M33 53h8M107 53h8"/><path d="M22 6h22M104 6h22"/></svg></span>
+   <div class="tile-main"><span class="tile-overline">RHYTHM ENGINE</span><strong class="space-title">Metronome</strong><span class="space-description">速度、拍号、细分与 Tap Tempo。</span></div>
+   <div class="tile-tags"><span>30–240 BPM</span><span>Tap tempo</span></div>
+ </a>
+<a href="./bass.html" class="space-card space-card--bass">
+   <div class="tile-top"><span class="tile-icon"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 4v16m5-16v16m5-16v16m5-16v16M2 8h20M2 15h20"/></svg></span><span class="tile-arrow" aria-hidden="true">↗</span></div>
+   <span class="tile-art tile-art--bass" aria-hidden="true"><svg viewBox="0 0 148 106"><path d="M6 14h135M6 37h135M6 60h135M6 83h135M23 3v91M53 3v91M88 3v91M130 3v91"/><circle cx="53" cy="37" r="6"/><circle cx="88" cy="60" r="6"/></svg></span>
+   <div class="tile-main"><span class="tile-overline">STRING THEORY</span><strong class="space-title">Bass Fretboard</strong><span class="space-description">音阶、音程和指板位置。</span></div>
+   <div class="tile-tags"><span>E–A–D–G</span><span>Intervals</span></div>
+ </a></nav>
+<div class="desk-subnote"><strong>STUDIO NOTE</strong><span>浏览器节拍器需要主动点击播放；iPhone 锁屏或切后台后，声音可能停止。</span></div>
+<div class="desk-footer-row"><strong>✳ HAOYI STUDIO</strong><span>Back anytime. Keep exploring.</span></div></main>
+<footer class="workspace-footer">Made to learn, at your own pace. © 2026</footer>
+</div>
 </body>
 </html>
