@@ -1,0 +1,62 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="theme-color" content="#101318" />
+  <meta name="description" content="Haoyi Studio 原创在线节拍器：自定义 BPM、拍号、细分、Tap Tempo，使用浏览器音频引擎。" />
+  <title>Metronome — Haoyi Studio</title>
+  <link rel="icon" type="image/svg+xml" href="./assets/favicon.svg" />
+  <link rel="stylesheet" href="./assets/styles.css" />
+  <link rel="stylesheet" href="./assets/sections.css" />
+  <script type="module" src="./js/navigation.mjs"></script>
+  <script type="module" src="./js/site.mjs"></script>
+  <script type="module" src="./js/metronome.mjs"></script>
+</head>
+<body>
+<div class="site-shell">
+  <header class="site-header" id="top">
+    <a class="brand" href="./index.html" aria-label="Haoyi Studio 返回首页"><span class="brand-star">✳</span><span>HAOYI<span class="brand-dim">/</span>STUDIO</span></a>
+    <button class="nav-toggle" type="button" aria-controls="primary-nav" aria-expanded="false" aria-label="打开导航菜单"><span></span><span></span><span></span></button>
+    <nav class="nav" id="primary-nav" aria-label="主要导航">
+      <a class="nav-direct" href="./physics.html">Physics Lab</a>
+      <a class="nav-direct" href="./music.html" aria-current="page">Music Lab</a>
+      <a class="nav-direct" href="./library.html">Library</a>
+      <a class="nav-direct" href="./focus.html">Focus Mode</a>
+    </nav>
+    <span class="nav-pill"><span class="live-dot"></span>Independent learning space</span>
+  </header>
+  <main class="page-main" id="main-content">
+    <section class="page-intro section" aria-labelledby="page-title">
+      <nav class="breadcrumbs" aria-label="页面位置"><a href="./index.html">首页</a><span aria-hidden="true">/</span><a href="./music.html">Music Lab</a><span aria-hidden="true">/</span><span aria-current="page">Metronome</span></nav>
+      <div class="overline">MUSIC LAB / PRACTICE TOOL</div>
+      <h1 id="page-title">Metronome<span class="period">.</span></h1>
+      <p>练节奏时，不需要切换 App。调节速度、拍号与细分，或跟着歌曲轻点 Tap Tempo。</p>
+    </section>
+    <section class="metro-shell" aria-label="交互式节拍器">
+      <div class="metro-top"><span class="overline">RHYTHM ENGINE / WEB AUDIO</span><span class="metro-indicator" id="metro-state" role="status">READY</span></div>
+      <div class="metro-main">
+        <div class="metro-center">
+          <div class="metro-bpm"><button type="button" id="metro-minus" class="metro-nudge" aria-label="节拍速度减一">−</button><div class="metro-value"><output id="metro-bpm" for="metro-speed">100</output><small>BPM</small></div><button type="button" id="metro-plus" class="metro-nudge" aria-label="节拍速度加一">+</button></div>
+          <label class="metro-speed-label" for="metro-speed">Tempo</label>
+          <input id="metro-speed" type="range" min="30" max="240" step="1" value="100" aria-label="节拍速度 BPM" />
+          <div class="metro-speed-ends"><span>30</span><span>240</span></div>
+          <div class="metro-pulse" id="metro-pulse" aria-label="节拍指示灯"></div>
+          <button type="button" class="btn btn-primary metro-play" id="metro-toggle">▶ Start</button>
+          <p class="metro-hint" id="metro-hint">点击 Start 开启声音（手机须保持页面在前台）。</p>
+        </div>
+        <div class="metro-options">
+          <div class="metro-option"><label for="metro-meter">Time signature / 拍号</label><select id="metro-meter"><option value="2">2/4</option><option value="3">3/4</option><option value="4" selected>4/4</option><option value="6">6/8（六个八分音符为一组）</option></select></div>
+          <div class="metro-option"><label for="metro-subdivision">Subdivision / 细分</label><select id="metro-subdivision"><option value="1">Quarter notes · 四分</option><option value="2" selected>Eighth notes · 八分</option><option value="3">Triplets · 三连</option><option value="4">Sixteenth notes · 十六分</option></select></div>
+          <div class="metro-option"><span class="metro-label">Tap Tempo</span><button type="button" id="metro-tap" class="metro-tap">TAP <small>跟随节奏点击</small></button></div>
+          <div class="metro-option"><span class="metro-label">Quick tempos / 常用速度</span><div class="metro-presets" role="group" aria-label="常用速度"><button type="button" data-bpm="60">60</button><button type="button" data-bpm="90">90</button><button type="button" data-bpm="100">100</button><button type="button" data-bpm="120">120</button><button type="button" data-bpm="160">160</button></div></div>
+          <p class="metro-note">首拍有重音，细分音更轻。点击任意速度后立即生效。音频由你的浏览器实时合成，不调用云端服务。6/8 按六个八分音符一组计数；BPM 对应四分音符速度。</p>
+        </div>
+      </div>
+    </section>
+    <p class="metro-footnote">这是简化的练习节拍器，不是专业录音软件。iOS 浏览器在锁屏或切换后台时可能暂停音频；需要持续播放时请保持页面开启。</p>
+  </main>
+  <footer class="footer"><span>✳ HAOYI STUDIO</span><span>Built out of curiosity. © <span id="current-year">2026</span></span><span>Made to learn, not to impress.</span></footer>
+</div>
+</body>
+</html>
