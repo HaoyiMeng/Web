@@ -33,7 +33,7 @@ class Element {
     this.listeners.get(name).push(handler);
   }
   async fire(name, fields = {}) {
-    const event = { target: this, defaultPrevented: false, preventDefault() { this.defaultPrevented = true; }, ...fields };
+    const event = { target: this, defaultPrevented: false, composedPath() { return [this.target]; }, preventDefault() { this.defaultPrevented = true; }, ...fields };
     for (const handler of this.listeners.get(name) ?? []) await handler(event);
     return event;
   }
@@ -224,6 +224,72 @@ assert.equal($('spelling-1').disabled, true);
 assert.equal($('spelling-2').disabled, true);
 assert.equal(notes.some(note => hasClass(note, 'is-first')), false);
 
+// Default spelling changes reset the active experiment in every mode.
+const preference = async value => { $('note-preference').value = value; await $('note-preference').fire('change'); };
+const assertCleared = (currentMode, noteButtons) => {
+  assert.equal(noteButtons.some(note => note.getAttribute('aria-pressed') === 'true'), false);
+  assert.equal(noteButtons.some(note => hasClass(note, 'is-first') || hasClass(note, 'is-second') || hasClass(note, 'chord-tone')), false);
+  assert.equal($('note-readout').textContent, currentMode === 'chord' ? '等待选择根音' : '等待选音');
+  if (currentMode === 'interval') {
+    assert.equal($('spelling-1').disabled, true); assert.equal($('spelling-2').disabled, true);
+    assert.equal($('interval-name').textContent, '先选第一个音');
+    for (const id of ['interval-symbol', 'interval-distance', 'interval-direction']) assert.equal($(id).textContent, '—');
+    assert.equal($('play-pair').disabled, true); assert.equal($('clear-notes').disabled, true);
+  } else if (currentMode === 'single') {
+    assert.equal($('single-name').textContent, '点击任一音');
+    assert.equal($('single-frequency').textContent, '—');
+  } else {
+    assert.equal($('chord-name').textContent, '先选一个根音');
+    assert.equal($('chord-root-spelling').disabled, true);
+    assert.equal($('chord-tones').children.length, 0); assert.equal($('play-chord').disabled, true);
+  }
+};
+const selectedName = currentMode => currentMode === 'single' ? $('single-name').textContent : currentMode === 'interval' ? $('spelling-1').value : $('chord-root-spelling').value;
+for (const currentMode of ['single', 'interval', 'chord']) {
+  await mode(currentMode); await preference('sharp');
+  await at(2, 4).click();
+  if (currentMode === 'interval') await at(1, 1).click();
+  assert.equal(selectedName(currentMode), 'C♯2');
+  await preference('flat'); assertCleared(currentMode, notes);
+  await at(2, 4).click();
+  if (currentMode === 'interval') await at(1, 1).click();
+  assert.equal(selectedName(currentMode), 'D♭2', 'A fresh click must use the new flat preference');
+  await preference('sharp'); assertCleared(currentMode, notes);
+  await at(2, 4).click();
+  assert.equal(selectedName(currentMode), 'C♯2');
+  // Other controls do not dismiss a selection.
+  $('bass-volume').value = '73'; await $('bass-volume').fire('input');
+  $('root-select').value = '5'; await $('root-select').fire('change');
+  $('scale-select').value = 'minor'; await $('scale-select').fire('change');
+  assert.equal(selectedName(currentMode), 'C♯2');
+}
+
+// A blank scroller click resets; a note click (including detached badges) does not.
+const scrollClick = path => $('fret-scroll').fire('click', { target: path[0], composedPath: () => path });
+for (const currentMode of ['single', 'interval', 'chord']) {
+  await mode(currentMode);
+  const note = at(2, 4), detachedBadge = new Element('span');
+  await note.click();
+  await scrollClick([detachedBadge, note, $('fretboard'), $('fret-scroll')]);
+  assert.equal(selectedName(currentMode), 'C♯2', 'A note badge keeps its captured note-button event path after repaint');
+  await scrollClick([note, $('fretboard'), $('fret-scroll')]);
+  assert.equal(selectedName(currentMode), 'C♯2', 'The bubbling note click must not clear its own selection');
+  for (const blankTarget of [$('fretboard'), $('fretboard').children.find(child => hasClass(child, 'fret-cell')), $('fretboard').children.find(child => hasClass(child, 'string-label'))]) {
+    await scrollClick([blankTarget, $('fretboard'), $('fret-scroll')]);
+    assertCleared(currentMode, notes);
+    await note.click();
+  }
+  await scrollClick([$('fret-caption').children[2], $('fret-caption'), $('fret-scroll')]);
+  assertCleared(currentMode, notes);
+  await note.click();
+  const escape = await $('fret-scroll').fire('keydown', { key: 'Escape', composedPath: () => [note, $('fret-scroll')] });
+  assert.equal(escape.defaultPrevented, true);
+  assertCleared(currentMode, notes);
+  await note.click();
+  await $('note-preference').fire('keydown', { key: 'Escape' });
+  assert.equal(selectedName(currentMode), 'C♯2', 'Escape in an external native control must not clear notes');
+}
+
 // A supported-audio fixture exercises the UI/audio boundary, including mode changes.
 class AudioParam {
   value = 0;
@@ -303,4 +369,32 @@ const beforeMutedClick = context.oscillators.length;
 await supportedAt(3, 0).click();
 assert.equal(context.oscillators.length, beforeMutedClick, 'Muted notes must not create new voices');
 assert.equal($('spelling-1').value, 'E1', 'Muted selection still works');
-console.log('✓ Bass UI three modes, 17 chords, enharmonic spelling, degree markers, volume, focus and sound/mode cancellation.');
+
+// Preference reset cancels a playing/scheduled pair without turning the sound switch off.
+await $('sound-toggle').click(); await preference('sharp');
+await supportedAt(2, 4).click(); await supportedAt(1, 1).click(); await $('play-pair').click();
+const preferencePair = context.oscillators.slice(-6);
+assert.deepEqual([...new Set(preferencePair.map(node => node.starts[0]))], [0, 0.65]);
+const beforePreferenceReset = context.oscillators.length;
+await preference('flat'); assertCleared('interval', supportedNotes);
+assert.ok(preferencePair.every(node => node.disconnected && node.stops.at(-1) === 0), 'Changing default spelling cancels the delayed second note too');
+assert.equal($('sound-toggle').getAttribute('aria-checked'), 'true');
+assert.equal(context.oscillators.length, beforePreferenceReset, 'The reset itself creates no new voices');
+await supportedAt(2, 4).click();
+assert.equal($('spelling-1').value, 'D♭2');
+assert.equal(context.oscillators.length, beforePreferenceReset + 3, 'A fresh flat-spelled note still plays normally');
+
+// Blank area and Escape cancel sound consistently in all three modes.
+for (const currentMode of ['single', 'interval', 'chord']) {
+  await mode(currentMode); await supportedAt(2, 3).click();
+  if (currentMode === 'interval') { await supportedAt(1, 2).click(); await $('play-pair').click(); }
+  if (currentMode === 'chord') await $('play-chord').click();
+  await scrollClick([$('fret-scroll')]); assertCleared(currentMode, supportedNotes);
+  assert.ok(context.oscillators.every(node => node.disconnected && node.stops.at(-1) === 0), 'Blank area clears sounding and future voices');
+  assert.equal($('sound-toggle').getAttribute('aria-checked'), 'true');
+  await supportedAt(2, 3).click();
+  await $('fret-scroll').fire('keydown', { key: 'Escape' });
+  assertCleared(currentMode, supportedNotes);
+  assert.ok(context.oscillators.every(node => node.disconnected && node.stops.at(-1) === 0), 'Escape stops sound as well as clearing markers');
+}
+console.log('✓ Bass UI modes/chords, spelling resets, blank/Escape dismissal, controls, focus and scheduled audio cancellation.');

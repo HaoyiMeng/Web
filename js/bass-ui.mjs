@@ -61,7 +61,7 @@ function updateLegend() {
     ? currentChord?.tones.map(tone => [toneClass(tone), `${tone.label} · ${withoutOctave(tone.name)}`]) || []
     : [['legend-root', '音阶根音'], ['legend-scale', '音阶内'], ['legend-first', mode === 'single' ? '当前音' : '第一音'], ...(mode === 'interval' ? [['legend-second', '第二音']] : [])];
   entries.forEach(([className, text]) => { const item = make('span'); item.append(make('i', className), make('span', '', text)); legend.append(item); });
-  legend.append(make('span', 'scroll-hint', '小屏幕可左右滑动 · 方向键移动，回车选音'));
+  legend.append(make('span', 'scroll-hint', '左右滑动 · 方向键移动，回车选音 · 点指板空白处或在指板内按 Esc 取消'));
 }
 
 function updateBoard() {
@@ -147,6 +147,11 @@ function updateSelection() {
   $('note-readout').textContent = selections.length ? selections.map((note, i) => `${mode === 'interval' ? `${i + 1}. ` : mode === 'chord' ? '根音 · ' : ''}${positionText(note)}`).join(' / ') : mode === 'chord' ? '等待选择根音' : '等待选音';
 }
 
+function clearSelection(message = '已取消选择，请重新选音。') {
+  audio.stop(); selections.length = 0; currentChord = null;
+  updateSelection(); announce(message);
+}
+
 function switchMode(next) {
   if (!Object.hasOwn(HELP, next)) return;
   audio.stop(); mode = next; selections.length = 0; currentChord = null;
@@ -161,7 +166,18 @@ if ($('fretboard')) {
   CHORD_TYPES.forEach(type => { const option = make('option', '', `${type.name} / ${type.symbol || 'maj'}`); option.value = type.id; $('chord-type').append(option); });
   $('root-select').value = '0'; $('chord-type').value = 'major';
   document.querySelectorAll('[name="fret-mode"]').forEach(input => input.addEventListener('change', () => { if (input.checked) switchMode(input.value); }));
-  ['root-select', 'scale-select', 'note-preference'].forEach(id => $(id).addEventListener('change', updateBoard));
+  ['root-select', 'scale-select'].forEach(id => $(id).addEventListener('change', updateBoard));
+  $('note-preference').addEventListener('change', () => clearSelection('默认拼写已更改，已清空选音，请重新选择。'));
+  $('fret-scroll').addEventListener('click', event => {
+    // Repainting a note can detach its badge before the click reaches this region.
+    // The original event path still identifies that click as a note selection.
+    const clickedNote = event.composedPath().some(node => buttons.includes(node));
+    if (!clickedNote && selections.length) clearSelection();
+  });
+  $('fret-scroll').addEventListener('keydown', event => {
+    if (event.key !== 'Escape' || !selections.length) return;
+    event.preventDefault(); clearSelection();
+  });
   [0, 1].forEach(i => $(`spelling-${i + 1}`).addEventListener('change', event => {
     if (mode !== 'interval' || !selections[i]) return;
     Object.assign(selections[i], getSpellings(selections[i].midi).find(note => note.name === event.target.value)); updateSelection();
@@ -171,7 +187,7 @@ if ($('fretboard')) {
     audio.stop(); Object.assign(selections[0], getSpellings(selections[0].midi).find(note => note.name === event.target.value)); updateSelection();
   });
   $('chord-type').addEventListener('change', () => { audio.stop(); updateSelection(); });
-  $('clear-notes').addEventListener('click', () => { audio.stop(); selections.length = 0; updateSelection(); });
+  $('clear-notes').addEventListener('click', () => clearSelection());
   $('swap-notes').addEventListener('click', () => { audio.stop(); selections.reverse(); updateSelection(); });
   $('bass-volume').addEventListener('input', () => {
     const volume = Number($('bass-volume').value); audio.setVolume(volume / 100); $('volume-value').textContent = `${volume}%`;
