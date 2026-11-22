@@ -1,0 +1,46 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#0b1017">
+  <meta name="description" content="从圆柱到翼型：交互探索 Joukowski 保角变换、流线映射、环量与库塔条件。">
+  <title>Conformal Mapping · Haoyi Studio</title>
+  <link rel="icon" type="image/svg+xml" href="./assets/favicon.svg">
+  <link rel="stylesheet" href="./assets/conformal.css?v=20261122c">
+  <script type="module" src="./js/conformal-ui.mjs?v=20261122c"></script>
+  <script type="module" src="./js/site.mjs"></script>
+</head>
+<body>
+<header class="studio-header"><a class="brand" href="./index.html">✳ HAOYI<span>/</span>STUDIO</a><nav aria-label="页面导航"><a href="./physics.html">Physics Lab</a><span>/</span><span>Conformal Mapping</span></nav><a class="sibling" href="./potential-flow.html?scene=cylinder">圆柱绕流</a></header>
+<main>
+  <section class="intro"><div><p class="eyebrow">AERODYNAMICS / TRASFORMAZIONI CONFORMI</p><h1>From circle <em>to airfoil.</em></h1><p class="subtitle">保角变换 · 改变边界，看同一条流线如何绕过翼型。</p></div><div class="mapping-equation"><span>JOUKOWSKI MAP</span><strong>ζ = z + b²/z</strong><small>坐标以 b 归一化 · 速度以 U∞ 归一化</small></div></section>
+  <div class="lab-layout">
+    <section class="visuals" aria-label="联动流场">
+      <div class="view-toolbar"><div class="legend"><span><i class="stream-key"></i>流线 ψ</span><label><input id="potentials" type="checkbox"><i class="potential-key"></i>等势线 φ</label></div><label class="density">线条密度 <input id="density" type="range" min="6" max="14" step="1" value="9"></label><button id="reset" type="button">重置</button></div>
+      <div class="plane-grid">
+        <section class="plane"><header><div><span class="plane-letter">z</span><h2>圆柱平面</h2></div><span>GENERATING CIRCLE</span></header><svg id="circle-view" viewBox="0 0 600 460" role="img" aria-label="圆柱平面的流线与等势线；可拖动圆心 C 和观察点 P" tabindex="0"></svg><div class="plane-foot"><span>拖动 <b>C</b> 改变圆心</span><span>±b 为映射临界点</span></div></section>
+        <section class="plane"><header><div><span class="plane-letter foil-letter">ζ</span><h2>翼型平面</h2></div><span>MAPPED FLOW</span></header><svg id="foil-view" viewBox="0 0 600 460" role="img" aria-label="映射后的翼型流场；点击流场移动联动观察点" tabindex="0"></svg><div class="plane-foot"><span>同色线条一一对应</span><span>TE · 尾缘</span></div></section>
+      </div>
+      <p class="interaction-note">点击任一流场移动 P，高亮对应流线；聚焦画布后用方向键移动 P。流线疏密仅用于绘图，不代表定量流量。</p>
+      <section class="probe-panel" aria-label="两平面对应点测量"><div class="probe-title"><h2>同一个观察点</h2><span class="probe-symbol">P ↔ P′</span></div><div class="probe-values"><div><span>圆柱坐标 z / b</span><strong id="probe-z">—</strong></div><div><span>翼型坐标 ζ / b</span><strong id="probe-mapped">—</strong></div><div><span>圆柱速度 |V| / U∞</span><strong id="probe-circle-speed">—</strong></div><div><span>翼型速度 |V′| / U∞</span><strong id="probe-foil-speed">—</strong></div><div><span>局部缩放 |f′(z)|</span><strong id="probe-scale">—</strong></div><div><span>翼型压力系数 Cp</span><strong id="probe-cp">—</strong></div></div></section>
+      <section class="lesson"><span class="eyebrow">TRY THIS</span><h2>为什么翼型需要这个环量？</h2><p>选择平板，保留 6° 迎角，先看零环量，再开启库塔条件。圆上的后驻点会落到尾缘对应点；映射后，流动以有限速度离开尾缘。</p><div class="lesson-actions"><button id="demo-zero" type="button">平板 · 零环量</button><button id="demo-kutta" type="button">平板 · 库塔条件</button></div></section>
+    </section>
+    <aside class="controls" aria-label="模型参数">
+      <section class="control-panel"><div class="panel-heading"><h2>翼型几何</h2><span>GEOMETRY</span></div><div class="preset-grid" role="group" aria-label="翼型预设"><button data-preset="flat" aria-pressed="false">平板</button><button data-preset="arc" aria-pressed="false">圆弧</button><button data-preset="symmetric" aria-pressed="false">对称翼型</button><button data-preset="cambered" aria-pressed="true">弯曲翼型</button></div>
+        <div class="field"><label for="cx">圆心水平位置 <span>x₀ / b</span></label><div class="field-inputs"><input id="cx" type="range" min="-0.35" max="0" step="0.005" value="-0.14"><input id="cx-number" aria-label="圆心水平位置数值" type="number" min="-0.35" max="0" step="0.005" value="-0.14"></div></div>
+        <div class="field"><label for="cy">圆心竖直位置 <span>y₀ / b</span></label><div class="field-inputs"><input id="cy" type="range" min="-0.3" max="0.3" step="0.005" value="0.16"><input id="cy-number" aria-label="圆心竖直位置数值" type="number" min="-0.3" max="0.3" step="0.005" value="0.16"></div></div>
+        <p class="note">半径自动满足 R = |b − z₀|，圆始终通过 +b，形成尖尾缘。向左偏移增加厚度，上下偏移改变弯度。</p><div class="mini-stats"><span>R / b <b id="radius">—</b></span><span>弦长 c / b <b id="chord">—</b></span></div>
+      </section>
+      <section class="control-panel"><div class="panel-heading"><h2>来流与环量</h2><span>FLOW</span></div>
+        <div class="field"><label for="alpha">迎角 α <span>°</span></label><div class="field-inputs"><input id="alpha" type="range" min="-20" max="20" step="0.5" value="6"><input id="alpha-number" aria-label="迎角数值" type="number" min="-20" max="20" step="0.5" value="6"></div></div>
+        <label class="kutta-toggle"><input id="kutta" type="checkbox" checked><span><strong>满足库塔条件</strong><small>自动选择尾缘速度有限的环量</small></span></label>
+        <div class="field" id="gamma-field"><label for="gamma">环量 Γ / (U∞b) <span id="gamma-mode">自动</span></label><div class="field-inputs"><input id="gamma" type="range" min="-20" max="20" step="0.05" value="0" disabled><input id="gamma-number" aria-label="无量纲环量数值" type="number" min="-20" max="20" step="0.05" value="0" disabled></div></div>
+        <p class="note">Γ &gt; 0 为逆时针。翼型固定，来流从左向右；α 相对翼弦测量，正值使来流相对翼弦向上倾斜。</p>
+        <div id="kutta-status" class="status" role="status"></div><div class="lift-readout"><span>升力系数 C<sub>L</sub></span><strong id="lift">—</strong><small>正升力指向来流左法向 · CL = −2Γ / (U∞c)</small></div>
+      </section>
+    </aside>
+  </div>
+  <details class="theory"><summary>从复势到翼型 · 公式、约定与模型范围</summary><div class="theory-grid"><section><h2>对应第 12 节：复势</h2><p>W = φ + iψ，dW/dz = u − iv。令 w = z − z₀，来流相对实轴的方向为 αz：</p><p class="formula">W = U∞(e<sup>−iαz</sup>w + R²e<sup>iαz</sup>/w)<br>− iΓ/(2π) log(w/R)</p><p>αz = α + βc，βc 是前缘至尾缘的翼弦倾角。前缘取边界上距尾缘最远的点，c 为两点距离。圆周上 ψ 为常数。流线和等势线连续追踪，避免复对数主值分支造成假断线。</p></section><section><h2>对应第 13 节：保角变换</h2><p class="formula">ζ = z + b²/z<br>dW/dζ = (dW/dz) / (1 − b²/z²)</p><p>在 f′ ≠ 0 的规则点保角，但不保持长度或速度。临界点 z = ±b 需要单独处理。库塔条件令 +b 处 dW/dz = 0，通过极限求有限尾缘速度；它不意味着翼型尾缘速度为零。</p><p class="formula">ΓK = 4πU∞R sin(θTE − αz)</p></section><section><h2>适用范围</h2><p>二维、定常、不可压、无黏势流。未模拟边界层、分离、失速或黏性阻力；较大迎角仅用于探索数学模型。平板和圆弧是零厚度极限，非零迎角的尖前缘可存在真实速度奇异性。尾缘未满足库塔条件时也可发散，不以截断数值伪装成有限速度。</p><p>探针显示 Cp = 1 − (|V′|/U∞)²。U∞ 和 b 取作单位尺度，改变它们不改变无量纲流线形状。</p><a href="https://www.grc.nasa.gov/www/k-12/airplane/map.html" target="_blank" rel="noopener">参考：NASA · Mapping</a></section></div></details>
+  <footer><span>HAOYI / STUDIO</span><span>Complex potential · Joukowski · Kutta condition</span></footer>
+</main>
+</body></html>

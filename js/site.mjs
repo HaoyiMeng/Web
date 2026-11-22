@@ -3,6 +3,7 @@ if (year) year.textContent = String(new Date().getFullYear());
 
 const RECENT_KEY = 'haoyi-studio-recent-v1';
 const pages = {
+  'conformal.html': { kind: 'physics', title: 'Conformal Mapping', subtitle: '从圆柱到翼型 · 保角变换', icon: 'M2 15c5-7 10-8 20-3-8 1-14 3-20 3zM2 15h20' },
   'nozzle.html': { kind: 'physics', title: 'De Laval Nozzle', subtitle: '调节背压，观察喷管流动', icon: 'M2 5h4l5 5h3l5-5h3M2 19h4l5-5h3l5 5h3M3 12h18' },
   'metronome.html': { kind: 'music', title: 'Metronome', subtitle: '开始节奏练习 · 调节 BPM', icon: 'M12 3a9 9 0 1 0 9 9M12 12l4-4M12 3v4' },
   'bass.html': { kind: 'music', title: 'Bass Fretboard', subtitle: '认音、音程与和弦探索', icon: 'M4 4v16m5-16v16m5-16v16m5-16v16M2 8h20M2 15h20' },
