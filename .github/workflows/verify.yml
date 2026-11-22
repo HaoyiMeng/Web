@@ -21,6 +21,7 @@ jobs:
       - name: Check bass intervals and audio
         run: |
           node tests/bass-theory.test.mjs
+          node tests/bass-chords.test.mjs
           node tests/bass-audio.test.mjs
           node tests/bass-ui.test.mjs
 

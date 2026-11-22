@@ -5,7 +5,7 @@ A personal interactive study space focused on physics, aerospace and music.
 ## Features
 
 - De Laval nozzle explorer: quasi-one-dimensional steady, inviscid ideal-gas flow with choking and internal normal shocks.
-- Interactive four-string E1–A1–D2–G2 bass fretboard: select two notes, compare accurately spelled intervals (including augmented/diminished and compound intervals), inspect semitone and letter-count explanations, and change enharmonic spellings including double accidentals. Optional synthesized plucked bass audio, off by default, needs no samples.
+- Interactive four-string E1–A1–D2–G2 bass fretboard with three modes: single-note names and frequencies (default), accurately spelled two-note intervals, and 17 chord types with degree-labelled tones across the fretboard. Optional louder synthesized bass audio has a 0–100% volume control and simultaneous chord playback; off by default, with no samples required.
 - An icon-based workspace dashboard leading to separate Physics Lab, Music Lab, Library and Focus Mode menus. Each topic or tool opens on its own page.
 - Quick links to live tools, with the two most recently visited topic pages remembered in the browser.
 - Library reading paths marked as planned; focus timer supports 15/25/50 minute sessions, local daily statistics and study tasks.
@@ -26,6 +26,7 @@ A personal interactive study space focused on physics, aerospace and music.
 - `js/nozzle.mjs`: nozzle solver
 - `js/nozzle-ui.mjs`, `js/bass-ui.mjs`: controls and visualizations for their respective pages
 - `js/bass-theory.mjs`, `js/bass-audio.mjs`, `assets/bass.css`: spelled absolute-pitch interval analysis, optional Web Audio bass synthesis and fretboard layout
+- `js/bass-chords.mjs`: triad, suspended, sixth, seventh and ninth formulas, correctly spelled chord tones and octave projection
 - `js/navigation.mjs`: menu interactions
 - `js/site.mjs`: shared footer year
 - `js/focus.mjs`: persistent focus timer and task list
@@ -49,6 +50,7 @@ Run numerical checks with Node.js:
 node tests/nozzle.test.mjs
 node tests/site.test.mjs
 node tests/bass-theory.test.mjs
+node tests/bass-chords.test.mjs
 node tests/bass-audio.test.mjs
 node tests/bass-ui.test.mjs
 ```
@@ -72,9 +74,13 @@ This is a learning model, not an engineering design or safety-critical tool. Ver
 
 ## Browser data and limitations
 
-On the bass fretboard, the third click starts a new pair; clicking the same position twice gives a unison. Each selected note has its own enharmonic spelling selector. Letter/octave positions determine interval number, while the signed semitone span in written ascending order determines quality; click order determines sounding direction. This also handles crossed spellings and same-pitch diminished seconds. Scales highlight pitch classes, independently of the selected interval. Arrow keys move between strings and frets, Home/End move to the ends of a string, and Enter/Space select a note. Example buttons demonstrate C–D♯ / C–E♭, augmented thirds and diminished thirds. Theory reference: [Open Music Theory — Intervals](https://viva.pressbooks.pub/openmusictheory/chapter/intervals/).
+The bass fretboard opens in **single-note mode**: each click replaces the current note and shows its sounding name, octave and frequency (A4=440 Hz). Switch modes with the labelled radio controls; changing modes clears selection and stops ringing or queued audio. Arrow keys move between strings and frets, Home/End move to the ends of a string, and Enter/Space select a note.
 
-Bass sound starts only after enabling its switch. It is synthesized, not a sampled instrument. Muting cancels both ringing notes and queued pair playback; leaving the page or hiding the tab stops active notes. Unsupported audio or browser restrictions leave interval analysis available.
+In **interval mode**, the third click starts a new pair; clicking the same position twice gives a unison. Each selected note has its own enharmonic spelling selector. Letter/octave positions determine interval number, while the signed semitone span in written ascending order determines quality; click order determines sounding direction. This also handles crossed spellings and same-pitch diminished seconds. Scales highlight pitch classes independently of the interval. Example buttons demonstrate C–D♯ / C–E♭, augmented thirds and diminished thirds. Theory reference: [Open Music Theory — Intervals](https://viva.pressbooks.pub/openmusictheory/chapter/intervals/).
+
+In **chord mode**, click any note as the root, select a chord type and optionally change the root spelling. All matching positions across octaves show their chord roles (1, 3, ♭3, 5, ♭7, 9, etc.), with correct enharmonic spelling such as C♯–E♯–G♯. The 17 types include major/minor/diminished/augmented triads, sus2/sus4, major/minor sixths, dominant/major/minor/half-diminished/diminished/minor-major sevenths, and dominant/major/minor ninths. “一起弹奏和弦” plays each formula tone once, stacked upwards from the selected root, at the same start time. The board is a map of all available chord-tone locations, rather than a single playable bass fingering.
+
+Bass sound starts only after enabling its switch. The volume slider defaults to 80%; richer harmonics and a stronger pluck improve low-note audibility, with conservative polyphonic mixing and compression for headroom. Volume 0 immediately silences the output. It is synthesized, not a sampled instrument. Muting cancels both ringing notes and queued playback; leaving the page or hiding the tab stops active notes. Unsupported audio or browser restrictions leave all visual exploration available.
 
 Focus history and tasks, as well as metronome preferences, are saved in the browser's localStorage. They are **not synced across devices**, and clearing browser/site data may delete them. Completed focus sessions are counted once; partial sessions are not. Web Audio typically cannot stay active on iOS when the page is backgrounded or locked. No account, recording or microphone permission is needed.
 

@@ -4,7 +4,7 @@
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="theme-color" content="#101318" />
-  <meta name="description" content="在四弦贝斯指板上选择两个音，探索音程、半音距离与等音异名，试听合成贝斯音色。" />
+  <meta name="description" content="在贝斯指板上探索单音、辨识音程、标注和弦音，并试听单音与和弦。" />
   <title>Bass Fretboard — Haoyi Studio</title>
   <link rel="icon" type="image/svg+xml" href="./assets/favicon.svg" />
   <link rel="stylesheet" href="./assets/styles.css" />
@@ -32,13 +32,15 @@
         <nav class="breadcrumbs" aria-label="页面位置"><a href="./index.html">首页</a><span aria-hidden="true"> / </span><a href="./music.html">Music Lab</a><span aria-hidden="true"> / </span><span aria-current="page">Bass Fretboard</span></nav>
         <div class="overline">MUSIC LAB / EXPERIMENT</div>
         <h1 id="page-title">Bass <em>Fretboard.</em></h1>
-        <p>选两个音，听见距离，读懂音程。半音决定距离，拼写决定名字。</p>
+        <p>认一个音，比较两个音，或从一个根音展开整个和弦。</p>
       </section>
       <section class="lab section music-section" id="fretboard-lab" aria-labelledby="bass-heading">
-        <div class="section-heading"><div><div class="overline">INTERVAL EXPLORER</div><h2 id="bass-heading">指板上的两个音<span class="period">.</span></h2></div><p>标准四弦贝斯 · 实际发声音高<br />E1–A1–D2–G2 · 0–12 品</p></div>
+        <div class="section-heading"><div><div class="overline">FRETBOARD EXPLORER</div><h2 id="bass-heading">把声音看清楚<span class="period">.</span></h2></div><p>标准四弦贝斯 · 实际发声音高<br />E1–A1–D2–G2 · 0–12 品</p></div>
         <div class="lab-surface bass-surface">
-          <div class="bass-toolbar"><div><strong>点选 · 比较 · 聆听</strong><p id="selection-help">依次选两个音；第三次点击开始新一组。可重复点击同一位置。</p></div><button id="sound-toggle" class="bass-button sound-toggle" type="button" role="switch" aria-checked="false" aria-describedby="sound-status">声音：关</button></div>
-          <div class="interval-workspace">
+          <div class="bass-toolbar"><div><strong>点选 · 比较 · 聆听</strong><p id="selection-help">点击任一位置，查看音名与实际音高。</p></div><div class="sound-controls"><button id="sound-toggle" class="bass-button sound-toggle" type="button" role="switch" aria-checked="false" aria-describedby="sound-status">声音：关</button><label for="bass-volume">音量 <output id="volume-value" for="bass-volume">80%</output><input id="bass-volume" type="range" min="0" max="100" step="1" value="80" /></label></div></div>
+          <fieldset class="fret-modes"><legend>练习模式</legend><label><input type="radio" name="fret-mode" value="single" checked /><span><strong>单音探索</strong><small>点击认音与试听</small></span></label><label><input type="radio" name="fret-mode" value="interval" /><span><strong>音程辨识</strong><small>比较两个音</small></span></label><label><input type="radio" name="fret-mode" value="chord" /><span><strong>和弦探索</strong><small>标出和弦音并合奏</small></span></label></fieldset>
+          <section id="single-panel" class="single-workspace" aria-labelledby="single-name"><div><span class="result-kicker">ONE NOTE / 单音探索</span><h3 id="single-name">点击任一音</h3><p id="single-position">每次点击只查看当前这个音。</p></div><div class="single-frequency"><span>实际频率 · A4 = 440 Hz</span><strong id="single-frequency">—</strong><small>Hz</small></div></section>
+          <section id="interval-panel" class="interval-workspace" aria-label="双音音程辨识" hidden>
             <div class="interval-inputs">
               <div class="note-slots">
                 <div class="note-slot first-slot"><label for="spelling-1"><span class="slot-badge">1</span> 第一个音</label><select id="spelling-1" disabled><option>在指板选音</option></select><p id="position-1">等待选择</p></div>
@@ -48,19 +50,20 @@
               <p class="spelling-hint">下拉框可切换等音拼写（含重升、重降）。音高不变，音程名称可能改变。</p>
             </div>
             <div class="interval-result" aria-labelledby="interval-name"><span class="result-kicker">YOUR INTERVAL / 音程辨识</span><h3 id="interval-name">先选第一个音</h3><p id="interval-pair">从指板上的任意位置开始</p><div class="interval-metrics"><div><span>音程记号</span><strong id="interval-symbol">—</strong></div><div><span>半音距离</span><strong id="interval-distance">—</strong></div><div><span>点击方向</span><strong id="interval-direction">—</strong></div></div></div>
-          </div>
-          <div class="bass-controls"><label for="root-select">音阶根音 <select id="root-select"></select></label><label for="scale-select">音阶高亮 <select id="scale-select"><option value="major">大调 / Major</option><option value="minor">自然小调 / Minor</option><option value="pentatonic">小调五声 / Pentatonic</option><option value="chromatic">全部音 / Chromatic</option></select></label><label for="note-preference">指板默认拼写 <select id="note-preference"><option value="sharp">升号 ♯</option><option value="flat">降号 ♭</option></select></label></div>
-          <div class="fret-legend"><span><i class="legend-root"></i>根音</span><span><i class="legend-scale"></i>音阶内</span><span><b class="legend-first">1</b>第一音</span><span><b class="legend-second">2</b>第二音</span><span class="scroll-hint">小屏幕可左右滑动 · 方向键移动，回车选音</span></div>
+          </section>
+          <section id="chord-panel" class="chord-workspace" aria-labelledby="chord-name" hidden><div class="chord-settings"><label for="chord-type">和弦类型<select id="chord-type"></select></label><label for="chord-root-spelling">根音拼写<select id="chord-root-spelling" disabled><option>在指板选根音</option></select></label><button id="play-chord" class="bass-button chord-play" type="button" disabled>一起弹奏和弦</button><p id="chord-position">点击一个音作为根音。</p></div><div class="chord-result"><span class="result-kicker">CHORD TONES / 和弦组成</span><h3 id="chord-name">先选一个根音</h3><p id="chord-symbol">再选择你想探索的和弦类型</p><div id="chord-tones" class="chord-tones" role="list" aria-label="和弦音及其级数"></div><p class="chord-voicing-note">指板会标出各八度的全部和弦音位置。合奏按所选根音向上排列，每个和弦音只播放一次；这是组成音展示，不代表必须同时按住的贝斯指法。</p></div></section>
+          <div class="bass-controls"><div id="scale-controls" class="bass-scale-controls"><label for="root-select">音阶根音 <select id="root-select"></select></label><label for="scale-select">音阶高亮 <select id="scale-select"><option value="major">大调 / Major</option><option value="minor">自然小调 / Minor</option><option value="pentatonic">小调五声 / Pentatonic</option><option value="chromatic">全部音 / Chromatic</option></select></label></div><label for="note-preference">新选音默认拼写 <select id="note-preference"><option value="sharp">升号 ♯</option><option value="flat">降号 ♭</option></select></label></div>
+          <div id="fret-legend" class="fret-legend"></div>
           <div class="fret-scroll" tabindex="0" role="region" aria-label="可横向滚动的贝斯指板" aria-describedby="selection-help"><div id="fretboard" class="fretboard" role="group" aria-label="四弦贝斯指板上的音符"></div><div id="fret-caption" class="fret-caption" aria-hidden="true"></div></div>
           <div class="bass-readout"><span class="bass-selection" id="note-readout">等待选音</span><span id="scale-notes"></span></div>
           <p id="sound-status" class="sound-status" role="status">声音默认关闭；开启后点击音符可试听合成拨弦贝斯。</p>
         </div>
-        <div class="interval-learning">
+        <div id="interval-learning" class="interval-learning" hidden>
           <section class="interval-explanation" aria-labelledby="explanation-heading"><span class="result-kicker">WHY THIS NAME</span><h3 id="explanation-heading">这个名字从哪里来？</h3><ol id="interval-explanation"><li>先按字母音名计数，包含起点和终点，得到“几度”。</li><li>再比较实际半音数与该度数的纯／大音程基准，得到音程性质。</li></ol><p class="theory-note">按书写音名从低到高分析性质，按点击顺序标记上行或下行；保留八度，不将复音程折叠。音阶高亮只表示音高，音程以两个下拉框的拼写为准。</p></section>
           <aside class="enharmonic-guide" aria-labelledby="enharmonic-heading"><span class="result-kicker">SAME SOUND, DIFFERENT SPELLING</span><h3 id="enharmonic-heading">同样的声音，不同的名字</h3><p>十二平均律中，D♯ 与 E♭ 等音。C–D♯ 是增二度，C–E♭ 是小三度：都相距 3 个半音，字母跨度却不同。</p><div class="example-buttons"><button class="bass-button" type="button" data-example="enharmonic">试试等音异名</button><button class="bass-button" type="button" data-example="augmented">增三度 · C–E♯</button><button class="bass-button" type="button" data-example="diminished">减三度 · C–E𝄫</button></div><a class="theory-source" href="https://viva.pressbooks.pub/openmusictheory/chapter/intervals/" target="_blank" rel="noopener noreferrer">音程参考 · Open Music Theory</a></aside>
         </div>
         <p id="interval-announcement" class="sr-only" role="status" aria-live="polite" aria-atomic="true"></p>
-        <noscript><p>请开启 JavaScript，以使用指板选音和音程辨识功能。</p></noscript>
+        <noscript><p>请开启 JavaScript，以使用单音、音程与和弦探索功能。</p></noscript>
       </section>
     </main>
     <footer class="footer"><span>✳ HAOYI STUDIO</span><span>Built out of curiosity. © <span id="current-year">2026</span></span><span>Made to learn, not to impress.</span></footer>

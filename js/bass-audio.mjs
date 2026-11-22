@@ -6,6 +6,9 @@ export function createBassAudio({ onError = () => {} } = {}) {
   const voices = new Set();
   let context = null;
   let master = null;
+  let normalizer = null;
+  let compressor = null;
+  let volume = 0.8;
   let enabled = false;
   let disposed = false;
   let generation = 0;
@@ -24,8 +27,8 @@ export function createBassAudio({ onError = () => {} } = {}) {
     stop();
     try {
       onError(Audio
-        ? '声音暂时无法播放，请重新开启声音或检查浏览器设置。音程辨识仍可使用。'
-        : '当前浏览器不支持声音，音程辨识仍可使用。');
+        ? '声音暂时无法播放，请重新开启声音或检查浏览器设置。指板功能仍可使用。'
+        : '当前浏览器不支持声音，指板功能仍可使用。');
     } catch { /* A UI callback must not create an unhandled rejection. */ }
   }
 
@@ -33,9 +36,17 @@ export function createBassAudio({ onError = () => {} } = {}) {
     if (!Audio) throw new Error('Web Audio unavailable');
     if (!context || context.state === 'closed') {
       context = new Audio();
+      normalizer = context.createGain();
+      normalizer.gain.value = 0.95;
+      compressor = context.createDynamicsCompressor();
+      compressor.threshold.value = -8;
+      compressor.knee.value = 8;
+      compressor.ratio.value = 4;
+      compressor.attack.value = 0.002;
+      compressor.release.value = 0.18;
       master = context.createGain();
-      master.gain.value = 0.4;
-      master.connect(context.destination);
+      master.gain.value = volume;
+      normalizer.connect(compressor).connect(master).connect(context.destination);
     }
     if (context.state !== 'running') {
       if (!pendingResume) {
@@ -63,15 +74,32 @@ export function createBassAudio({ onError = () => {} } = {}) {
     }
   }
 
-  function sound(midi, delay) {
+  function setVolume(value) {
+    if (disposed || !Number.isFinite(value)) return volume;
+    volume = Math.max(0, Math.min(1, value));
+    if (master && context?.state !== 'closed') {
+      master.gain.cancelScheduledValues(context.currentTime);
+      if (volume === 0) master.gain.setValueAtTime(0, context.currentTime);
+      else master.gain.setTargetAtTime(volume, context.currentTime, 0.008);
+    }
+    return volume;
+  }
+
+  function normalizeVoices() {
+    // Oscillator levels total 1; the envelope peaks below 1. Dividing by
+    // voice count leaves headroom even for six perfectly aligned attacks.
+    // The compressor gently rounds attacks rather than having to prevent overload.
+    normalizer?.gain.setValueAtTime(0.95 / Math.max(1, voices.size), context.currentTime);
+  }
+
+  function sound(midi, at) {
     while (voices.size >= 6) voices.values().next().value.stop();
-    const at = context.currentTime + delay;
     const frequency = 440 * 2 ** ((midi - 69) / 12);
     const nodes = [];
     const oscillators = [];
     let voice;
     const disconnect = () => {
-      if (voice) voices.delete(voice);
+      if (voice && voices.delete(voice)) normalizeVoices();
       for (const node of nodes) {
         try { node.disconnect(); } catch { /* Already disconnected. */ }
       }
@@ -84,13 +112,14 @@ export function createBassAudio({ onError = () => {} } = {}) {
       filter.Q.value = 0.7;
       // A bright attack quickly loses upper harmonics, like a plucked string.
       filter.frequency.setValueAtTime(Math.min(7000, frequency * 16), at);
-      filter.frequency.exponentialRampToValueAtTime(frequency * 3, at + 0.22);
+      filter.frequency.exponentialRampToValueAtTime(frequency * 5, at + 0.25);
       envelope.gain.setValueAtTime(0, at);
-      envelope.gain.linearRampToValueAtTime(0.34, at + 0.006);
-      envelope.gain.exponentialRampToValueAtTime(0.09, at + 0.22);
+      envelope.gain.linearRampToValueAtTime(0.82, at + 0.006);
+      envelope.gain.exponentialRampToValueAtTime(0.28, at + 0.25);
       envelope.gain.exponentialRampToValueAtTime(0.0001, at + 1.7);
-      filter.connect(envelope).connect(master);
-      for (const [type, level] of [['triangle', 0.26], ['sine', 0.65]]) {
+      filter.connect(envelope).connect(normalizer);
+      // Additional upper harmonics make low bass notes audible on small speakers.
+      for (const [type, level] of [['sine', 0.45], ['triangle', 0.3], ['sawtooth', 0.25]]) {
         const oscillator = context.createOscillator();
         const gain = context.createGain();
         nodes.push(oscillator, gain);
@@ -120,6 +149,7 @@ export function createBassAudio({ onError = () => {} } = {}) {
         oscillator.stop(at + 1.72);
       }
       voices.add(voice);
+      normalizeVoices();
     } catch (error) {
       if (voice) voice.stop();
       else disconnect();
@@ -135,7 +165,27 @@ export function createBassAudio({ onError = () => {} } = {}) {
     try {
       await ready();
       if (!enabled || disposed || page?.hidden || ticket !== generation) return false;
-      sound(midi, delaySeconds);
+      sound(midi, context.currentTime + delaySeconds);
+      return true;
+    } catch {
+      if (ticket === generation && !disposed) reportFailure();
+      return false;
+    }
+  }
+
+  async function playChord(midis) {
+    // Snapshot before awaiting permission so callers cannot change the chord in flight.
+    const notes = Array.isArray(midis) ? Array.from(midis) : [];
+    if (!enabled || disposed || page?.hidden || notes.length < 1 || notes.length > 5
+        || !notes.every(midi => Number.isInteger(midi) && midi >= 0 && midi <= 127)) return false;
+    const ticket = generation;
+    try {
+      await ready();
+      if (!enabled || disposed || page?.hidden || ticket !== generation) return false;
+      // Capture once. Even if currentTime advances while nodes are created, every
+      // oscillator starts on exactly this time, rather than forming an arpeggio.
+      const at = context.currentTime + 0.008;
+      for (const midi of notes) sound(midi, at);
       return true;
     } catch {
       if (ticket === generation && !disposed) reportFailure();
@@ -156,8 +206,10 @@ export function createBassAudio({ onError = () => {} } = {}) {
     page?.removeEventListener('visibilitychange', onVisibility);
     host.removeEventListener?.('pagehide', stop);
     try { Promise.resolve(context?.close()).catch(() => {}); } catch { /* Already closed. */ }
-    try { master?.disconnect(); } catch { /* Already disconnected. */ }
+    for (const node of [master, normalizer, compressor]) {
+      try { node?.disconnect(); } catch { /* Already disconnected. */ }
+    }
   }
 
-  return { supported: Boolean(Audio), setEnabled, play, stop, dispose };
+  return { supported: Boolean(Audio), setEnabled, setVolume, play, playChord, stop, dispose };
 }
