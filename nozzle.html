@@ -9,6 +9,7 @@
   <link rel="icon" type="image/svg+xml" href="./assets/favicon.svg" />
   <link rel="stylesheet" href="./assets/styles.css" />
   <link rel="stylesheet" href="./assets/sections.css" />
+  <link rel="stylesheet" href="./assets/nozzle.css" />
   <script type="module" src="./js/navigation.mjs"></script>
   <script type="module" src="./js/site.mjs"></script>
   <script type="module" src="./js/nozzle-ui.mjs"></script>
@@ -31,24 +32,84 @@
         <nav class="breadcrumbs" aria-label="页面位置"><a href="./index.html">首页</a><span aria-hidden="true"> / </span><a href="./physics.html">Physics Lab</a><span aria-hidden="true"> / </span><span aria-current="page">De Laval Nozzle</span></nav>
         <div class="overline">PHYSICS LAB / EXPERIMENT</div>
         <h1 id="page-title">De Laval <em>Nozzle.</em></h1>
-        <p>调节背压，观察不同工况下的流动。</p>
+        <p>调节几何、总压总温和气体参数，研究阻塞、正激波与超声速膨胀。</p>
       </section>
       <section class="lab section" id="nozzle-lab" aria-labelledby="nozzle-heading">
-        <div class="section-heading"><div><div class="overline">INTERACTIVE PHYSICS</div><h2 id="nozzle-heading">De Laval Nozzle<span class="period">.</span></h2></div><p>准一维、定常、无黏、理想气体模型。通过背压控制工况。</p></div>
-        <div class="lab-surface">
-          <div class="lab-topbar"><div class="lab-top-label"><span class="live-dot"></span> LIVE SIMULATION <span class="separator">/</span> γ = 1.4</div><span class="lab-model-badge" id="flow-badge">SOLVING</span></div>
-          <div class="nozzle-container"><svg viewBox="0 0 720 235" id="nozzle-diagram" aria-label="交互式喷管流动示意图" role="img"></svg></div>
-          <div class="value-grid">
-            <div class="value-item"><span>THROAT MACH</span><strong id="throat-mach">—</strong><small>M at throat</small></div>
-            <div class="value-item"><span>EXIT MACH</span><strong id="exit-mach">—</strong><small>M at exit</small></div>
-            <div class="value-item"><span>EXIT PRESSURE</span><strong id="exit-pressure">—</strong><small>pₑ / p₀</small></div>
-            <div class="value-item"><span>SHOCK POSITION</span><strong id="shock-position">—</strong><small>x / L</small></div>
+        <div class="section-heading"><div><div class="overline">INTERACTIVE PHYSICS</div><h2 id="nozzle-heading">De Laval Nozzle<span class="period">.</span></h2></div><p>可配置喷管几何与气体入口总态，观察沿程流动、质量流率及激波位置。</p></div>
+        <div class="lab-surface nozzle-pro">
+          <div class="lab-topbar">
+            <div class="lab-top-label"><span class="live-dot"></span> QUASI-1D NOZZLE LAB <span class="separator">/</span> <span id="gamma-label">γ = 1.40</span></div>
+            <span class="lab-model-badge" id="flow-badge" aria-live="polite">SOLVING</span>
           </div>
-          <div class="controls-grid">
-            <div class="control-panel"><div class="range-head"><label for="back-pressure">Back pressure <span class="muted">pᵦ / p₀</span></label><output id="pressure-output" for="back-pressure">0.700</output></div><input aria-label="背压与总压比值" id="back-pressure" type="range" min="0.05" max="0.995" value="0.70" step="0.005"/><div class="range-ends"><span>0.050</span><span>0.995</span></div><div class="preset-row"><button data-pressure="0.98" type="button">Subsonic</button><button data-pressure="0.70" type="button" class="active">Internal shock</button><button data-pressure="0.20" type="button">Supersonic</button><button data-pressure="0.055" type="button">Underexpanded</button></div><p class="explanation" id="flow-description" aria-live="polite"></p></div>
-            <div class="graph-panel"><div class="graph-heading"><span>AXIAL DISTRIBUTION</span><div class="legend"><span><i class="legend-mach"></i> Mach</span><span><i class="legend-pressure"></i> p/p₀</span></div></div><svg viewBox="0 0 540 215" id="flow-chart" role="img" aria-label="沿喷管长度的马赫数与静压分布曲线"></svg><div class="graph-foot"><span>INLET</span><span>THROAT</span><span>EXIT</span></div></div>
+          <div class="nozzle-container nozzle-viewport">
+            <svg viewBox="0 0 720 235" id="nozzle-diagram" aria-label="喷管截面与流动示踪点，点击可设置测量截面" role="img"></svg>
           </div>
-          <div class="assumptions"><strong>Model notes</strong><span>理想气体 · γ = 1.4 · 定常准一维 · 无黏 · 无热交换 · 内部正激波满足守恒关系。喷口外的激波结构、膨胀波及边界层分离不在本模型内。参数采用无量纲化。</span></div>
+          <div class="nozzle-playback">
+            <span>点阵代表流体示踪粒子，动画已慢放，不是瞬态 CFD</span>
+            <div class="nozzle-playback-tools">
+              <button id="particle-toggle" type="button" aria-pressed="false">暂停动画</button>
+              <label for="animation-rate">慢放</label>
+              <select id="animation-rate" aria-label="动画慢放倍率"><option value="4000">4000×</option><option value="1000" selected>1000×</option><option value="500">500×</option></select>
+            </div>
+          </div>
+          <div class="value-grid nozzle-values">
+            <div class="value-item"><span>THROAT MACH</span><strong id="throat-mach">—</strong><small>喉部马赫数</small></div>
+            <div class="value-item"><span>EXIT MACH</span><strong id="exit-mach">—</strong><small>出口马赫数</small></div>
+            <div class="value-item"><span>EXIT PRESSURE</span><strong id="exit-pressure">—</strong><small>出口静压 kPa</small></div>
+            <div class="value-item"><span>MASS FLOW</span><strong id="mass-flow">—</strong><small>质量流率 kg/s</small></div>
+            <div class="value-item"><span>EXIT VELOCITY</span><strong id="exit-velocity">—</strong><small>m/s</small></div>
+            <div class="value-item"><span>EXIT TEMPERATURE</span><strong id="exit-temperature">—</strong><small>静温 K</small></div>
+            <div class="value-item"><span>SHOCK POSITION</span><strong id="shock-position">—</strong><small>相对轴向位置 x/L</small></div>
+            <div class="value-item"><span>TOTAL PRESSURE LOSS</span><strong id="pressure-loss">—</strong><small>正激波损失 %</small></div>
+          </div>
+          <div class="nozzle-control-header">
+            <div><div class="overline">PARAMETER SPACE</div><h3>参数控制<span class="period">.</span></h3></div>
+            <button type="button" id="reset-nozzle" class="nozzle-reset">恢复默认</button>
+          </div>
+          <div class="nozzle-groups">
+            <section class="nozzle-group nozzle-pressure-group" aria-label="背压与运行工况">
+              <h4>01 / 背压与工况</h4>
+              <div class="nozzle-field">
+                <label for="back-pressure">背压比 <span>pᵦ / p₀</span></label>
+                <div class="nozzle-field-inputs"><input id="back-pressure" type="range" min="0.002" max="1" step="0.001" value="0.700" /><input type="number" data-sync="back-pressure" aria-label="背压比精确值" min="0.002" max="1" step="0.001" value="0.700" /></div>
+              </div>
+              <div class="preset-row nozzle-presets">
+                <button type="button" data-regime="subsonic">全亚声速</button>
+                <button type="button" data-regime="internal">内部正激波</button>
+                <button type="button" data-regime="exit-shock">出口激波</button>
+                <button type="button" data-regime="design">完全膨胀</button>
+                <button type="button" data-regime="under">欠膨胀</button>
+              </div>
+              <div class="nozzle-thresholds"><span>阻塞阈值 <b id="choke-limit">—</b></span><span>出口激波 <b id="shock-limit">—</b></span><span>设计背压 <b id="design-limit">—</b></span></div>
+              <p class="explanation" id="flow-description" aria-live="polite"></p>
+            </section>
+            <section class="nozzle-group" aria-label="喷管几何">
+              <h4>02 / 喷管几何</h4>
+              <div class="nozzle-field"><label for="exit-area-ratio">出口 / 喉部面积比 <span>Aₑ / Aₜ</span></label><div class="nozzle-field-inputs"><input id="exit-area-ratio" type="range" min="1.1" max="8" step="0.05" value="2.65"/><input type="number" data-sync="exit-area-ratio" aria-label="出口喉部面积比" min="1.1" max="8" step="0.05" value="2.65"/></div></div>
+              <div class="nozzle-field"><label for="inlet-area-ratio">入口 / 喉部面积比 <span>Aᵢ / Aₜ</span></label><div class="nozzle-field-inputs"><input id="inlet-area-ratio" type="range" min="1.1" max="8" step="0.05" value="2.35"/><input type="number" data-sync="inlet-area-ratio" aria-label="入口喉部面积比" min="1.1" max="8" step="0.05" value="2.35"/></div></div>
+              <div class="nozzle-field"><label for="throat-area">喉部面积 <span>Aₜ / cm²</span></label><div class="nozzle-field-inputs"><input id="throat-area" type="range" min="0.2" max="10" step="0.1" value="1.5"/><input type="number" data-sync="throat-area" aria-label="喉部面积平方厘米" min="0.2" max="10" step="0.1" value="1.5"/></div></div>
+              <div class="nozzle-field"><label for="nozzle-length">喷管长度 <span>L / m</span></label><div class="nozzle-field-inputs"><input id="nozzle-length" type="range" min="0.1" max="1.5" step="0.01" value="0.6"/><input type="number" data-sync="nozzle-length" aria-label="喷管长度米" min="0.1" max="1.5" step="0.01" value="0.6"/></div></div>
+              <div class="nozzle-field"><label for="throat-location">喉部位置 <span>xₜ / L</span></label><div class="nozzle-field-inputs"><input id="throat-location" type="range" min="0.2" max="0.8" step="0.01" value="0.39"/><input type="number" data-sync="throat-location" aria-label="喉部相对位置" min="0.2" max="0.8" step="0.01" value="0.39"/></div></div>
+            </section>
+            <section class="nozzle-group" aria-label="入口总态与气体常数">
+              <h4>03 / 入口总态与气体</h4>
+              <div class="nozzle-field"><label for="total-pressure">入口总压 <span>p₀ / kPa</span></label><div class="nozzle-field-inputs"><input id="total-pressure" type="range" min="30" max="600" step="1" value="150"/><input type="number" data-sync="total-pressure" aria-label="入口总压千帕" min="30" max="600" step="1" value="150"/></div></div>
+              <div class="nozzle-field"><label for="total-temperature">入口总温 <span>T₀ / K</span></label><div class="nozzle-field-inputs"><input id="total-temperature" type="range" min="200" max="1000" step="5" value="300"/><input type="number" data-sync="total-temperature" aria-label="入口总温开尔文" min="200" max="1000" step="5" value="300"/></div></div>
+              <div class="nozzle-field"><label for="heat-ratio">比热比 <span>γ = cₚ / cᵥ</span></label><div class="nozzle-field-inputs"><input id="heat-ratio" type="range" min="1.2" max="1.67" step="0.01" value="1.4"/><input type="number" data-sync="heat-ratio" aria-label="比热比" min="1.2" max="1.67" step="0.01" value="1.4"/></div></div>
+              <div class="nozzle-field"><label for="gas-constant">气体常数 <span>R / J·kg⁻¹·K⁻¹</span></label><div class="nozzle-field-inputs"><input id="gas-constant" type="range" min="200" max="500" step="1" value="287"/><input type="number" data-sync="gas-constant" aria-label="比气体常数" min="200" max="500" step="0.01" value="287.05"/></div></div>
+              <small class="nozzle-field-note">默认按空气：γ = 1.4，R = 287.05 J/(kg·K)。模型假设 γ 和 R 为常数。</small>
+            </section>
+          </div>
+          <section class="nozzle-probe" aria-label="观察截面物理量">
+            <div class="nozzle-probe-head"><h3>截面探针 <span>PROBE</span></h3><output id="probe-position" for="probe-location">x/L = 0.650</output></div>
+            <input id="probe-location" type="range" min="0" max="1" step="0.005" value="0.65" aria-label="沿程测量位置"/>
+            <div class="nozzle-probe-values"><span>M <b id="probe-mach">—</b></span><span>p <b id="probe-pressure">—</b> kPa</span><span>T <b id="probe-temperature">—</b> K</span><span>V <b id="probe-velocity">—</b> m/s</span><span>ρ <b id="probe-density">—</b> kg/m³</span><span>p₀,local <b id="probe-total">—</b> kPa</span></div>
+          </section>
+          <div class="nozzle-charts">
+            <section class="graph-panel"><div class="graph-heading"><span>AXIAL STATIC PRESSURE</span><span>p / p₀ · 背压虚线</span></div><svg viewBox="0 0 540 220" id="pressure-chart" role="img" aria-label="沿程归一化静压及背压分布"></svg><div class="graph-foot"><span>INLET</span><span>THROAT</span><span>EXIT</span></div></section>
+            <section class="graph-panel"><div class="graph-heading"><label for="quantity-selector">AXIAL DISTRIBUTION</label><select id="quantity-selector" aria-label="选择沿程物理量"><option value="mach">马赫数 M</option><option value="velocity">速度 V (m/s)</option><option value="density">密度 ρ (kg/m³)</option><option value="temperatureK">静温 T (K)</option><option value="totalPressureRatio">总压 p₀(x)/p₀</option><option value="massFlowKgS">质量流率 ṁ (kg/s)</option></select></div><svg viewBox="0 0 540 220" id="flow-chart" role="img" aria-label="所选物理量的沿程分布"></svg><div class="graph-foot"><span>INLET</span><span>THROAT</span><span>EXIT</span></div></section>
+          </div>
+          <div class="assumptions"><strong>Model notes</strong><span>定常 · 准一维 · 无黏 · 绝热 · 理想气体（定常 γ、R）。面积按轴对称圆截面换算可视化半径。内部正激波采用守恒跃迁，并计入总压损失。喷口外斜激波、膨胀波、边界层分离、激波诱导分离、启动瞬态及壁面摩擦均未模拟。背压阈值基于理想模型，仅供学习。</span></div>
         </div>
       </section>
     </main>
