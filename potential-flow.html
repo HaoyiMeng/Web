@@ -1,0 +1,76 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#0b1017">
+  <meta name="description" content="自由组合点源、点汇、点涡与偶极子，探索速度势、流函数、通量与环量。">
+  <title>Potential Flow · Physics Lab — Haoyi Studio</title>
+  <link rel="icon" type="image/svg+xml" href="./assets/favicon.svg">
+  <link rel="stylesheet" href="./assets/potential-flow.css">
+  <script type="module" src="./js/potential-flow-ui.mjs"></script>
+</head>
+<body>
+<header class="studio-header">
+  <a class="studio-brand" href="./index.html"><b>✳</b> HAOYI<span>/</span>STUDIO</a>
+  <nav aria-label="页面导航"><a href="./physics.html">Physics Lab</a><span>/</span><span>Potential Flow</span></nav>
+  <span class="header-tag">二维势流实验台</span>
+</header>
+<main>
+  <section class="lab-heading">
+    <div><div class="eyebrow">PHYSICS LAB · FREE EXPLORATION</div><h1>Potential <em>Flow.</em><span>势与流</span></h1><p>放置、叠加、测量。让 φ 与 ψ 对应同一个流场。</p></div>
+    <div class="scene-actions"><label for="preset">实验场景</label><select id="preset"><option value="default">源汇与均匀来流</option><option value="empty">空白实验台</option><option value="uniform">均匀流</option><option value="source">单个点源</option><option value="vortex">单个点涡</option><option value="pair">有限源汇对</option><option value="doublet">理想偶极子</option><option value="spiral">源与涡的叠加</option></select><button id="reset" title="恢复当前预设">重置场景</button></div>
+  </section>
+  <div class="lab-layout">
+    <section class="experiment" aria-label="交互流场">
+      <div class="toolbar" role="toolbar" aria-label="放置与测量工具">
+        <div class="tool-group"><button data-tool="select" class="active" aria-pressed="true"><span>↖</span>选择</button><button data-tool="source" aria-pressed="false"><span class="source-color">⊕</span>点源</button><button data-tool="sink" aria-pressed="false"><span class="sink-color">⊖</span>点汇</button><button data-tool="vortex" aria-pressed="false"><span class="vortex-color">↺</span>点涡</button><button data-tool="doublet" aria-pressed="false"><span class="doublet-color">⇄</span>偶极子</button><button data-tool="pair" aria-pressed="false"><span>±</span>源汇对</button></div>
+        <div class="tool-group measurement-tools"><button data-tool="probe" aria-pressed="false"><span>⌖</span>探针</button><button data-tool="loop" aria-pressed="false"><span>◯</span>积分回路</button></div>
+      </div>
+      <div class="canvas-wrap" id="canvas-wrap">
+        <canvas id="field" tabindex="0" aria-label="势流画布：选择元素工具后点击放置，拖动元素移动。选择模式拖动空白处平移；滚轮缩放。键盘方向键移动选中元素，Delete 删除。"></canvas>
+        <div class="canvas-caption"><span id="scene-name">源汇与均匀来流</span><span id="element-count">2 ELEMENTS</span></div>
+        <div class="canvas-legend"><span><i class="psi-line"></i>ψ 流线</span><span><i class="phi-line"></i>φ 等势线</span><span id="speed-legend" hidden><i class="speed-ramp"></i>速率 <b id="speed-max"></b></span></div>
+        <div class="view-controls"><button id="zoom-in" aria-label="放大">＋</button><button id="zoom-out" aria-label="缩小">−</button><button id="fit" aria-label="恢复视野">复位</button></div>
+        <div class="empty-overlay" id="empty-overlay" hidden><strong>从一个流动元素开始</strong><span>选择上方工具，在画布任意位置放置</span></div>
+      </div>
+      <div class="canvas-status"><span id="tool-hint" role="status">拖动元素改变位置 · 拖动空白处平移 · 滚轮缩放</span><button id="pause" aria-pressed="false">暂停粒子</button></div>
+      <div class="probe-strip" aria-label="探针读数"><div><span>观测点 P <small>m</small></span><strong id="probe-xy">(0.00, 1.50)</strong></div><div><span>u / v <small>m/s</small></span><strong id="probe-uv">—</strong></div><div><span>|V| <small>m/s</small></span><strong id="probe-speed">—</strong></div><div><span class="phi-color">φ <small>m²/s</small></span><strong id="probe-phi">—</strong></div><div><span class="psi-color">ψ <small>m²/s</small></span><strong id="probe-psi">—</strong></div></div>
+      <div class="loop-strip" id="loop-panel" hidden><div><span>外向通量 ∮ V · n ds</span><strong id="loop-flux">—</strong><small>m²/s · 包围的净源强 <b id="loop-q">—</b></small></div><div><span>逆时针环量 ∮ V · t ds</span><strong id="loop-gamma">—</strong><small>m²/s · 包围的净涡强 <b id="loop-g">—</b></small></div><div class="loop-geometry"><label for="loop-radius">半径 R / m</label><input id="loop-radius" type="number" min="0.15" max="20" step="0.1" value="1.5"><button id="hide-loop">移除回路</button></div><p id="loop-warning" hidden>回路穿过奇点邻域，请调整位置或半径。</p></div>
+    </section>
+    <aside class="sidebar" aria-label="流场设置">
+      <section class="panel inspector"><div class="panel-heading"><h2>元素参数</h2><span id="selected-type">SOURCE</span></div>
+        <p id="no-selection" hidden>点击画布或列表中的元素，调整它的强度与位置。</p>
+        <div id="selection-controls">
+          <div class="selection-title"><strong id="selected-name">点源 S₁</strong><label class="toggle"><input id="element-enabled" type="checkbox" checked>启用</label></div>
+          <div class="parameter"><label for="strength-number" id="strength-label">源强 Q <small>m²/s</small></label><input id="strength-number" type="number" min="-100" max="100" step="0.1" value="8"></div>
+          <input id="strength-range" aria-label="元素强度" type="range" min="-20" max="20" step="0.1" value="8">
+          <div class="range-labels"><span id="strength-min">−20</span><span>0</span><span id="strength-max">20</span></div>
+          <p class="parameter-note" id="strength-note">Q &gt; 0 为源，Q &lt; 0 为汇。</p>
+          <div class="coordinate-fields"><label>x <small>m</small><input id="element-x" type="number" step="0.1" min="-100" max="100"></label><label>y <small>m</small><input id="element-y" type="number" step="0.1" min="-100" max="100"></label></div>
+          <div id="angle-controls" hidden><div class="parameter"><label for="element-angle">方向 α <small>°</small></label><input id="element-angle" type="number" min="-180" max="180" step="1" value="0"></div><input id="angle-range" aria-label="元素方向角" type="range" min="-180" max="180" step="1" value="0"></div>
+          <div id="pair-controls" hidden><div class="parameter"><label for="separation-number">间距 d = 2ℓ <small>m</small></label><input id="separation-number" type="number" min="0.04" max="8" step="0.02" value="2"></div><input id="separation-range" aria-label="源汇间距" type="range" min="0.04" max="8" step="0.02" value="2"><label class="toggle lock-moment"><input id="lock-moment" type="checkbox">保持偶极矩 μ = Qd</label><p class="parameter-note" id="pair-note"></p></div>
+          <div class="element-actions"><button id="duplicate">复制元素</button><button id="delete" class="danger">删除</button></div>
+        </div>
+        <button id="add-center" hidden>在视野中心添加</button>
+      </section>
+      <section class="panel"><div class="panel-heading"><h2>流场组成</h2><span id="composition-count">2</span></div><div id="element-list" class="element-list"></div>
+        <div class="uniform-heading"><strong>均匀来流</strong><span>U∞</span></div><div class="coordinate-fields"><label>速率 <small>m/s</small><input id="uniform-speed" type="number" min="0" max="10" step="0.1" value="0.6"></label><label>方向 <small>°</small><input id="uniform-angle" type="number" min="-180" max="180" step="1" value="0"></label></div><input id="uniform-range" aria-label="均匀来流速率" type="range" min="0" max="5" step="0.05" value="0.6">
+      </section>
+      <section class="panel"><div class="panel-heading"><h2>显示图层</h2><span>VIEW</span></div><div class="layer-grid"><label><input id="show-streams" type="checkbox" checked><i class="psi-line"></i>流线 ψ</label><label><input id="show-potentials" type="checkbox" checked><i class="phi-line"></i>等势线 φ</label><label><input id="show-arrows" type="checkbox">速度箭头</label><label><input id="show-particles" type="checkbox" checked>运动粒子</label><label><input id="show-grid" type="checkbox" checked>坐标网格</label><label><input id="show-probe" type="checkbox" checked>观测点 P</label></div>
+        <div class="parameter background-select"><label for="background">背景标量场</label><select id="background"><option value="none">无</option><option value="speed">速率 |V|</option><option value="phi">速度势 φ</option><option value="psi">流函数 ψ</option></select></div>
+        <div class="parameter"><label for="density">曲线密度</label><input id="density" type="range" min="6" max="18" step="1" value="10"></div>
+        <p class="parameter-note">φ：紫色等值线。ψ：青色流线。曲线疏密受绘图采样影响，速率请看数值或背景色。</p>
+        <p class="parameter-note" id="scalar-note" hidden></p>
+      </section>
+    </aside>
+  </div>
+  <details class="theory"><summary>公式与约定 <span>φ / ψ · 单位 · 奇点 · 分支</span></summary><div class="theory-content">
+    <div><h2>从函数得到速度</h2><p class="math">u = ∂φ/∂x = ∂ψ/∂y<br>v = ∂φ/∂y = −∂ψ/∂x</p><p>速度沿 φ 的梯度，沿 ψ 的等值线。非停滞的正常点上，两族曲线正交。图中的速度箭头只标方向，粒子按局部速度积分；参数调整后显示新的定常流场。</p></div>
+    <div><h2>基本解 · 以元素中心为原点</h2><table><thead><tr><th>元素</th><th>φ</th><th>ψ</th></tr></thead><tbody><tr><td>点源 / 汇</td><td>Q ln(r/r₀) / 2π</td><td>Qθ / 2π</td></tr><tr><td>点涡</td><td>Γθ / 2π</td><td>−Γ ln(r/r₀) / 2π</td></tr><tr><td>偶极子</td><td>−μ cos(θ−α) / 2πr</td><td>μ sin(θ−α) / 2πr</td></tr></tbody></table><p>r₀ = 1 m。Γ &gt; 0 为逆时针。偶极子 α 从汇指向源，有限源汇对的 μ = Qd；固定 μ 时缩小 d，会增大 |Q|。</p></div>
+    <div><h2>模型边界</h2><p>二维、不可压、无黏的势流叠加。Q 是单位厚度体积流量，单位 m²/s；Γ 为 m²/s；μ 为 m³/s。奇点周围 0.12 m 不参与绘图与粒子积分，解析解没有被平滑成有限涡核。</p><p>θ 使用 (−π, π] 的主值。点源的 ψ 与点涡的 φ 绕奇点一圈会分别改变 Q 与 Γ；负 x 方向的角度分支不是流体边界。等势线跨分支处断开显示，回路测量直接对速度积分。</p><p>φ、ψ 与速度可线性叠加；压力不可直接叠加。势函数的零点可任取。点涡在涡心之外无旋，包围涡心的闭合回路仍有非零环量。</p></div>
+  </div></details>
+  <footer><span>HAOYI / STUDIO</span><span>Potential flow · Sorgente / Pozzo / Vortice / Doppietto</span></footer>
+</main>
+</body>
+</html>

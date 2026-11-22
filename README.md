@@ -4,6 +4,7 @@ A personal interactive study space focused on physics, aerospace and music.
 
 ## Features
 
+- Potential Flow Lab (`potential-flow.html`): freely place, drag, duplicate, enable/disable and tune up to 16 sources, sinks, vortices, ideal doublets and finite source/sink pairs. Includes uniform flow, streamlines, equipotentials, velocity directions, advected particles, scalar backgrounds, point probes and circular flux/circulation measurements. Finite pairs support fixed dipole moment while changing separation. Uses the supplied course convention: positive circulation is counterclockwise, and doublet orientation points from sink to source. No network dependencies or backend.
 - De Laval nozzle explorer: quasi-one-dimensional steady, inviscid ideal-gas flow with choking and internal normal shocks.
 - Interactive four-string E1–A1–D2–G2 bass fretboard with three modes: single-note names and frequencies (default), accurately spelled two-note intervals, and 17 chord types with degree-labelled tones across the fretboard. Optional louder synthesized bass audio has a 0–100% volume control and simultaneous chord playback; off by default, with no samples required.
 - An icon-based workspace dashboard leading to separate Physics Lab, Music Lab, Library and Focus Mode menus. Each topic or tool opens on its own page.
@@ -48,6 +49,7 @@ Run numerical checks with Node.js:
 
 ```sh
 node tests/nozzle.test.mjs
+node tests/potential-flow.test.mjs
 node tests/site.test.mjs
 node tests/bass-theory.test.mjs
 node tests/bass-chords.test.mjs
@@ -67,6 +69,8 @@ Connect this repository (`HaoyiMeng/Web`) to Cloudflare Pages:
 Once `*.pages.dev` is working, add `haoyistudio.com` as a **Custom domain** in the Cloudflare Pages project.
 
 ## Physical-model limitations
+
+The potential-flow lab assumes two-dimensional incompressible inviscid flow, irrotational away from ideal singularities. Strength Q and circulation Gamma have units m²/s; dipole moment mu has units m³/s. The source/sink pair separation is d = 2 ell with mu = Q d. The ideal doublet potential is -mu cos(theta-alpha)/(2 pi r). Scalar evaluation uses r0 = 1 m and atan2 branches; vortex equipotentials are not joined across branch cuts. A 0.12 m display exclusion radius hides singular neighborhoods without regularizing the analytic solution. Curve seed spacing is a drawing choice, not a calibrated velocity measurement. Velocity arrows show direction only; particles use actual velocity with adaptive RK4 steps. Circular measurements use 512 midpoint quadrature samples and are suppressed when a path crosses a singularity's exclusion neighborhood. Display colors scale to the current view. Scenes are kept in memory only and reset on reload.
 
 The nozzle model assumes a steady, quasi-one-dimensional, inviscid, adiabatic ideal gas with `gamma = 1.4`. The geometry uses illustrative area ratios, not a real nozzle design. A normal shock in the diverging section is modeled using conservation relations and stagnation pressure loss. External exhaust-plume effects, viscosity, boundary-layer separation, real-gas effects and transient flow are excluded.
 

@@ -13,6 +13,7 @@ if (menuButton && navigation) {
   const currentPage = location.pathname.split('/').pop() || 'index.html';
   const parentPage = {
     'nozzle.html': 'physics.html',
+    'potential-flow.html': 'physics.html',
     'bass.html': 'music.html',
     'metronome.html': 'music.html',
     'reading-paths.html': 'library.html',
