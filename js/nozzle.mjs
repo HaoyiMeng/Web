@@ -1,118 +1,176 @@
 /**
- * Quasi-one-dimensional inviscid ideal-gas nozzle model.
- * Reservoir p0=1, gamma=1.4; no viscosity, heat transfer, boundary-layer separation,
- * oblique shocks, external plume or transient flow.
- * For internal normal shock, total pressure loss is accounted for downstream.
+ * Quasi-one-dimensional, steady, adiabatic, inviscid ideal-gas nozzle.
+ * The boundary condition is reservoir stagnation state (p0,T0) and ambient pb.
+ * An internal normal shock includes the downstream stagnation-pressure loss.
+ * External jets, boundary layers, wall friction, heat transfer and start-up
+ * transients are intentionally outside this model.
  */
 export const G = 1.4;
 export const THROAT_X = 0.39;
 export const INLET_AREA_RATIO = 2.35;
 export const EXIT_AREA_RATIO = 2.65;
-const A = (G - 1) / 2;
-const K = G / (G - 1);
+export const DEFAULTS = Object.freeze({
+  gamma: G, throatX: THROAT_X, inletAreaRatio: INLET_AREA_RATIO,
+  exitAreaRatio: EXIT_AREA_RATIO, totalPressureKPa: 150,
+  totalTemperatureK: 300, throatAreaCm2: 1.5, lengthM: 0.6,
+  gasConstant: 287.05,
+});
 
-export function area(x) {
-  if (x <= THROAT_X) return 1 + (INLET_AREA_RATIO - 1) * ((THROAT_X - x) / THROAT_X) ** 2;
-  return 1 + (EXIT_AREA_RATIO - 1) * ((x - THROAT_X) / (1 - THROAT_X)) ** 2;
+export function normalizeConfig(values = {}) {
+  const c = { ...DEFAULTS, ...values };
+  const limits = {
+    gamma: [1.05, 1.8], throatX: [0.15, 0.85],
+    inletAreaRatio: [1.05, 12], exitAreaRatio: [1.01, 12],
+    totalPressureKPa: [1, 1e5], totalTemperatureK: [1, 1e5],
+    throatAreaCm2: [0.0001, 1e5], lengthM: [0.001, 1e4],
+    gasConstant: [1, 1e5],
+  };
+  for (const [key, [lo, hi]] of Object.entries(limits)) {
+    if (!Number.isFinite(c[key]) || c[key] < lo || c[key] > hi) {
+      throw new RangeError(key + ' must be in [' + lo + ', ' + hi + ']');
+    }
+  }
+  return c;
 }
-export function areaMach(M) {
+
+export function area(x, config = DEFAULTS) {
+  const {throatX:t, inletAreaRatio:ai, exitAreaRatio:ae} = config;
+  const u = Math.max(0, Math.min(1, x));
+  if (u <= t) return 1 + (ai - 1) * ((t - u) / t) ** 2;
+  return 1 + (ae - 1) * ((u - t) / (1 - t)) ** 2;
+}
+
+export function areaMach(M, gamma = G) {
   if (M <= 0) return Infinity;
-  return ((2 / (G + 1)) * (1 + A * M * M)) ** ((G + 1) / (2 * (G - 1))) / M;
+  const a = (gamma - 1) / 2;
+  return Math.pow((2 / (gamma + 1)) * (1 + a * M * M),
+    (gamma + 1) / (2 * (gamma - 1))) / M;
 }
-export function machFromArea(areaRatio, branch = 'sub') {
-  if (areaRatio < 1 - 1e-9) throw new Error('A/A* must be >= 1');
-  if (areaRatio <= 1 + 1e-10) return 1;
-  let low = branch === 'sub' ? 1e-12 : 1;
-  let high = branch === 'sub' ? 1 : 25;
-  for (let i = 0; i < 95; i++) {
+
+export function machFromArea(ratio, branch = 'sub', gamma = G) {
+  if (ratio < 1 - 1e-9) throw new RangeError('A/A* must be >= 1');
+  if (ratio <= 1 + 1e-10) return 1;
+  let low = branch === 'sub' ? 0 : 1;
+  let high = branch === 'sub' ? 1 : 60;
+  for (let i = 0; i < 90; i++) {
     const mid = (low + high) / 2;
-    const f = areaMach(mid);
+    const f = areaMach(mid, gamma);
     if (branch === 'sub') {
-      if (f > areaRatio) low = mid; else high = mid;
+      if (f > ratio) low = mid; else high = mid;
     } else {
-      if (f > areaRatio) high = mid; else low = mid;
+      if (f > ratio) high = mid; else low = mid;
     }
   }
   return (low + high) / 2;
 }
-export const pressureRatio = M => (1 + A * M * M) ** (-K);
-export const temperatureRatio = M => 1 / (1 + A * M * M);
 
-function shockAt(x) {
-  const r = area(x);
-  const M1 = machFromArea(r, 'sup');
-  const M2 = Math.sqrt((1 + A * M1 * M1) / (G * M1 * M1 - A));
-  const p2p1 = 1 + 2 * G / (G + 1) * (M1 * M1 - 1);
-  const p02p01 = p2p1 * pressureRatio(M1) / pressureRatio(M2);
-  const downstreamStarArea = r / areaMach(M2);
-  const Me = machFromArea(area(1) / downstreamStarArea, 'sub');
-  const pb = p02p01 * pressureRatio(Me);
-  return { x, M1, M2, p02p01, downstreamStarArea, Me, pb };
+export const pressureRatio = (M, gamma = G) =>
+  Math.pow(1 + (gamma - 1) * M * M / 2, -gamma / (gamma - 1));
+export const temperatureRatio = (M, gamma = G) =>
+  1 / (1 + (gamma - 1) * M * M / 2);
+
+function shockAt(x, c) {
+  const g = c.gamma, r = area(x, c);
+  const M1 = machFromArea(r, 'sup', g);
+  const M2 = Math.sqrt((1 + (g - 1) * M1 * M1 / 2) /
+    (g * M1 * M1 - (g - 1) / 2));
+  const p2p1 = 1 + 2 * g * (M1 * M1 - 1) / (g + 1);
+  const p02p01 = p2p1 * pressureRatio(M1, g) / pressureRatio(M2, g);
+  const downstreamStarArea = r / areaMach(M2, g);
+  const Me = machFromArea(c.exitAreaRatio / downstreamStarArea, 'sub', g);
+  return {x, M1, M2, p2p1, p02p01, downstreamStarArea, Me,
+    pb: p02p01 * pressureRatio(Me, g)};
 }
 
-export const LIMITS = (() => {
-  const MeSub = machFromArea(area(1), 'sub');
-  const MeSup = machFromArea(area(1), 'sup');
+export function getLimits(values = DEFAULTS) {
+  const c = normalizeConfig(values);
   return {
-    chokeBackPressure: pressureRatio(MeSub),
-    shockAtExitBackPressure: shockAt(1).pb,
-    designBackPressure: pressureRatio(MeSup),
+    chokeBackPressure: pressureRatio(
+      machFromArea(c.exitAreaRatio, 'sub', c.gamma), c.gamma),
+    shockAtExitBackPressure: shockAt(1, c).pb,
+    designBackPressure: pressureRatio(
+      machFromArea(c.exitAreaRatio, 'sup', c.gamma), c.gamma),
   };
-})();
+}
+export const LIMITS = getLimits(DEFAULTS);
 
-/** solveNozzle returns physically modelled internal state at static back-pressure pb/p0. */
-export function solveNozzle(backPressure, count = 151) {
-  if (!Number.isFinite(backPressure) || backPressure <= 0 || backPressure > 1) {
-    throw new Error('Back pressure ratio must be 0 < pb/p0 <= 1');
+/**
+ * @param {number} backPressure pb/p0 in (0,1]
+ * @param {number} count number of axial samples
+ * @param {object} configuration stagnation state, geometry and gas properties
+ */
+export function solveNozzle(backPressure, count = 181, configuration = {}) {
+  if (!(backPressure > 0 && backPressure <= 1) || !Number.isFinite(backPressure)) {
+    throw new RangeError('Back pressure ratio must satisfy 0 < pb/p0 <= 1');
   }
-  const pb = backPressure;
-  let mode, shock = null, starArea = null, massFraction, exitM;
-  if (pb > LIMITS.chokeBackPressure + 1e-9) {
+  const c = normalizeConfig(configuration), g = c.gamma, pb = backPressure;
+  const limits = getLimits(c);
+  let mode, shock = null, starArea = null, exitM;
+  if (pb > limits.chokeBackPressure + 1e-9) {
     mode = 'subsonic';
-    const Me = Math.sqrt(Math.max(0, pb ** (-(G - 1) / G) - 1) / A);
-    starArea = area(1) / areaMach(Me);
-    exitM = Me;
-  } else if (pb > LIMITS.shockAtExitBackPressure + 1e-9) {
+    exitM = Math.sqrt(Math.max(0, Math.pow(pb, -(g - 1) / g) - 1) * 2 / (g - 1));
+    starArea = exitM === 0 ? 0 : c.exitAreaRatio / areaMach(exitM, g);
+  } else if (pb >= limits.shockAtExitBackPressure - 1e-10) {
     mode = 'internal-shock';
-    let lo = THROAT_X, hi = 1;
-    for (let i = 0; i < 80; i++) {
-      const mid = (lo + hi) / 2;
-      if (shockAt(mid).pb > pb) lo = mid; else hi = mid;
+    if (pb <= limits.shockAtExitBackPressure) {
+      shock = shockAt(1, c);
+    } else {
+      let lo = c.throatX, hi = 1;
+      for (let i = 0; i < 80; i++) {
+        const mid = (lo + hi) / 2;
+        if (shockAt(mid, c).pb > pb) lo = mid; else hi = mid;
+      }
+      shock = shockAt((lo + hi) / 2, c);
     }
-    shock = shockAt((lo + hi) / 2);
     exitM = shock.Me;
   } else {
     mode = 'supersonic-exit';
-    exitM = machFromArea(area(1), 'sup');
+    exitM = machFromArea(c.exitAreaRatio, 'sup', g);
   }
-  let throatM = 1;
-  if (mode === 'subsonic') {
-    throatM = machFromArea(1 / starArea, 'sub');
-    massFraction = 1 / areaMach(throatM);
-  } else massFraction = 1;
-  const evaluate = x => {
-    const r = area(x);
+  const throatM = mode === 'subsonic'
+    ? (starArea === 0 ? 0 : machFromArea(1 / starArea, 'sub', g)) : 1;
+  const massFraction = mode === 'subsonic'
+    ? (throatM === 0 ? 0 : 1 / areaMach(throatM, g)) : 1;
+  const chokedMassFlowKgS = c.throatAreaCm2 * 1e-4 * c.totalPressureKPa * 1000 *
+    Math.sqrt(g / (c.gasConstant * c.totalTemperatureK)) *
+    Math.pow(2 / (g + 1), (g + 1) / (2 * (g - 1)));
+  const massFlowKgS = chokedMassFlowKgS * massFraction;
+
+  const evaluate = (x, side = 'upstream') => {
+    const r = area(x, c);
     let M, p0Ratio = 1;
-    if (mode === 'subsonic') M = machFromArea(r / starArea, 'sub');
-    else if (x <= THROAT_X) M = machFromArea(r, 'sub');
-    else if (shock && x > shock.x) {
-      M = machFromArea(r / shock.downstreamStarArea, 'sub');
+    if (mode === 'subsonic') {
+      M = starArea === 0 ? 0 : machFromArea(r / starArea, 'sub', g);
+    } else if (x <= c.throatX) {
+      M = machFromArea(r, 'sub', g);
+    } else if (shock && (x > shock.x || (x === shock.x && side === 'downstream'))) {
+      M = machFromArea(r / shock.downstreamStarArea, 'sub', g);
       p0Ratio = shock.p02p01;
-    } else M = machFromArea(r, 'sup');
-    return { x, areaRatio: r, mach: M, pressure: p0Ratio * pressureRatio(M), temperature: temperatureRatio(M), p0Ratio };
+    } else M = machFromArea(r, 'sup', g);
+    const tr = temperatureRatio(M, g);
+    const pr = p0Ratio * pressureRatio(M, g);
+    const temperatureK = c.totalTemperatureK * tr;
+    const pressureKPa = c.totalPressureKPa * pr;
+    const density = pressureKPa * 1000 / (c.gasConstant * temperatureK);
+    const speedOfSound = Math.sqrt(g * c.gasConstant * temperatureK);
+    return {x, distanceM:x*c.lengthM, areaRatio:r,
+      areaCm2:r*c.throatAreaCm2, mach:M, pressure:pr, pressureKPa,
+      temperature:tr, temperatureK, density, velocity:M*speedOfSound,
+      speedOfSound, totalPressureRatio:p0Ratio,
+      totalPressureKPa:p0Ratio*c.totalPressureKPa, massFlowKgS};
   };
-  const points = Array.from({length: count}, (_, i) => evaluate(i / (count - 1)));
+  const samples = Math.max(31, Math.min(801, Math.floor(count)));
+  const points = Array.from({length:samples}, (_, i) => evaluate(i/(samples-1)));
   if (shock) {
-    const upstream = evaluate(shock.x);
-    const downstream = {
-      x: shock.x, areaRatio: area(shock.x), mach: shock.M2,
-      pressure: shock.p02p01 * pressureRatio(shock.M2),
-      temperature: temperatureRatio(shock.M2), p0Ratio: shock.p02p01,
-    };
-    points.push(upstream, downstream);
-    points.sort((a,b) => a.x-b.x || (a === upstream ? -1 : b === upstream ? 1 : 0));
+    const before = evaluate(shock.x), after = evaluate(shock.x, 'downstream');
+    points.push(before, after);
+    points.sort((a,b) => a.x-b.x || (a===before?-1:a===after?1:0));
   }
-  const exitPressure = mode === 'subsonic' ? pb : mode === 'internal-shock' ? shock.pb : pressureRatio(exitM);
-  const external = mode === 'supersonic-exit' ? (pb > LIMITS.designBackPressure + 1e-4 ? 'overexpanded' : pb < LIMITS.designBackPressure - 1e-4 ? 'underexpanded' : 'design') : null;
-  return { mode, pb, shock, points, exitM, exitPressure, throatM, massFraction, external, limits: LIMITS };
+  const exitPressure = mode === 'subsonic' ? pb :
+    mode === 'internal-shock' ? shock.pb : pressureRatio(exitM, g);
+  const external = mode === 'supersonic-exit'
+    ? (pb > limits.designBackPressure + 1e-5 ? 'overexpanded'
+      : pb < limits.designBackPressure - 1e-5 ? 'underexpanded' : 'design') : null;
+  return {mode, pb, config:c, shock, points, evaluate, exitM, exitPressure,
+    throatM, massFraction, chokedMassFlowKgS, massFlowKgS, external, limits};
 }
