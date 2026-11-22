@@ -50,6 +50,7 @@ Run numerical checks with Node.js:
 ```sh
 node tests/nozzle.test.mjs
 node tests/potential-flow.test.mjs
+node tests/potential-flow-ui.test.mjs
 node tests/site.test.mjs
 node tests/bass-theory.test.mjs
 node tests/bass-chords.test.mjs
@@ -70,7 +71,7 @@ Once `*.pages.dev` is working, add `haoyistudio.com` as a **Custom domain** in t
 
 ## Physical-model limitations
 
-The potential-flow lab assumes two-dimensional incompressible inviscid flow, irrotational away from ideal singularities. Strength Q and circulation Gamma have units m²/s; dipole moment mu has units m³/s. The source/sink pair separation is d = 2 ell with mu = Q d. The ideal doublet potential is -mu cos(theta-alpha)/(2 pi r). Scalar evaluation uses r0 = 1 m and atan2 branches; vortex equipotentials are not joined across branch cuts. A 0.12 m display exclusion radius hides singular neighborhoods without regularizing the analytic solution. Curve seed spacing is a drawing choice, not a calibrated velocity measurement. Velocity arrows show direction only; particles use actual velocity with adaptive RK4 steps. Circular measurements use 512 midpoint quadrature samples and are suppressed when a path crosses a singularity's exclusion neighborhood. Display colors scale to the current view. Scenes are kept in memory only and reset on reload.
+The potential-flow lab assumes two-dimensional incompressible inviscid flow, irrotational away from ideal singularities. Strength Q and circulation Gamma have units m²/s; dipole moment mu has units m³/s. The source/sink pair separation is d = 2 ell with mu = Q d. The ideal doublet potential is -mu cos(theta-alpha)/(2 pi r). Scalar evaluation uses r0 = 1 m and atan2 branches; curves follow continuous local branches across artificial cuts, while probe values and heatmaps use principal branches. A 0.12 m display exclusion radius hides singular neighborhoods without regularizing the analytic solution. The cylinder preset combines opposed uniform flow/doublet directions and a concentric vortex, provides signed Gamma/(4 pi a U) controls, masks the solid interior and marks analytical stagnation points and separatrices for subcritical, critical and supercritical circulation. Free combinations only display a cylinder if they satisfy the exact no-penetration geometry. Full adaptive RK4 curve tracing replaces proximity-truncated streamlines and cellwise potential segments; density filters complete curves without breaking them. Curve seed spacing is a drawing choice, not a calibrated velocity measurement. Velocity arrows show direction only; particles use actual velocity with adaptive RK4 steps. Circular measurements use 512 midpoint quadrature samples and are suppressed when a path crosses a singularity's exclusion neighborhood. Display colors scale to the current view. Scenes are kept in memory only and reset on reload.
 
 The nozzle model assumes a steady, quasi-one-dimensional, inviscid, adiabatic ideal gas with `gamma = 1.4`. The geometry uses illustrative area ratios, not a real nozzle design. A normal shock in the diverging section is modeled using conservation relations and stagnation pressure loss. External exhaust-plume effects, viscosity, boundary-layer separation, real-gas effects and transient flow are excluded.
 

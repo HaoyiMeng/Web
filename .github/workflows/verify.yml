@@ -19,7 +19,9 @@ jobs:
       - name: Check nozzle model
         run: node tests/nozzle.test.mjs
       - name: Check potential flow model
-        run: node tests/potential-flow.test.mjs
+        run: |
+          node tests/potential-flow.test.mjs
+          node tests/potential-flow-ui.test.mjs
       - name: Check bass intervals and audio
         run: |
           node tests/bass-theory.test.mjs

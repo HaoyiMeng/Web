@@ -1,4 +1,5 @@
-import {TAU,CORE,rad,compileField,advance,measureCircle} from './potential-flow.mjs';
+import {TAU,CORE,rad,compileField,advance,measureCircle,cylinderModel,exteriorField} from './potential-flow.mjs?v=20261122b';
+import {layoutCurves} from './potential-flow-lines.mjs?v=20261122b';
 
 const $=id=>document.getElementById(id);
 const canvas=$('field'),ctx=canvas.getContext('2d');
@@ -12,6 +13,7 @@ let view={x:0,y:0,span:12},probe={x:0,y:1.5},loop=null,paused=matchMedia('(prefe
 let particles=[],drag=null,lastTime=0,frameId=0;
 const layers={streams:true,potentials:true,arrows:false,particles:true,grid:true,probe:true};
 let scalar='none',density=10;
+let body=null;
 const fmt=(v,n=2)=>!Number.isFinite(v)?'—':Math.abs(v)<.5*10**(-n)?(0).toFixed(n):Math.abs(v)>=10000?v.toExponential(2):v.toFixed(n);
 const clamp=(v,min,max)=>Math.min(max,Math.max(min,v));
 const scale=()=>width/view.span;
@@ -34,6 +36,14 @@ function preset(name){
   if(name==='doublet')elements=[make('doublet',0,0,16)];
   if(name==='pair'){const e=make('pair',0,0,8);e.lockMoment=true;elements=[e];}
   if(name==='spiral')elements=[make('source',0,0,6),make('vortex',0,0,10)];
+  if(name==='cylinder'){
+    uniform={speed:1,angle:180};
+    elements=[make('doublet',0,0,TAU),make('vortex',0,0,TAU)];
+    view={x:0,y:-.6,span:9};probe={x:1.6,y:1.2};
+    layers.streams=true;layers.potentials=false;layers.particles=false;
+    for(const k of ['streams','potentials','particles'])$('show-'+k).checked=layers[k];
+    scalar='none';$('background').value='none';$('speed-legend').hidden=true;
+  }
   selected=elements[0]?.id??null;setTool('select');
   $('uniform-speed').value=uniform.speed;$('uniform-range').value=uniform.speed;$('uniform-angle').value=uniform.angle;
   $('scene-name').textContent=$('preset').selectedOptions[0].textContent;
@@ -90,16 +100,39 @@ function syncLoop(){
   $('loop-q').textContent=m?fmt(m.enclosedQ,2):'—';$('loop-g').textContent=m?fmt(m.enclosedGamma,2):'—';
 }
 function recompute(){
-  field=compileField(elements,uniform);dirty=true;particles=[];updateProbe();syncLoop();
+  body=cylinderModel(elements,uniform);
+  field=exteriorField(compileField(elements,uniform),body);dirty=true;particles=[];updateProbe();syncLoop();syncCylinder();
   $('empty-overlay').hidden=field.parts.length>0||uniform.speed>0;
   const cut=scalar==='phi'?field.parts.some(e=>e.type==='vortex'):scalar==='psi'?field.parts.some(e=>e.type==='source'):false;
   $('scalar-note').hidden=scalar==='none';
   $('scalar-note').textContent=(cut?'角度主值有分支跳变，色带接缝不是流场边界。':'色阶随当前视野自动缩放。')+(scalar==='speed'?'高值按 95% 分位截色；探针保留实际数值。':scalar==='none'?'':'红色为正，蓝色为负，零值为深色。');
 }
+function syncCylinder(){
+  $('cylinder-panel').hidden=!body;
+  if(!body)return;
+  const abs=Math.abs(body.lambda),critical=Math.abs(abs-1)<1e-8;
+  $('cylinder-state').textContent=critical?'临界环量':abs<1?'亚临界':'超临界';
+  const values={'cylinder-radius':body.radius,'cylinder-ratio':body.lambda,'cylinder-range':body.lambda};
+  for(const [id,value] of Object.entries(values))if(document.activeElement!==$(id))$(id).value=Number(value.toFixed(4));
+  $('cylinder-range').min=Math.min(-2,body.lambda);$('cylinder-range').max=Math.max(2,body.lambda);
+  $('cylinder-values').textContent=`Γ = ${fmt(body.gamma,3)} m²/s · Γc = ${fmt(body.critical,3)} m²/s`;
+  $('cylinder-stagnation').textContent=critical?'两个表面驻点在此合并。':abs<1?'两个驻点位于圆柱表面。':'外部驻点离开圆柱，内侧出现闭合环流区。';
+  $('cylinder-position').textContent=body.stagnation.map((p,i)=>`S${body.stagnation.length>1?i+1:''} (${fmt(p.x)}, ${fmt(p.y)}) m`).join(' · ');
+  document.querySelectorAll('[data-regime]').forEach(b=>b.setAttribute('aria-pressed',String(Math.abs(abs-Number(b.dataset.regime))<1e-8)));
+}
+function changeCylinder(radius,ratio){
+  if(!body)return;
+  const d=elements.find(e=>e.id===body.doubletId);
+  d.strength=Math.sign(d.strength)*TAU*uniform.speed*radius*radius;
+  let vortices=elements.filter(e=>e.type==='vortex'&&e.enabled!==false&&Math.hypot(e.x-body.x,e.y-body.y)<1e-8);
+  if(!vortices.length){if(elements.length>=16)return;const v=make('vortex',body.x,body.y,0);elements.push(v);vortices=[v];}
+  vortices.forEach((e,i)=>{e.strength=i===0?ratio*2*TAU*uniform.speed*radius:0;});
+  recompute();syncInspector();syncList();
+}
 function updateProbe(){
   const f=field.at(probe.x,probe.y,CORE);
   $('probe-xy').textContent=`(${fmt(probe.x)}, ${fmt(probe.y)})`;
-  $('probe-uv').textContent=f?`${fmt(f.u)} / ${fmt(f.v)}`:'奇点邻域';
+  $('probe-uv').textContent=f?`${fmt(f.u)} / ${fmt(f.v)}`:body&&Math.hypot(probe.x-body.x,probe.y-body.y)<body.radius?'圆柱内部':'奇点邻域';
   for(const key of ['speed','phi','psi'])$('probe-'+key).textContent=f?fmt(f[key],3):'—';
 }
 function setTool(t){
@@ -169,87 +202,61 @@ function heatmap(mesh){
   bg.drawImage(heatCanvas,-dx/2,-dy/2,width+dx,height+dy);
   $('speed-max').textContent='0–'+fmt(limit,1)+' m/s';
 }
-function potentials(mesh){
-  const {nx,ny,dx,dy,values}=mesh;
-  const data=values.filter(Boolean).map(f=>f.phi).sort((a,b)=>a-b);
-  if(!data.length)return;
-  const lo=data[Math.floor(data.length*.04)],hi=data[Math.floor(data.length*.96)];
-  if(hi-lo<1e-8)return;
-  const raw=(hi-lo)/(density*1.6),base=10**Math.floor(Math.log10(raw)),step=[1,2,2.5,5,10].find(n=>n*base>=raw)*base;
-  bg.lineWidth=.9;bg.strokeStyle='#b395e280';bg.setLineDash([4,5]);
-  for(let level=Math.ceil(lo/step)*step;level<=hi;level+=step){
-    bg.beginPath();let labelPoint=null,segmentCount=0;
-    for(let j=0;j<ny;j++)for(let i=0;i<nx;i++){
-      const ids=[j*(nx+1)+i,j*(nx+1)+i+1,(j+1)*(nx+1)+i+1,(j+1)*(nx+1)+i],f=ids.map(k=>values[k]);
-      if(f.some(v=>!v))continue;
-      const ps=[[i*dx,j*dy],[(i+1)*dx,j*dy],[(i+1)*dx,(j+1)*dy],[i*dx,(j+1)*dy]];
-      const ws=ps.map(p=>world(...p));
-      if(ws.some((p,k)=>field.crossesCut(p.x,p.y,ws[(k+1)%4].x,ws[(k+1)%4].y,'phi')))continue;
-      const hits=[];
-      for(let k=0;k<4;k++){
-        const n=(k+1)%4,a=f[k].phi,b=f[n].phi;
-        if((a<level)===(b<level))continue;
-        const t=(level-a)/(b-a);hits.push([ps[k][0]+t*(ps[n][0]-ps[k][0]),ps[k][1]+t*(ps[n][1]-ps[k][1])]);
+function drawCurves(quantity){
+  const lo=world(0,height),hi=world(width,0),bounds={xmin:lo.x,xmax:hi.x,ymin:lo.y,ymax:hi.y};
+  const curves=layoutCurves(field,{bounds,pixelsPerUnit:scale(),density:quantity==='phi'?density*.72:density,quantity,body});
+  bg.lineJoin='round';bg.lineCap='round';
+  for(const curve of curves){
+    const special=curve.kind==='separatrix';
+    bg.strokeStyle=quantity==='phi'?'#b99aff80':special?'#f4dba3dc':'#62d6d0b3';
+    bg.lineWidth=special?1.65:quantity==='phi'?1:1.15;
+    bg.setLineDash(quantity==='phi'?[5,6]:[]);bg.beginPath();
+    curve.points.forEach((p,i)=>{const s=screen(p.x,p.y);if(i===0)bg.moveTo(s.x,s.y);else bg.lineTo(s.x,s.y);});
+    if(curve.closed)bg.closePath();bg.stroke();
+    if(quantity==='psi'){
+      bg.setLineDash([]);
+      const visible=curve.points.filter(p=>{const s=screen(p.x,p.y);return s.x>30&&s.x<width-30&&s.y>55&&s.y<height-60;});
+      for(const fraction of (visible.length>200?[.28,.72]:[.5])){
+        const p=visible[Math.floor(visible.length*fraction)];if(!p)continue;
+        const s=screen(p.x,p.y),f=field.at(p.x,p.y);
+        if(f&&f.speed>1e-5)arrow(bg,s.x,s.y,f.u,-f.v,10,special?'#f4dba3':'#83e5d7b0',3);
       }
-      if(hits.length===2){bg.moveTo(...hits[0]);bg.lineTo(...hits[1]);segmentCount++;if(segmentCount===17&&hits[0][1]>65&&hits[0][1]<height-70)labelPoint=hits[0];}
-      // Resolve saddle cells using the sampled center rather than joining crossing diagonals.
-      if(hits.length===4){const center=world((i+.5)*dx,(j+.5)*dy),mid=field.at(center.x,center.y,CORE);if(!mid)continue;
-        const same=(mid.phi<level)===(f[0].phi<level),pairs=same?[[0,1],[2,3]]:[[0,3],[1,2]];
-        for(const [a,b] of pairs){bg.moveTo(...hits[a]);bg.lineTo(...hits[b]);}}
     }
-    bg.stroke();
-    if(labelPoint&&density<14){bg.save();bg.setLineDash([]);bg.font='11px Consolas,monospace';bg.fillStyle='#101b28';bg.fillRect(labelPoint[0]-3,labelPoint[1]-11,44,15);bg.fillStyle='#a890cf';bg.fillText(fmt(level,1),labelPoint[0],labelPoint[1]);bg.restore();}
   }
   bg.setLineDash([]);
 }
-function streamlines(){
-  const spacing=width/(density*2.5),cell=Math.max(10,spacing*.62),nx=Math.ceil(width/cell),ny=Math.ceil(height/cell),occupied=new Uint8Array(nx*ny);
-  const seeds=[];
-  for(const e of field.parts){
-    const count=e.type==='source'?16:8;
-    for(let k=0;k<count;k++){const a=k*TAU/count,r=e.type==='source'?CORE*1.7:.4+k*.25;seeds.push({x:e.x+r*Math.cos(a),y:e.y+r*Math.sin(a)});}
-  }
-  for(let py=spacing/2;py<height;py+=spacing)for(let px=spacing/2;px<width;px+=spacing)seeds.push(world(px,py));
-  const h=Math.min(.1,3.5/scale());
-  bg.strokeStyle='#62d6d075';bg.lineWidth=1;
-  let count=0;
-  for(const seed of seeds){
-    const sp=screen(seed.x,seed.y),ix=Math.floor(sp.x/cell),iy=Math.floor(sp.y/cell);
-    if(ix<0||iy<0||ix>=nx||iy>=ny||occupied[iy*nx+ix]||!field.at(seed.x,seed.y,CORE))continue;
-    const paths=[];
-    for(const sign of [-1,1]){
-      const path=[seed];let p=seed;
-      for(let k=0;k<1100;k++){
-        const next=advance(field,p.x,p.y,h*sign,true);if(!next)break;
-        const s=screen(next.x,next.y);if(s.x<-3||s.x>width+3||s.y<-3||s.y>height+3)break;
-        const index=Math.floor(s.y/cell)*nx+Math.floor(s.x/cell);
-        if(k>7&&occupied[index])break;
-        path.push(next);p=next;
-        if(k>20&&Math.hypot(p.x-seed.x,p.y-seed.y)<h*.8)break;
-      }paths.push(path);
-    }
-    const all=[...paths[0].slice(1).reverse(),...paths[1]];if(all.length<6)continue;
-    bg.beginPath();all.forEach((p,i)=>{const s=screen(p.x,p.y);if(i===0)bg.moveTo(s.x,s.y);else bg.lineTo(s.x,s.y);const ix=Math.floor(s.x/cell),iy=Math.floor(s.y/cell);if(ix>=0&&iy>=0&&ix<nx&&iy<ny)occupied[iy*nx+ix]=1;});bg.stroke();
-    const p=all[Math.floor(all.length*.55)],s=screen(p.x,p.y),f=field.at(p.x,p.y);
-    if(f)arrow(bg,s.x,s.y,f.u,-f.v,10,'#6bdad091',3);
-    if(++count>density*16)break;
+function drawBody(){
+  if(!body)return;
+  const p=screen(body.x,body.y),r=body.radius*scale();
+  bg.lineWidth=1.7;circle(bg,p.x,p.y,r,'#9de4d7','#14232e');
+  bg.save();bg.setLineDash([3,4]);bg.strokeStyle='#a2bab276';bg.lineWidth=1;
+  const end=body.local(body.radius*Math.cos(-.4),body.radius*Math.sin(-.4)),q=screen(end.x,end.y);
+  line(bg,p.x,p.y,q.x,q.y);bg.restore();
+  bg.font='12px Consolas,monospace';bg.textAlign='center';bg.fillStyle='#c2dbd7';
+  bg.fillText('a = '+fmt(body.radius)+' m',p.x,p.y+r*.58);
+  bg.fillText('U∞ = '+fmt(body.speed)+' m/s',width-110,64);
+  arrow(bg,width-110,82,Math.cos(rad(body.angle)),-Math.sin(rad(body.angle)),48,'#c2dbd7',5);
+  for(const [i,s] of body.stagnation.entries()){
+    const q=screen(s.x,s.y);bg.lineWidth=1.5;circle(bg,q.x,q.y,4,'#ffe7aa','#19252e');
+    bg.fillStyle='#ffe7aa';bg.textAlign='left';bg.fillText('S'+(body.stagnation.length>1?i+1:''),q.x+8,q.y+17);
   }
 }
 function rebuild(){
   bg.clearRect(0,0,width,height);
-  const mesh=(scalar!=='none'||layers.potentials)?sampleMesh():null;
-  if(scalar!=='none')heatmap(mesh);
+  if(scalar!=='none')heatmap(sampleMesh(7));
   if(layers.grid)grid();
-  if(layers.potentials)potentials(mesh);
-  if(layers.streams)streamlines();
+  if(layers.potentials)drawCurves('phi');
+  if(layers.streams)drawCurves('psi');
   if(layers.arrows){for(let y=75;y<height-40;y+=40)for(let x=25;x<width-20;x+=40){const p=world(x,y),f=field.at(p.x,p.y,CORE);if(f)arrow(bg,x,y,f.u,-f.v,17,'#c9dbe05e');}}
-  dirty=false;
+  drawBody();dirty=false;
 }
 function particle(){
   let p;
   const sources=field.parts.filter(e=>e.type==='source'&&e.strength>0);
   if(sources.length&&Math.random()<.45){const e=sources[Math.floor(Math.random()*sources.length)],a=Math.random()*TAU;p={x:e.x+CORE*1.2*Math.cos(a),y:e.y+CORE*1.2*Math.sin(a)};}
-  else p=world(Math.random()*width,Math.random()*height);
+  else{
+    for(let attempt=0;attempt<40;attempt++){p=world(Math.random()*width,Math.random()*height);if(field.at(p.x,p.y,CORE))break;}
+  }
   return {...p,age:Math.random()*2,life:3+Math.random()*5,trail:[]};
 }
 function drawParticles(dt){
@@ -258,7 +265,7 @@ function drawParticles(dt){
   while(particles.length<amount)particles.push(particle());
   ctx.lineWidth=1.35;
   for(let i=0;i<particles.length;i++){
-    let p=particles[i];const previous={x:p.x,y:p.y};
+    let p=particles[i];if(!field.at(p.x,p.y,CORE)){particles[i]=particle();continue;}const previous={x:p.x,y:p.y};
     if(!paused){
       let left=dt,steps=0,valid=true;
       while(left>1e-6&&steps++<30){
@@ -286,6 +293,11 @@ function marker(e,x,y,type,strength,small=false){
   ctx.restore();
 }
 function drawElements(){
+  if(body){
+    const p=screen(body.x,body.y);ctx.font='22px "Segoe UI",sans-serif';ctx.textAlign='center';ctx.fillStyle='#b99aff';
+    ctx.fillText(body.gamma<0?'↻':body.gamma>0?'↺':'⇄',p.x,p.y-4);
+    ctx.font='12px Consolas,monospace';ctx.fillStyle='#acc7d4';ctx.fillText('μ + Γ',p.x,p.y+17);return;
+  }
   for(const e of elements){
     if(e.type==='pair'){
       const a=rad(e.angle),dx=e.separation/2*Math.cos(a),dy=e.separation/2*Math.sin(a),p=screen(e.x-dx,e.y-dy),q=screen(e.x+dx,e.y+dy),center=screen(e.x,e.y);
@@ -322,7 +334,7 @@ $('preset').addEventListener('change',()=>preset($('preset').value));$('reset').
 $('add-center').addEventListener('click',()=>addElement(tool,view.x,view.y));
 function numeric(id,fn,min,max,event='input'){
   $(id).addEventListener(event,()=>{const raw=$(id).value;if(raw.trim()==='')return;const n=Number(raw);if(!Number.isFinite(n))return;const v=clamp(n,min,max);fn(v);if(n!==v)$(id).value=v;});
-  if($(id).type==='number')$(id).addEventListener('blur',()=>{if(!$(id).value||!Number.isFinite(Number($(id).value)))syncInspector();});
+  if($(id).type==='number')$(id).addEventListener('blur',()=>{if(!$(id).value||!Number.isFinite(Number($(id).value))){syncInspector();syncCylinder();}});
 }
 function updateElement(fn,source){const e=selectedElement();if(!e)return;fn(e);recompute();syncList();
   // Avoid replacing the focused number field while typing a decimal.
@@ -348,7 +360,10 @@ numeric('density',v=>{density=v;dirty=true;},6,18);
 function pauseLabel(){$('pause').textContent=paused?'播放粒子':'暂停粒子';$('pause').setAttribute('aria-pressed',String(paused));}
 $('pause').addEventListener('click',()=>{paused=!paused;pauseLabel();});pauseLabel();
 function zoom(factor,anchor={x:width/2,y:height/2}){const before=world(anchor.x,anchor.y);view.span=clamp(view.span*factor,2,60);const after=world(anchor.x,anchor.y);view.x+=before.x-after.x;view.y+=before.y-after.y;dirty=true;particles=[];}
-$('zoom-in').addEventListener('click',()=>zoom(.8));$('zoom-out').addEventListener('click',()=>zoom(1.25));$('fit').addEventListener('click',()=>{view={x:0,y:0,span:12};dirty=true;particles=[];});
+numeric('cylinder-radius',v=>{if(body)changeCylinder(v,body.lambda);},.15,10);
+for(const id of ['cylinder-ratio','cylinder-range'])numeric(id,v=>{if(body)changeCylinder(body.radius,v);},-10,10);
+document.querySelectorAll('[data-regime]').forEach(b=>b.addEventListener('click',()=>{if(body)changeCylinder(body.radius,(Math.sign(body.lambda)||1)*Number(b.dataset.regime));}));
+$('zoom-in').addEventListener('click',()=>zoom(.8));$('zoom-out').addEventListener('click',()=>zoom(1.25));$('fit').addEventListener('click',()=>{view=body?{x:body.x,y:body.y-.6*body.radius,span:9*body.radius}:{x:0,y:0,span:12};dirty=true;particles=[];});
 canvas.addEventListener('wheel',event=>{event.preventDefault();const r=canvas.getBoundingClientRect();zoom(Math.exp(clamp(event.deltaY,-200,200)*.0015),{x:event.clientX-r.left,y:event.clientY-r.top});},{passive:false});
 function eventPoint(event){const r=canvas.getBoundingClientRect();return {x:event.clientX-r.left,y:event.clientY-r.top};}
 function hitElement(p){
@@ -397,4 +412,6 @@ document.addEventListener('visibilitychange',()=>{lastTime=performance.now();});
 window.addEventListener('pagehide',()=>cancelAnimationFrame(frameId));
 window.addEventListener('pageshow',event=>{if(event.persisted){lastTime=0;frameId=requestAnimationFrame(frame);}});
 new ResizeObserver(resize).observe($('canvas-wrap'));
-preset('default');resize();frameId=requestAnimationFrame(frame);
+const initial=new URLSearchParams(location.search).get('scene');
+if(initial==='cylinder')$('preset').value='cylinder';
+preset(initial==='cylinder'?'cylinder':'default');resize();frameId=requestAnimationFrame(frame);

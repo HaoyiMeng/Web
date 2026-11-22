@@ -1,5 +1,6 @@
 import assert from 'node:assert/strict';
-import {TAU,compileField,measureCircle,advance,singularities} from '../js/potential-flow.mjs';
+import {TAU,compileField,measureCircle,advance,singularities,cylinderModel,exteriorField} from '../js/potential-flow.mjs';
+import {traceCurve,layoutCurves,cylinderSeparatrices} from '../js/potential-flow-lines.mjs';
 
 const near=(a,b,tol=1e-7)=>assert.ok(Math.abs(a-b)<tol,`${a} != ${b} (tolerance ${tol})`);
 const element=(type,strength=8,extra={})=>({type,strength,x:0,y:0,angle:0,enabled:true,...extra});
@@ -79,5 +80,82 @@ check('RK4 maintains a vortex orbit and advects at actual speed',()=>{
 });
 check('Pair expansion uses source in +alpha direction',()=>{
   const p=singularities([element('pair',4,{separation:2,angle:90})]);near(p[0].y,1);near(p[1].y,-1);near(p[0].strength,4);near(p[1].strength,-4);
+});
+const cylinder=(ratio,angle=180,radius=1)=>{
+  const uniform={speed:1.2,angle};
+  const elements=[element('doublet',TAU*uniform.speed*radius**2,{id:1,angle:angle-180,x:.2,y:-.3}),element('vortex',ratio*2*TAU*radius*uniform.speed,{id:2,x:.2,y:-.3})];
+  const body=cylinderModel(elements,uniform),raw=compileField(elements,uniform);
+  return {body,raw,field:exteriorField(raw,body),elements,uniform};
+};
+const bounds={xmin:-6,xmax:6,ymin:-5,ymax:5};
+check('Cylinder: no penetration and constant surface streamfunction at any rotation/circulation',()=>{
+  for(const ratio of [-1.5,-1,0,.5,1,1.5])for(const angle of [0,37,180]){
+    const {body,raw,field}=cylinder(ratio,angle,1.4);let psi;
+    for(let i=0;i<100;i++){
+      const t=TAU*i/100,p=body.local(body.radius*Math.cos(t),body.radius*Math.sin(t)),f=raw.at(p.x,p.y);
+      near(f.u*(p.x-body.x)+f.v*(p.y-body.y),0,1e-9);
+      psi??=f.psi;near(f.psi,psi,1e-9);
+    }
+    assert.equal(field.at(body.x+.1,body.y),null);
+    for(const p of body.stagnation){near(raw.at(p.x,p.y).speed,0,1e-8);assert.ok(Math.hypot(p.x-body.x,p.y-body.y)>=body.radius-1e-8);}
+    assert.equal(body.stagnation.length,Math.abs(ratio)<1?2:1);
+    near(measureCircle(field,body.x,body.y,body.radius*1.1).circulation,body.gamma,1e-8);
+    assert.equal(measureCircle(field,body.x,body.y,body.radius*.8),null);
+  }
+});
+check('Cylinder is not inferred for displaced, misaligned, zero-uniform or additional fields',()=>{
+  const {elements,uniform}=cylinder(.5);
+  assert.equal(cylinderModel(elements,{...uniform,speed:0}),null);
+  assert.equal(cylinderModel([{...elements[0],angle:20},elements[1]],uniform),null);
+  assert.equal(cylinderModel([elements[0],{...elements[1],x:1}],uniform),null);
+  assert.equal(cylinderModel([...elements,element('source')],uniform),null);
+  assert.ok(cylinderModel([{...elements[0],angle:180,strength:-elements[0].strength},elements[1]],uniform));
+});
+check('All three cylinder separatrices preserve psi, including the detached closed loop',()=>{
+  for(const ratio of [-1.5,-1,-.5,0,.5,1,1.5]){
+    const {body,raw}=cylinder(ratio,27),target=raw.at(body.stagnation[0].x,body.stagnation[0].y).psi;
+    const curves=cylinderSeparatrices(body,12);
+    assert.equal(curves.filter(c=>c.closed).length,Math.abs(ratio)>1?1:0);
+    for(const curve of curves)for(const p of curve.points){
+      assert.ok(Math.hypot(p.x-body.x,p.y-body.y)>=body.radius-1e-8);
+      near(raw.at(p.x,p.y).psi,target,2e-7);
+    }
+  }
+});
+check('Closed vortex streamlines and source equipotentials complete one orbit',()=>{
+  for(const [type,quantity] of [['vortex','psi'],['source','phi']]){
+    const f=compileField([element(type,TAU)]),c=traceCurve(f,{x:2,y:0},{bounds,step:.04,quantity});
+    assert.ok(c.closed);assert.ok(c.points.length>250&&c.points.length<350);
+    for(const p of c.points)near(Math.hypot(p.x,p.y),2,2e-6);
+  }
+});
+check('Uniform curves reach both viewport edges instead of ending near another line',()=>{
+  for(const quantity of ['phi','psi']){
+    const curves=layoutCurves(compileField([],{speed:1,angle:20}),{bounds,pixelsPerUnit:70,density:10,quantity});
+    assert.ok(curves.length>10);
+    for(const curve of curves)assert.deepEqual(curve.ends,['viewport','viewport']);
+  }
+});
+check('Traced cylinder streamlines stay exterior and conserve streamfunction',()=>{
+  for(const ratio of [.5,1,1.5]){
+    const {field,body}=cylinder(ratio);
+    for(const seed of [{x:-5,y:1},{x:1.5,y:2},{x:0,y:1.2}]){
+      const c=traceCurve(field,seed,{bounds,step:.04}),psi=field.at(seed.x,seed.y).psi;
+      assert.ok(c.points.length>30);assert.ok(!c.ends.includes('limit'));
+      for(const p of c.points){assert.ok(Math.hypot(p.x-body.x,p.y-body.y)>=body.radius-1e-7);near(field.at(p.x,p.y).psi,psi,2e-5);}
+    }
+  }
+});
+check('Equipotential tracing crosses an atan2 cut on its continuous local branch',()=>{
+  const field=compileField([element('vortex',TAU)],{speed:1,angle:0});
+  const c=traceCurve(field,{x:-2,y:.1},{bounds,step:.02,quantity:'phi'});
+  let crossings=0;
+  for(let i=1;i<c.points.length;i++){
+    const a=c.points[i-1],b=c.points[i];
+    if(field.crossesCut(a.x,a.y,b.x,b.y,'phi'))crossings++;
+    const f=field.at((a.x+b.x)/2,(a.y+b.y)/2),dx=b.x-a.x,dy=b.y-a.y;
+    assert.ok(Math.abs((dx*f.u+dy*f.v)/(Math.hypot(dx,dy)*f.speed))<.01);
+  }
+  assert.ok(crossings>0);
 });
 console.log(`${checks} numerical checks passed.`);

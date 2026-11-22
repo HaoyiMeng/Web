@@ -7,8 +7,8 @@
   <meta name="description" content="自由组合点源、点汇、点涡与偶极子，探索速度势、流函数、通量与环量。">
   <title>Potential Flow · Physics Lab — Haoyi Studio</title>
   <link rel="icon" type="image/svg+xml" href="./assets/favicon.svg">
-  <link rel="stylesheet" href="./assets/potential-flow.css">
-  <script type="module" src="./js/potential-flow-ui.mjs"></script>
+  <link rel="stylesheet" href="./assets/potential-flow.css?v=20261122b">
+  <script type="module" src="./js/potential-flow-ui.mjs?v=20261122b"></script>
 </head>
 <body>
 <header class="studio-header">
@@ -19,7 +19,7 @@
 <main>
   <section class="lab-heading">
     <div><div class="eyebrow">PHYSICS LAB · FREE EXPLORATION</div><h1>Potential <em>Flow.</em><span>势与流</span></h1><p>放置、叠加、测量。让 φ 与 ψ 对应同一个流场。</p></div>
-    <div class="scene-actions"><label for="preset">实验场景</label><select id="preset"><option value="default">源汇与均匀来流</option><option value="empty">空白实验台</option><option value="uniform">均匀流</option><option value="source">单个点源</option><option value="vortex">单个点涡</option><option value="pair">有限源汇对</option><option value="doublet">理想偶极子</option><option value="spiral">源与涡的叠加</option></select><button id="reset" title="恢复当前预设">重置场景</button></div>
+    <div class="scene-actions"><label for="preset">实验场景</label><select id="preset"><option value="cylinder">圆柱绕流 · 匀流＋偶极子＋点涡</option><option value="default" selected>源汇与均匀来流</option><option value="empty">空白实验台</option><option value="uniform">均匀流</option><option value="source">单个点源</option><option value="vortex">单个点涡</option><option value="pair">有限源汇对</option><option value="doublet">理想偶极子</option><option value="spiral">源与涡的叠加</option></select><button id="reset" title="恢复当前预设">重置场景</button></div>
   </section>
   <div class="lab-layout">
     <section class="experiment" aria-label="交互流场">
@@ -39,6 +39,17 @@
       <div class="loop-strip" id="loop-panel" hidden><div><span>外向通量 ∮ V · n ds</span><strong id="loop-flux">—</strong><small>m²/s · 包围的净源强 <b id="loop-q">—</b></small></div><div><span>逆时针环量 ∮ V · t ds</span><strong id="loop-gamma">—</strong><small>m²/s · 包围的净涡强 <b id="loop-g">—</b></small></div><div class="loop-geometry"><label for="loop-radius">半径 R / m</label><input id="loop-radius" type="number" min="0.15" max="20" step="0.1" value="1.5"><button id="hide-loop">移除回路</button></div><p id="loop-warning" hidden>回路穿过奇点邻域，请调整位置或半径。</p></div>
     </section>
     <aside class="sidebar" aria-label="流场设置">
+      <section class="panel cylinder-panel" id="cylinder-panel" hidden aria-label="有环量圆柱绕流">
+        <div class="panel-heading"><h2>有环量圆柱绕流</h2><span id="cylinder-state">亚临界</span></div>
+        <p class="cylinder-formula">λ = Γ / (4πaU∞)</p>
+        <div class="regime-buttons" role="group" aria-label="切换环量状态"><button data-regime="0.5" aria-pressed="false">亚临界<span>|λ| = 0.5</span></button><button data-regime="1" aria-pressed="false">临界<span>|λ| = 1</span></button><button data-regime="1.5" aria-pressed="false">超临界<span>|λ| = 1.5</span></button></div>
+        <div class="coordinate-fields"><label>半径 a <small>m</small><input id="cylinder-radius" type="number" min="0.15" max="10" step="0.05" value="1"></label><label>环量比 λ<input id="cylinder-ratio" type="number" min="-10" max="10" step="0.05" value="0.5"></label></div>
+        <input id="cylinder-range" aria-label="环量比 λ" type="range" min="-2" max="2" step="0.01" value="0.5">
+        <div class="range-labels"><span>顺时针 Γ &lt; 0</span><span>逆时针 Γ &gt; 0</span></div>
+        <p class="parameter-note" id="cylinder-values"></p>
+        <p class="cylinder-result" id="cylinder-stagnation" role="status"></p><p class="parameter-note" id="cylinder-position"></p>
+        <p class="parameter-note">金色为经过驻点的分界流线，S 为驻点。预设来流向左；圆柱内部不绘制流场。下方可打开等势线与粒子。</p>
+      </section>
       <section class="panel inspector"><div class="panel-heading"><h2>元素参数</h2><span id="selected-type">SOURCE</span></div>
         <p id="no-selection" hidden>点击画布或列表中的元素，调整它的强度与位置。</p>
         <div id="selection-controls">
@@ -60,7 +71,7 @@
       <section class="panel"><div class="panel-heading"><h2>显示图层</h2><span>VIEW</span></div><div class="layer-grid"><label><input id="show-streams" type="checkbox" checked><i class="psi-line"></i>流线 ψ</label><label><input id="show-potentials" type="checkbox" checked><i class="phi-line"></i>等势线 φ</label><label><input id="show-arrows" type="checkbox">速度箭头</label><label><input id="show-particles" type="checkbox" checked>运动粒子</label><label><input id="show-grid" type="checkbox" checked>坐标网格</label><label><input id="show-probe" type="checkbox" checked>观测点 P</label></div>
         <div class="parameter background-select"><label for="background">背景标量场</label><select id="background"><option value="none">无</option><option value="speed">速率 |V|</option><option value="phi">速度势 φ</option><option value="psi">流函数 ψ</option></select></div>
         <div class="parameter"><label for="density">曲线密度</label><input id="density" type="range" min="6" max="18" step="1" value="10"></div>
-        <p class="parameter-note">φ：紫色等值线。ψ：青色流线。曲线疏密受绘图采样影响，速率请看数值或背景色。</p>
+        <p class="parameter-note">φ：紫色虚线，与青色流线 ψ 正交。曲线连续追踪，疏密仅用于显示，速率请看数值或背景色。</p>
         <p class="parameter-note" id="scalar-note" hidden></p>
       </section>
     </aside>
@@ -68,7 +79,7 @@
   <details class="theory"><summary>公式与约定 <span>φ / ψ · 单位 · 奇点 · 分支</span></summary><div class="theory-content">
     <div><h2>从函数得到速度</h2><p class="math">u = ∂φ/∂x = ∂ψ/∂y<br>v = ∂φ/∂y = −∂ψ/∂x</p><p>速度沿 φ 的梯度，沿 ψ 的等值线。非停滞的正常点上，两族曲线正交。图中的速度箭头只标方向，粒子按局部速度积分；参数调整后显示新的定常流场。</p></div>
     <div><h2>基本解 · 以元素中心为原点</h2><table><thead><tr><th>元素</th><th>φ</th><th>ψ</th></tr></thead><tbody><tr><td>点源 / 汇</td><td>Q ln(r/r₀) / 2π</td><td>Qθ / 2π</td></tr><tr><td>点涡</td><td>Γθ / 2π</td><td>−Γ ln(r/r₀) / 2π</td></tr><tr><td>偶极子</td><td>−μ cos(θ−α) / 2πr</td><td>μ sin(θ−α) / 2πr</td></tr></tbody></table><p>r₀ = 1 m。Γ &gt; 0 为逆时针。偶极子 α 从汇指向源，有限源汇对的 μ = Qd；固定 μ 时缩小 d，会增大 |Q|。</p></div>
-    <div><h2>模型边界</h2><p>二维、不可压、无黏的势流叠加。Q 是单位厚度体积流量，单位 m²/s；Γ 为 m²/s；μ 为 m³/s。奇点周围 0.12 m 不参与绘图与粒子积分，解析解没有被平滑成有限涡核。</p><p>θ 使用 (−π, π] 的主值。点源的 ψ 与点涡的 φ 绕奇点一圈会分别改变 Q 与 Γ；负 x 方向的角度分支不是流体边界。等势线跨分支处断开显示，回路测量直接对速度积分。</p><p>φ、ψ 与速度可线性叠加；压力不可直接叠加。势函数的零点可任取。点涡在涡心之外无旋，包围涡心的闭合回路仍有非零环量。</p></div>
+    <div><h2>圆柱绕流与模型边界</h2><p>匀流＋反向偶极子＋同心点涡：a² = |μ| / (2πU∞)。以正来流方向为 θ = 0，圆柱表面的切向速度为 −2U∞ sin θ + Γ/(2πa)。|λ| &lt; 1 有两个表面驻点；|λ| = 1 时合并；|λ| &gt; 1 的外部驻点位于 r/a = |λ| + √(λ²−1)。<a href="https://web.mit.edu/fluids-modules/www/potential_flows/Lectures/lec10/lecture10.pdf" target="_blank" rel="noopener">势流叠加参考：MIT 讲义</a>。</p><p>二维、不可压、无黏的势流叠加。Q 是单位厚度体积流量，单位 m²/s；Γ 为 m²/s；μ 为 m³/s。奇点周围 0.12 m 不参与绘图与粒子积分，解析解没有被平滑成有限涡核。</p><p>θ 使用 (−π, π] 的主值。点源的 ψ 与点涡的 φ 绕奇点一圈会分别改变 Q 与 Γ；负 x 方向的角度分支不是流体边界。曲线沿连续局部分支追踪，因此可以跨越这条人为切线；探针与背景色仍显示主值，跨切线时可跳变。回路测量直接对速度积分。</p><p>φ、ψ 与速度可线性叠加；压力不可直接叠加。势函数的零点可任取。点涡在涡心之外无旋，包围涡心的闭合回路仍有非零环量。</p></div>
   </div></details>
   <footer><span>HAOYI / STUDIO</span><span>Potential flow · Sorgente / Pozzo / Vortice / Doppietto</span></footer>
 </main>
