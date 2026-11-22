@@ -110,14 +110,18 @@ export function solveNozzle(backPressure, count = 181, configuration = {}) {
     mode = 'subsonic';
     exitM = Math.sqrt(Math.max(0, Math.pow(pb, -(g - 1) / g) - 1) * 2 / (g - 1));
     starArea = exitM === 0 ? 0 : c.exitAreaRatio / areaMach(exitM, g);
-  } else if (pb > limits.shockAtExitBackPressure + 1e-9) {
+  } else if (pb >= limits.shockAtExitBackPressure - 1e-10) {
     mode = 'internal-shock';
-    let lo = c.throatX, hi = 1;
-    for (let i = 0; i < 80; i++) {
-      const mid = (lo + hi) / 2;
-      if (shockAt(mid, c).pb > pb) lo = mid; else hi = mid;
+    if (pb <= limits.shockAtExitBackPressure) {
+      shock = shockAt(1, c);
+    } else {
+      let lo = c.throatX, hi = 1;
+      for (let i = 0; i < 80; i++) {
+        const mid = (lo + hi) / 2;
+        if (shockAt(mid, c).pb > pb) lo = mid; else hi = mid;
+      }
+      shock = shockAt((lo + hi) / 2, c);
     }
-    shock = shockAt((lo + hi) / 2, c);
     exitM = shock.Me;
   } else {
     mode = 'supersonic-exit';
