@@ -291,21 +291,21 @@ h3.operator-group-heading { margin:0 0 10px; color:#d4e7c8; font-size:1.1875rem;
 .formula-sequence-nav-title span { width:100%; color:#a89abd; font-size:.7rem; font-weight:700; letter-spacing:.16em; }
 .formula-sequence-nav-title strong { color:#ebdfef; font-size:1rem; font-weight:650; }
 .formula-sequence-nav-title small { margin-left:auto; color:#9d92ad; font-size:.7rem; letter-spacing:.04em; }
-.formula-jumps.formula-sequence-nav button {
+#formula-detail[data-formula-group] .formula-jumps.formula-sequence-nav button {
   counter-increment:formula-chapter; display:flex; align-items:center; justify-content:flex-start;
   gap:12px; width:100%; min-height:53px; padding:12px; border:1px solid transparent;
   border-radius:12px; background:transparent; color:#b7b8c9; font-size:.9rem;
   font-weight:550; line-height:1.55; text-align:left; transition:background .2s,border-color .2s,color .2s;
 }
-.formula-jumps.formula-sequence-nav button::before {
+#formula-detail[data-formula-group] .formula-jumps.formula-sequence-nav button::before {
   content:counter(formula-chapter, decimal-leading-zero); display:grid; place-items:center;
   flex:none; width:30px; height:30px; border:1px solid #514c60;
   border-radius:9px; color:#afa2c3; font-size:.73rem; font-variant-numeric:tabular-nums;
 }
-.formula-jumps.formula-sequence-nav button:hover { border-color:#51485d; background:#363145; color:#f3ebfa; }
-.formula-jumps.formula-sequence-nav button[aria-current="step"] { border-color:#706083; background:#3b324e; color:#f4ecff; }
-.formula-jumps.formula-sequence-nav button[aria-current="step"]::before { border-color:#d3bce9; background:#d5c2ed; color:#292337; font-weight:750; }
-.formula-jumps.formula-sequence-nav button:focus-visible { outline:2px solid #d8c9ef; outline-offset:2px; }
+#formula-detail[data-formula-group] .formula-jumps.formula-sequence-nav button:hover { border-color:#51485d; background:#363145; color:#f3ebfa; }
+#formula-detail[data-formula-group] .formula-jumps.formula-sequence-nav button[aria-current="step"] { border-color:#706083; background:#3b324e; color:#f4ecff; }
+#formula-detail[data-formula-group] .formula-jumps.formula-sequence-nav button[aria-current="step"]::before { border-color:#d3bce9; background:#d5c2ed; color:#292337; font-weight:750; }
+#formula-detail[data-formula-group] .formula-jumps.formula-sequence-nav button:focus-visible { outline:2px solid #d8c9ef; outline-offset:2px; }
 .formula-sequence-reader { display:grid; grid-template-columns:minmax(0,1fr) auto; gap:10px 12px; align-items:center; }
 .formula-sequence-reader .formula-sequence-hint { margin:0; color:#a7b5bd; font-size:.87rem; line-height:1.7; }
 .formula-sequence-tools { display:flex; flex-wrap:wrap; justify-content:flex-end; gap:6px; }
@@ -403,8 +403,8 @@ h3.operator-group-heading { margin:0 0 10px; color:#d4e7c8; font-size:1.1875rem;
     scrollbar-width:thin; scroll-snap-type:x proximity;
   }
   .formula-sequence-nav-title { display:none; }
-  .formula-jumps.formula-sequence-nav button { flex:0 0 auto; width:auto; min-height:45px; padding:8px 13px; white-space:nowrap; scroll-snap-align:start; }
-  .formula-jumps.formula-sequence-nav button::before { width:26px; height:26px; }
+  #formula-detail[data-formula-group] .formula-jumps.formula-sequence-nav button { flex:0 0 auto; width:auto; min-height:45px; padding:8px 13px; white-space:nowrap; scroll-snap-align:start; }
+  #formula-detail[data-formula-group] .formula-jumps.formula-sequence-nav button::before { width:26px; height:26px; }
 }
 @media(max-width:600px) {
   .formula-sequence-intro { margin:24px 0 17px; padding:22px 20px; border-radius:17px; }
@@ -432,5 +432,5 @@ h3.operator-group-heading { margin:0 0 10px; color:#d4e7c8; font-size:1.1875rem;
   .formula-sequence-layout .formula-subcard,
   .formula-sequence-layout .formula-subcard::details-content,
   .formula-sequence-layout .formula-subcard summary::after,
-  .formula-jumps.formula-sequence-nav button { transition:none !important; }
+  #formula-detail[data-formula-group] .formula-jumps.formula-sequence-nav button { transition:none !important; }
 }
