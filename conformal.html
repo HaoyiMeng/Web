@@ -6,9 +6,10 @@
   <meta name="description" content="从圆柱到翼型：交互探索 Joukowski 保角变换、流线映射、环量与库塔条件。">
   <title>Conformal Mapping · Haoyi Studio</title>
   <link rel="icon" type="image/svg+xml" href="./assets/favicon.svg">
-  <link rel="stylesheet" href="./assets/conformal.css?v=20261122c">
+  <link rel="stylesheet" href="./assets/conformal.css?v=20261123b">
   <script type="module" src="./js/conformal-ui.mjs?v=20261122c"></script>
   <script type="module" src="./js/site.mjs"></script>
+<script type="module" src="./js/perturbation-ui.mjs?v=20261123b"></script>
 </head>
 <body>
 <header class="studio-header"><a class="brand" href="./index.html">✳ HAOYI<span>/</span>STUDIO</a><nav aria-label="页面导航"><a href="./physics.html">Physics Lab</a><span>/</span><span>Conformal Mapping</span></nav><a class="sibling" href="./potential-flow.html?scene=cylinder">圆柱绕流</a></header>
@@ -40,6 +41,22 @@
       </section>
     </aside>
   </div>
+<section class="perturbation-lab" id="small-perturbations" aria-labelledby="p-heading">
+ <div class="intro"><div><p class="eyebrow">AERODINAMICA 14 / PICCOLE PERTURBAZIONI</p><h2 id="p-heading">小扰动：迎角、弯度与厚度</h2><p class="subtitle">把速度拆成三份，观察一阶压力如何相加。</p></div><button id="p-reset">重置小扰动实验</button></div>
+ <p class="note">本区是独立的薄翼近似实验，不改变上方 Joukowski 模型。采用示例翼型 ym/c = 4mX(1−X)，ys/c = (t/2) sin(πX)，X = x/c。m 是最大弯度比，t 是最大厚度比；两种翼型不能直接当成同一几何比较误差。</p>
+ <div class="p-layout"><section class="control-panel"><h3>三种扰动来源</h3>
+ <label class="p-toggle"><input id="p-incidence" type="checkbox" checked>迎角贡献</label><label for="p-alpha">α = <output id="p-alpha-value">3</output>°</label><input id="p-alpha" type="range" min="-10" max="10" step="0.25" value="3">
+ <label class="p-toggle"><input id="p-bending" type="checkbox" checked>弯度贡献</label><label for="p-camber">最大弯度 m = <output id="p-camber-value">2</output>%</label><input id="p-camber" type="range" min="-5" max="5" step="0.1" value="2">
+ <label class="p-toggle"><input id="p-body" type="checkbox" checked>厚度贡献</label><label for="p-thickness">最大厚度 t = <output id="p-thickness-value">6</output>%</label><input id="p-thickness" type="range" min="0" max="12" step="0.25" value="6">
+ <label for="p-x" class="p-toggle">观察位置 x/c = <output id="p-x-value">0.4</output></label><input id="p-x" type="range" min="0.01" max="0.99" step="0.005" value="0.4">
+ <label class="p-toggle"><input id="p-quadratic" type="checkbox" checked>叠加保留二次项的 Cp（虚线）</label>
+ <p class="note">图表省略端点 0 和 1：理想薄翼的前缘速度可能发散，不能用截断数值宣称这里满足小扰动条件。</p>
+ </section><div class="p-plots"><svg id="p-shape" viewBox="0 0 600 250" role="img" aria-label="薄翼形状以及来流、扰动、合速度矢量"></svg><svg id="p-pressure" viewBox="0 0 600 260" role="img" aria-label="上下侧线性压力系数与保留二次项的压力系数"></svg><p class="note">青色：上侧；金色：下侧。实线 Cp = −2u′/U∞；虚线将同一一阶速度代回完整伯努利式，仅展示被忽略项的影响，并非精确翼型解。</p><svg id="p-sheets" viewBox="0 0 600 260" role="img" aria-label="源汇片和涡片强度分布"></svg></div></div>
+ <div class="probe-panel"><div class="probe-values"><div><span>上侧 Cp（一阶）</span><strong id="p-cp-upper">—</strong></div><div><span>下侧 Cp（一阶）</span><strong id="p-cp-lower">—</strong></div><div><span>CL（一阶）</span><strong id="p-cl">—</strong></div><div><span>局部 max |V′| / U∞</span><strong id="p-ratio">—</strong></div><div><span>局部 max |ΔCp|（两侧）</span><strong id="p-error">—</strong></div></div><p class="note" id="p-validity" role="status"></p></div>
+ <div class="p-contributions"><div><h3>迎角</h3><p id="p-part-0"></p></div><div><h3>弯度</h3><p id="p-part-1"></p></div><div><h3>厚度</h3><p id="p-part-2"></p></div></div><p id="p-sum" class="note" aria-live="polite"></p>
+ <details class="theory"><summary>第 14 节：线性化、源汇片与涡片</summary><div class="theory-grid"><section><h3>切向条件与压力</h3><p>V = V∞ + V′，且 |u′|、|v′| ≪ U∞。一阶切向条件为 dy±/dx = α + v′±/U∞（α 用弧度）。Cp± ≈ −2u′±/U∞，因此三项 Cp 可以相加；完整伯努利压力不能这样直接相加。</p></section><section><h3>厚度：源汇分布</h3><p>q = 2U∞ dys/dx；v′±s = ±q/2。u′s = (1/2π) PV∫q(x′)/(x−x′) dx′。PV 为柯西主值。闭合厚度分布满足 ∫q dx = 0，前半段为源、后半段为汇。厚度改变两侧压力，但本一阶模型中不产生净升力。</p></section><section><h3>迎角与弯度：涡片</h3><p>沿用第 14 节：γ &gt; 0 为顺时针，u′± = ±γ/2，与上方点涡 Γ 的正号相反。本示例 γ/U∞ = 2α√((1−X)/X) + 16m√(X(1−X))，满足尾缘 γ(1)=0。CL = 2π(α+2m)。这是所选抛物线弯度的解析薄翼解，不是任意翼型公式。</p></section></div></details>
+</section>
+
   <details class="theory"><summary>从复势到翼型 · 公式、约定与模型范围</summary><div class="theory-grid"><section><h2>对应第 12 节：复势</h2><p>W = φ + iψ，dW/dz = u − iv。令 w = z − z₀，来流相对实轴的方向为 αz：</p><p class="formula">W = U∞(e<sup>−iαz</sup>w + R²e<sup>iαz</sup>/w)<br>− iΓ/(2π) log(w/R)</p><p>αz = α + βc，βc 是前缘至尾缘的翼弦倾角。前缘取边界上距尾缘最远的点，c 为两点距离。圆周上 ψ 为常数。流线和等势线连续追踪，避免复对数主值分支造成假断线。</p></section><section><h2>对应第 13 节：保角变换</h2><p class="formula">ζ = z + b²/z<br>dW/dζ = (dW/dz) / (1 − b²/z²)</p><p>在 f′ ≠ 0 的规则点保角，但不保持长度或速度。临界点 z = ±b 需要单独处理。库塔条件令 +b 处 dW/dz = 0，通过极限求有限尾缘速度；它不意味着翼型尾缘速度为零。</p><p class="formula">ΓK = 4πU∞R sin(θTE − αz)</p></section><section><h2>适用范围</h2><p>二维、定常、不可压、无黏势流。未模拟边界层、分离、失速或黏性阻力；较大迎角仅用于探索数学模型。平板和圆弧是零厚度极限，非零迎角的尖前缘可存在真实速度奇异性。尾缘未满足库塔条件时也可发散，不以截断数值伪装成有限速度。</p><p>探针显示 Cp = 1 − (|V′|/U∞)²。U∞ 和 b 取作单位尺度，改变它们不改变无量纲流线形状。</p><a href="https://www.grc.nasa.gov/www/k-12/airplane/map.html" target="_blank" rel="noopener">参考：NASA · Mapping</a></section></div></details>
   <footer><span>HAOYI / STUDIO</span><span>Complex potential · Joukowski · Kutta condition</span></footer>
 </main>

@@ -26,6 +26,8 @@ jobs:
         run: |
           node tests/conformal.test.mjs
           node tests/conformal-ui.test.mjs
+          node tests/perturbation.test.mjs
+          node tests/perturbation-ui.test.mjs
       - name: Check bass intervals and audio
         run: |
           node tests/bass-theory.test.mjs
