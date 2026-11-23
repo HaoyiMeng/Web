@@ -3,8 +3,11 @@
 <head>
   <meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
   <meta name="theme-color" content="#0b1017">
-  <meta name="description" content="从圆柱到翼型：交互探索 Joukowski 保角变换、流线映射、环量与库塔条件。">
-  <title>Conformal Mapping · Haoyi Studio</title>
+  <meta name="description" content="Conformal Mapping 实验：将圆柱映射为 Joukowski 翼型，研究流线、环量、压力系数和库塔条件。" />
+  <title>保角变换与 Joukowski 翼型 | Conformal Mapping — Haoyi Studio</title>
+<link rel="canonical" href="https://haoyistudio.com/conformal.html" />
+<meta property="og:title" content="保角变换与 Joukowski 翼型 | Conformal Mapping — Haoyi Studio" />
+<meta property="og:description" content="Conformal Mapping 实验：将圆柱映射为 Joukowski 翼型，研究流线、环量、压力系数和库塔条件。" />
   <link rel="icon" type="image/svg+xml" href="./assets/favicon.svg">
   <link rel="stylesheet" href="./assets/conformal.css?v=20261123c">
   <script type="module" src="./js/conformal-ui.mjs?v=20261122c"></script>
@@ -12,9 +15,9 @@
 
 </head>
 <body>
-<header class="studio-header"><a class="brand" href="./index.html">✳ HAOYI<span>/</span>STUDIO</a><nav aria-label="页面导航"><a href="./physics.html">Physics Lab</a><span>/</span><span>Conformal Mapping</span></nav><a class="sibling" href="./perturbation.html">小扰动的影响 ↗</a></header>
+<header class="studio-header"><a class="brand" href="./index.html">✳ HAOYI<span>/</span>STUDIO</a><nav aria-label="页面导航"><a href="./physics.html">Physics Lab</a><span>/</span><span>保角变换 · Conformal Mapping</span></nav><a class="sibling" href="./perturbation.html">薄翼小扰动理论 ↗</a></header>
 <main>
-  <section class="intro"><div><p class="eyebrow">AERODYNAMICS / TRASFORMAZIONI CONFORMI</p><h1>From circle <em>to airfoil.</em></h1><p class="subtitle">保角变换 · 改变边界，看同一条流线如何绕过翼型。</p></div><div class="mapping-equation"><span>JOUKOWSKI MAP</span><strong>ζ = z + b²/z</strong><small>坐标以 b 归一化 · 速度以 U∞ 归一化</small></div></section>
+  <section class="intro"><div><p class="eyebrow">AERODYNAMICS / TRASFORMAZIONI CONFORMI</p><h1>Joukowski <em>Conformal Mapping.</em></h1><p class="subtitle">保角变换与翼型 · Conformal Mapping：将圆柱映射为翼型，观察流线如何改变。</p></div><div class="mapping-equation"><span>JOUKOWSKI MAP</span><strong>ζ = z + b²/z</strong><small>坐标以 b 归一化 · 速度以 U∞ 归一化</small></div></section>
   <div class="lab-layout">
     <section class="visuals" aria-label="联动流场">
       <div class="view-toolbar"><div class="legend"><span><i class="stream-key"></i>流线 ψ</span><label><input id="potentials" type="checkbox"><i class="potential-key"></i>等势线 φ</label></div><label class="density">线条密度 <input id="density" type="range" min="6" max="14" step="1" value="9"></label><button id="reset" type="button">重置</button></div>
