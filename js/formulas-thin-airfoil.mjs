@@ -45,7 +45,7 @@ const original={
   example:{title:'最简单的校验：无弯度薄平板',text:'ym = 0，并施加后缘 Kutta 条件，得到下式。α = 5° = 0.0873 rad 时，Cl ≈ 0.548。前缘的理论奇性不代表真实流体速度可以无限大。',equations:[E('薄平板涡分布','γ(x) = 2V∞α √[(c−x)/x]',eq(at(v('γ')),row(n(2),U,v('α'),`<msqrt>${frac(row(c,o('−'),x),x)}</msqrt>`)))]},
   conditions:['二维、定常、不可压缩、无黏；奇点分布以外的流动无旋。','迎角、弯度斜率与厚度斜率足够小，且局部 |u′|、|v′| 远小于 V∞。','前缘附近常出现奇性，局部小扰动条件可能失效；不可用这套模型预测分离、失速或黏性阻力。','保角变换求得的有限厚度势流与一阶薄翼近似是不同层次的模型；不要把本页近似当作任意翼型的精确解。'],
   related:['continuity','vector-tools'],
-  sources:[{title:'小扰动交互实验 · 压力、迎角、弯度与厚度',url:'./perturbation.html'}],
+  sources:[{title:'小扰动交互实验 · 压力、迎角、弯度与厚度',url:'./perturbation.html'},{title:'Glauert 薄翼理论 · 涡片与傅里叶系数详细推导',url:'./glauert.html'}],
   sourceNote:'依据课堂 Aerodinamica 第十四节与提供的笔记整理；本页采用顺时针为正的涡层强度 γ。可结合交互实验检查各项变化。',
 };
 
