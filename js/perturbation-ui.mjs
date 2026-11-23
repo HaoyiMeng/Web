@@ -21,9 +21,19 @@ export function renderPerturbation(){
   $('p-cl').textContent=f(model.cl);$('p-cp-upper').textContent=f(p.upper.cp);$('p-cp-lower').textContent=f(p.lower.cp);
   $('p-error').textContent=f(Math.max(Math.abs(p.upper.cp-p.upper.bernoulli),Math.abs(p.lower.cp-p.lower.bernoulli)));
   const ratio=Math.max(p.upper.ratio,p.lower.ratio);$('p-ratio').textContent=f(ratio);
-  $('p-validity').textContent=ratio>.2?'此观察点的扰动已较大，一阶近似可能明显失准。前缘附近尤其需要谨慎。':'显示此观察点的局部扰动比；它不是整个翼型误差的保证。';
-  for(let i=0;i<3;i++)$('p-part-'+i).textContent=`u′/U∞ = ${f(p.upper.parts[i].u)}，v′/U∞ = ${f(p.upper.parts[i].v)}，Cp = ${f(-2*p.upper.parts[i].u)}`;
-  $('p-sum').textContent=`上侧合成：(u′, v′)/U∞ = (${f(p.upper.u)}, ${f(p.upper.v)})；Cp = ${f(p.upper.cp)}`;
+  $('p-validity').textContent=ratio>.2
+    ? '⚠ 此处 |V′|/U∞ 已超过 0.2：局部扰动不再很小，一阶近似须谨慎。0.2 是演示警示线，不是普适的误差界限；前缘尤其可能失效。'
+    : '此读数衡量所选截面的局部扰动强弱；即使这里数值较小，也不保证整个翼型都满足小扰动条件。';
+  const descriptions=[
+    '迎角使来流相对翼弦倾斜，要求流线改变方向；在模型里体现为额外涡片与上下表面切向速度差。',
+    '弯度改变中弧线斜率。即便迎角为零，弯曲的中弧线也可产生涡片、压力差和正升力。',
+    '厚度改变上下表面的外法向排流需求，对应前缘附近源、后部汇；一阶压力改变在两侧相同，不独自产生升力。'
+  ];
+  for(let i=0;i<3;i++){
+    const c=p.upper.parts[i],cp=-2*c.u;
+    $('p-part-'+i).textContent=`${descriptions[i]} 当前上侧：u′/U∞ = ${f(c.u)}，v′/U∞ = ${f(c.v)}，ΔCp = ${f(cp)}。`;
+  }
+  $('p-sum').textContent=`在 x/c = ${x.toFixed(3)} 处，先将速度分量相加：上侧 (u′, v′)/U∞ = (${f(p.upper.u)}, ${f(p.upper.v)})；再做一阶压力换算：Cp,上 = ${f(p.upper.cp)}，Cp,下 = ${f(p.lower.cp)}。三个来源的 Cp 在这一近似下可以代数相加。`;
   chart($('p-pressure'),[
     {points:samples.map(p=>[p.x,p.upper.cp]),color:'#69d9cc'},
     {points:samples.map(p=>[p.x,p.lower.cp]),color:'#f1ce8d'},
@@ -39,7 +49,23 @@ export function renderPerturbation(){
   vector(Math.cos(model.a),Math.sin(model.a),'#96acbb');vector(p.upper.u,p.upper.v,'#f1ce8d');vector(Math.cos(model.a)+p.upper.u,Math.sin(model.a)+p.upper.v,'#69d9cc');
   svg.append(el('text',{x:30,y:230,fill:'#aabdca','font-size':13},'等比例翼型 · 灰：来流，金：扰动，青：合速度（统一箭头尺度）'));
 }
-for(const id of ['p-alpha','p-camber','p-thickness','p-x'])$(id).addEventListener('input',renderPerturbation);
-for(const id of ['p-incidence','p-bending','p-body','p-quadratic'])$(id).addEventListener('change',renderPerturbation);
-$('p-reset').addEventListener('click',()=>{for(const [id,v] of Object.entries({'p-alpha':3,'p-camber':2,'p-thickness':6,'p-x':.4}))$(id).value=v;for(const id of ['p-incidence','p-bending','p-body','p-quadratic'])$(id).checked=true;renderPerturbation();});
+const caseButtons=Array.from(document.querySelectorAll('[data-p-case]'));
+function markCase(name){for(const button of caseButtons)button.setAttribute('aria-pressed',String(button.dataset.pCase===name));}
+function resetValues(){
+  for(const [id,v] of Object.entries({'p-alpha':3,'p-camber':2,'p-thickness':6,'p-x':.4}))$(id).value=v;
+  for(const id of ['p-incidence','p-bending','p-body','p-quadratic'])$(id).checked=true;
+}
+for(const id of ['p-alpha','p-camber','p-thickness','p-x'])$(id).addEventListener('input',()=>{markCase(null);renderPerturbation();});
+for(const id of ['p-incidence','p-bending','p-body','p-quadratic'])$(id).addEventListener('change',()=>{markCase(null);renderPerturbation();});
+for(const button of caseButtons)button.addEventListener('click',()=>{
+  const selected=button.dataset.pCase;
+  resetValues();
+  $('p-incidence').checked=selected==='alpha'||selected==='all';
+  $('p-bending').checked=selected==='camber'||selected==='all';
+  $('p-body').checked=selected==='thickness'||selected==='all';
+  markCase(selected);
+  renderPerturbation();
+});
+$('p-reset').addEventListener('click',()=>{resetValues();markCase('all');renderPerturbation();});
+markCase('all');
 renderPerturbation();
