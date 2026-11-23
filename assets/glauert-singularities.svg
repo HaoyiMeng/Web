@@ -25,15 +25,16 @@ text{font-family:Inter,'Noto Sans SC','Microsoft YaHei',sans-serif;fill:#dce9ec;
 <rect class="card" x="806" y="20" width="374" height="400" rx="12"/>
 <!-- 1: incidence -->
 <text x="42" y="54" class="kicker">01 / INCIDENCE</text><text x="42" y="86" class="heading">平板 + 迎角 α</text>
-<path class="axis" d="M52 175 H179"/><text x="83" y="163" class="muted">U∞</text>
-<path class="guide" d="M65 280 H350"/><text x="320" y="297" class="muted">弦线参照</text>
-<path class="sheet" d="M75 280 L343 208"/>
-<path d="M75 280 L166 280 A91 91 0 0 0 163 256" fill="none" stroke="#f1d699" stroke-width="1.7"/>
-<text x="163" y="276" class="tag">α</text>
-<circle class="vortex" cx="122" cy="267" r="9"/><circle class="vortex" cx="188" cy="250" r="9"/><circle class="vortex" cx="254" cy="232" r="9"/>
-<path d="M119 263 Q128 263 126 270" fill="none" stroke="#7cddd1" stroke-width="1.5" marker-end="url(#mintarrow)"/>
-<path d="M185 246 Q194 246 192 253" fill="none" stroke="#7cddd1" stroke-width="1.5" marker-end="url(#mintarrow)"/>
-<path d="M251 228 Q260 228 258 235" fill="none" stroke="#7cddd1" stroke-width="1.5" marker-end="url(#mintarrow)"/>
+<path class="axis" d="M52 196 L179 151"/><text x="113" y="142" class="muted">U∞</text>
+<path class="guide" d="M52 196 H191"/>
+<path class="guide" d="M65 266 H350"/><text x="300" y="289" class="muted">参考弦线</text>
+<path class="sheet" d="M75 266 H343"/>
+<path d="M52 196 L128 196 A76 76 0 0 0 124 170" fill="none" stroke="#f1d699" stroke-width="1.7"/>
+<text x="133" y="186" class="tag">α</text>
+<circle class="vortex" cx="122" cy="266" r="9"/><circle class="vortex" cx="188" cy="266" r="9"/><circle class="vortex" cx="254" cy="266" r="9"/>
+<path d="M119 262 Q128 262 126 269" fill="none" stroke="#7cddd1" stroke-width="1.5" marker-end="url(#mintarrow)"/>
+<path d="M185 262 Q194 262 192 269" fill="none" stroke="#7cddd1" stroke-width="1.5" marker-end="url(#mintarrow)"/>
+<path d="M251 262 Q260 262 258 269" fill="none" stroke="#7cddd1" stroke-width="1.5" marker-end="url(#mintarrow)"/>
 <text x="42" y="353" class="tag">γ₁(x) · 涡片</text><text x="42" y="379" class="muted">表面切向速度差 → 环量与升力</text>
 <!-- 2: camber -->
 <text x="435" y="54" class="kicker">02 / CAMBER</text><text x="435" y="86" class="heading">弯板 + 零迎角</text>
