@@ -1,25 +1,147 @@
-/* Dedicated small-disturbance lab layout, layered over shared aerodynamic styles. */
-.p-hero .subtitle{max-width:680px}.p-hero .mapping-equation strong{font-size:27px}
+/* Small-disturbance lab — readout-first layout based on the other Physics Lab cards. */
+main{max-width:1500px}
+.p-hero{margin-bottom:26px}
+.p-hero .subtitle{max-width:700px}
+.p-hero .mapping-equation strong{font-size:27px}
 .p-overview,.p-step-grid,.p-mechanism-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:14px}
+.p-overview{margin-top:38px}
 .p-overview>div,.p-step,.p-derivation{background:var(--panel);border:1px solid var(--line);border-radius:12px;padding:21px}
 .p-overview>div{background:linear-gradient(130deg,#152631,#111c26)}
 .p-overview span,.p-step>span{display:block;color:var(--mint);font-size:11px;letter-spacing:.13em;font-weight:650;margin-bottom:12px}
-.p-overview h2{font-size:18px}.p-overview p,.p-step p,.p-derivation p,.p-guide-head p{font-size:14px;line-height:1.9;color:#afc2cc}
-.p-overview p{margin:10px 0 0}.p-overview p strong,.p-step p strong,.p-derivation strong{color:#e3f1ee}
-.perturbation-lab{margin-top:32px;padding-top:0;border:0}.perturbation-lab h2{font-size:25px}
-.p-experiment-head{align-items:flex-end}.p-examples{display:flex;flex-wrap:wrap;gap:9px;margin:8px 0 15px}
-.p-examples button{font-size:13px;min-height:37px;padding:7px 12px}.p-examples button[aria-pressed=true]{background:#23433f;border-color:var(--mint);color:#d1fff7}
-.p-layout .control-panel h3{margin:0 0 20px;font-size:18px}.p-layout .control-panel>input[type=range]{display:block}
-.p-quadratic-toggle{align-items:baseline;line-height:1.7}.p-plot-label{display:flex;justify-content:space-between;gap:12px;align-items:baseline;margin:20px 0 8px}
-.p-plot-label:first-child{margin-top:0}.p-plot-label strong{font-size:14px}.p-plot-label span{font-size:12px;color:var(--muted)}
-.p-plots svg{margin-bottom:7px}.p-contributions>div{background:#101d28}
-.p-contributions strong{color:#e7f0f3}.p-sum{padding:17px 20px;border:1px solid #315a5e;background:#142e30;border-radius:10px;color:#c7e7e2;font-size:14px;line-height:1.85}
-.p-guide{margin-top:36px}.p-guide-head{margin-bottom:18px}.p-guide-head h2{font-size:clamp(22px,2.4vw,30px)}
-.p-guide-head p:last-child{max-width:910px}.p-step h3,.p-derivation h3{font-size:17px;margin:0 0 12px}
+.p-overview h2{font-size:18px}
+.p-overview p,.p-step p,.p-derivation p,.p-guide-head p{font-size:14px;line-height:1.9;color:#afc2cc}
+.p-overview p{margin:10px 0 0}
+.p-overview p strong,.p-step p strong,.p-derivation strong{color:#e3f1ee}
+
+/* Main experiment: controls and chart are always arranged side by side on desktop. */
+.perturbation-lab{margin-top:0;padding-top:0;border:0}
+.perturbation-lab h2{font-size:clamp(23px,2.4vw,30px);letter-spacing:-.035em}
+.p-experiment-head{align-items:end;margin:0 0 17px;gap:22px}
+.p-experiment-head .subtitle{font-size:13px;margin:6px 0 0}
+.p-heading-dot{color:var(--mint)}
+.p-live-badge{display:inline-flex;align-items:center;gap:9px;border:1px solid #34544e;border-radius:20px;padding:7px 12px;color:#badbd4;background:#152b2d;white-space:nowrap;font-size:11px;letter-spacing:.09em}
+.p-live-badge span{width:7px;height:7px;border-radius:50%;background:#74e2ae;box-shadow:0 0 8px #74e2ae66}
+.p-layout{display:grid;grid-template-columns:minmax(290px,340px) minmax(0,1fr);gap:17px;align-items:start;margin:0 0 20px}
+.p-control-rail{position:sticky;top:14px;z-index:2;min-width:0;border:1px solid #354650;border-radius:13px;padding:17px 17px 13px;background:#121e28;box-shadow:0 10px 25px #04080b21}
+.p-control-head{display:flex;justify-content:space-between;align-items:center;gap:10px;margin-bottom:13px}
+.p-panel-kicker{font-size:10px;letter-spacing:.12em;font-weight:650;color:#8facb7}
+.p-control-head h3,.p-visual-header h3{font-size:19px;margin:4px 0 0;font-weight:650;letter-spacing:-.02em}
+.p-control-head #p-reset{padding:7px 12px;min-height:33px;font-size:12px;border-radius:6px}
+.p-examples{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:7px;margin:0 0 14px}
+.p-examples button{font-size:12px;padding:7px 5px;min-height:34px;border-radius:6px}
+.p-examples button[aria-pressed=true]{background:#23433f;border-color:var(--mint);color:#d1fff7}
+.p-param-card{border-top:1px solid #293944;padding:11px 0 7px;transition:opacity .15s}
+.p-param-card.p-inactive{opacity:.47}
+.p-param-card .p-toggle{display:flex;align-items:center;gap:9px;margin:0 0 7px;font-size:13px;color:#e1ecec;cursor:pointer}
+.p-param-card .p-toggle input{margin:0}
+.p-param-card .p-toggle span{flex:1;display:flex;justify-content:space-between;align-items:baseline;gap:5px}
+.p-param-card .p-toggle small{font-size:10px;font-weight:500;letter-spacing:.05em;color:#8ea3b1}
+.p-slider-label{display:flex;justify-content:space-between;align-items:baseline;gap:8px;font-size:12px!important;color:#9fb5c3}
+.p-slider-label strong{font-family:ui-monospace,SFMono-Regular,Consolas,monospace;font-weight:650;font-size:14px;color:#caf7eb;font-variant-numeric:tabular-nums}
+.p-param-card input[type=range]{display:block;height:21px;margin:7px 0 0;width:100%}
+.p-position-card{padding-bottom:11px}
+.p-control-details{border-top:1px solid #293944;padding-top:11px}
+.p-control-details summary{font-size:12px;color:#b5c7d1;cursor:pointer}
+.p-control-details .p-toggle{display:flex;align-items:center;gap:8px;font-size:12px;color:#b5c7d1;margin:13px 0 7px}
+.p-control-details p{font-size:11px;line-height:1.8;color:#91aab7;margin:10px 0}
+.p-control-details input{width:16px;height:16px}
+
+/* Graph workspace: a single large plot, not three plots stacked beneath the sliders. */
+.p-plots{min-width:0;border:1px solid #354650;background:#101b25;padding:17px;border-radius:13px;box-shadow:0 10px 25px #04080b21}
+.p-visual-header{display:flex;align-items:center;justify-content:space-between;gap:12px;margin-bottom:16px}
+.p-visual-hint{font-size:12px;color:#90a7b6}
+.p-chart-tabs{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:5px;padding:5px;border:1px solid #2a3d47;border-radius:9px;background:#0b141e;margin-bottom:12px}
+.p-chart-tabs button{font-size:13px;color:#9caebd;min-width:0;min-height:39px;border:1px solid transparent;background:transparent;border-radius:6px;padding:7px 6px;white-space:nowrap}
+.p-chart-tabs button[aria-selected=true]{color:#dbfdf5;background:#1d343c;border-color:#426968}
+.p-chart-tabs button[aria-selected=false]:hover{color:#e2eeef;background:#182633}
+.p-visual-stage{border:1px solid #293d4a;background:#0c1721;border-radius:10px;overflow:hidden}
+.p-plot-pane[hidden]{display:none!important}
+.p-plot-pane{padding:12px 12px 4px}
+.p-plot-label{display:flex;justify-content:space-between;align-items:baseline;gap:12px;margin:0 4px 3px}
+.p-plot-label strong{font-size:13px;font-weight:630;color:#d9e9ec}
+.p-plot-label span{font-size:11px;color:#9eb4bc;white-space:nowrap}
+.p-key{display:inline-block;width:17px;height:0;border-top:2px solid;vertical-align:middle;margin:0 2px 2px 7px}
+.p-key--upper{border-color:#69d9cc}.p-key--lower{border-color:#f1ce8d}.p-key--source{border-color:#b5a1f3}
+.p-plots .p-plot-pane svg{display:block;background:transparent;border:0;width:100%;height:auto;max-height:none;margin:0}
+.p-plot-tools{display:flex;flex-wrap:wrap;align-items:center;gap:9px 14px;margin:12px 1px 10px;color:#a9c0c7;font-size:11px}
+.p-plot-tools label{display:inline-flex;align-items:center;gap:6px;cursor:pointer}
+.p-plot-tools label input{width:15px;height:15px;margin:0}
+.p-plot-tools button{font-size:11px;min-height:30px;padding:6px 9px;border-radius:6px}
+.p-plot-tools #p-baseline-status{color:#8fa5b0;margin-left:auto;white-space:nowrap}
+.p-live-values{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:1px;background:#2b444d;border:1px solid #2b444d;border-radius:9px;overflow:hidden;margin-top:10px}
+.p-live-values>div{display:grid;gap:7px;min-width:0;padding:14px 11px 12px;background:#172833}
+.p-live-values span{font-size:11px;color:#9cb4be;line-height:1.45}
+.p-live-values strong{font-family:ui-monospace,SFMono-Regular,Consolas,monospace;font-variant-numeric:tabular-nums;font-size:clamp(16px,1.8vw,22px);font-weight:600;color:#d5f4ec;white-space:nowrap}
+.p-live-values .p-secondary-value{background:#121f2a;grid-column:span 2;padding:10px 13px;display:flex;justify-content:space-between;gap:8px;align-items:baseline}
+.p-live-values .p-secondary-value strong{font-size:15px}
+.p-validity{font-size:12px;line-height:1.75;color:#a7c0c8;margin:13px 1px 0}
+.p-plot-footnote{font-size:11px;line-height:1.75;color:#829baa;margin:10px 1px 0}
+.p-plot-footnote strong{color:#b2cdd1}
+.p-contributions{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:14px;margin-top:17px}
+.p-contributions>div{background:#111e29;border:1px solid var(--line);border-radius:11px;padding:17px}
+.p-contributions h3{font-size:15px;margin:0}
+.p-contributions p{font-size:13px;line-height:1.8;color:var(--muted)}
+.p-sum{padding:17px 20px;border:1px solid #315a5e;background:#142e30;border-radius:10px;color:#c7e7e2;font-size:13px;line-height:1.85}
+
+.p-guide{margin-top:36px}.p-guide-head{margin-bottom:18px}
+.p-guide-head h2{font-size:clamp(22px,2.4vw,30px)}
+.p-guide-head p:last-child{max-width:910px}
+.p-step h3,.p-derivation h3{font-size:17px;margin:0 0 12px}
 .p-step p:last-child,.p-derivation p:last-child{margin-bottom:0}
 .p-formula{font-family:Georgia,Times,serif!important;font-size:19px!important;color:#bff2e9!important;overflow-wrap:anywhere;line-height:1.75!important}
-.p-derivation{margin-top:14px;background:#11252b}.p-mechanism-grid{grid-template-columns:repeat(2,minmax(0,1fr))}
-.p-boundaries .p-step-grid .p-step{background:#121e28}.p-bottom-note{font-size:14px;line-height:1.85;padding:18px 4px;color:var(--muted)}
+.p-derivation{margin-top:14px;background:#11252b}
+.p-mechanism-grid{grid-template-columns:repeat(2,minmax(0,1fr))}
+.p-boundaries .p-step-grid .p-step{background:#121e28}
+.p-bottom-note{font-size:14px;line-height:1.85;padding:18px 4px;color:var(--muted)}
 .p-bottom-note a{color:var(--mint);text-decoration:underline;text-underline-offset:3px}
-@media(max-width:1050px){.p-overview,.p-step-grid{grid-template-columns:1fr 1fr}.p-overview>div:last-child,.p-step-grid>.p-step:last-child{grid-column:1/-1}}
-@media(max-width:700px){.p-overview,.p-step-grid,.p-mechanism-grid{grid-template-columns:1fr}.p-overview>div:last-child,.p-step-grid>.p-step:last-child{grid-column:auto}.p-plot-label{flex-direction:column;gap:2px}.p-experiment-head{align-items:flex-start}.p-hero .mapping-equation{display:none}.p-guide{margin-top:26px}.p-step,.p-derivation{padding:18px}.p-overview>div{padding:18px}}
+
+@media(max-width:1120px){
+ .p-live-values{grid-template-columns:repeat(2,minmax(0,1fr))}
+ .p-live-values .p-secondary-value{grid-column:span 1}
+ .p-overview,.p-step-grid{grid-template-columns:1fr 1fr}
+ .p-overview>div:last-child,.p-step-grid>.p-step:last-child{grid-column:1/-1}
+ .p-layout{grid-template-columns:minmax(265px,300px) minmax(0,1fr)}
+ .p-plot-label span{white-space:normal}
+}
+@media(max-width:900px){
+ /* On narrow screens the plot becomes a compact, sticky live monitor while sliders scroll. */
+ .p-layout{display:flex;flex-direction:column;gap:12px}
+ .p-plots{order:-1;position:sticky;top:0;z-index:6;width:100%;padding:11px;box-shadow:0 14px 30px #04070d85}
+ .p-control-rail{position:static;width:100%;order:1}
+ .p-visual-header{display:none}
+ .p-chart-tabs{margin-bottom:7px}
+ .p-chart-tabs button{min-height:34px;font-size:12px}
+ .p-plot-pane{padding:6px 9px 1px}
+ .p-plot-label{margin:0 3px 1px}
+ .p-plots .p-plot-pane svg{max-height:198px;max-width:100%;margin:auto}
+ .p-plot-tools,.p-plot-footnote,.p-validity{display:none}
+ .p-live-values{grid-template-columns:repeat(4,minmax(0,1fr));margin-top:8px}
+ .p-live-values>div{padding:10px 8px}
+ .p-live-values span{font-size:10px}
+ .p-live-values strong{font-size:17px}
+ .p-live-values .p-secondary-value{display:none}
+ .p-control-rail .p-param-card{padding-top:14px;padding-bottom:12px}
+}
+@media(max-width:700px){
+ .p-overview,.p-step-grid,.p-mechanism-grid,.p-contributions{grid-template-columns:1fr}
+ .p-overview>div:last-child,.p-step-grid>.p-step:last-child{grid-column:auto}
+ .p-experiment-head{align-items:flex-start}
+ .p-hero .mapping-equation{display:none}
+ .p-guide{margin-top:26px}
+ .p-step,.p-derivation,.p-overview>div{padding:18px}
+}
+@media(max-width:480px){
+ .p-hero{margin-bottom:20px}
+ .p-experiment-head{margin-bottom:12px}
+ .p-experiment-head .subtitle{font-size:12px}
+ .p-live-badge{display:none}
+ .p-chart-tabs button{font-size:11px;min-height:32px;padding:6px 3px}
+ .p-plot-label strong{font-size:12px}
+ .p-plot-label span{font-size:10px}
+ .p-plots .p-plot-pane svg{max-height:154px}
+ .p-live-values{grid-template-columns:repeat(4,minmax(0,1fr))}
+ .p-live-values span{font-size:9px}
+ .p-live-values strong{font-size:14px}
+ .p-live-values>div{padding:8px 5px}
+ .p-control-rail{padding:15px}
+}
