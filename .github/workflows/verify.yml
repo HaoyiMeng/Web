@@ -22,6 +22,7 @@ jobs:
             command: |
               node tests/site.test.mjs
               node tests/formulas-sequence.test.mjs
+              node tests/math-typography.test.mjs
           - suite: nozzle
             command: node tests/nozzle.test.mjs
           - suite: potential-flow
