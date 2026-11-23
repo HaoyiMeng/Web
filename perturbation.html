@@ -26,7 +26,7 @@
     <section class="intro p-hero">
       <div><p class="eyebrow">AERODYNAMICS / SMALL PERTURBATIONS</p><h1>薄翼<em>小扰动理论</em></h1>
         <p class="subtitle">一片薄翼为什么能产生升力？把迎角、弯度、厚度分别打开，看速度如何叠加、压力如何改变。</p></div>
-      <div class="mapping-equation"><span>LINEARIZED PRESSURE</span><strong>C<sub>p</sub> ≈ −2u′/U∞</strong><small>小迎角、薄翼与弱扰动的一阶近似</small></div>
+      <div class="mapping-equation"><span>LINEARIZED PRESSURE</span><strong><span class="math-display" data-tex="C_p\simeq-\frac{2u'}{U_\infty}">C<sub>p</sub> ≈ −2u′/U∞</span></strong><small>小迎角、薄翼与弱扰动的一阶近似</small></div>
     </section>
 
     <section class="perturbation-lab" id="small-perturbations" aria-labelledby="p-heading">
@@ -133,15 +133,15 @@
       <p>小扰动理论不是“把翼型画薄一点”这么简单。关键步骤是先在参考直线上满足边界条件，再用叠加的扰动速度计算表面压力。</p></div>
       <div class="p-step-grid">
         <article class="p-step"><span>01 / ASSUMPTION</span><h3>把大问题变成小量问题</h3>
-          <p class="p-formula">V = V∞ + V′，其中 V′ = (u′, v′)</p>
+          <p class="p-formula"><span class="math-display" data-tex="\boldsymbol{V}=\boldsymbol{V}_\infty+\boldsymbol{V}',\qquad \boldsymbol{V}'=(u',v')">V = V∞ + V′，其中 V′ = (u′, v′)</span></p>
           <p>假设二维、定常、不可压、无黏且无旋，并且迎角（弧度）、翼型表面斜率和扰动速度都足够小。于是 |u′|/U∞、|v′|/U∞ ≪ 1，可以忽略二阶乘积。<strong>这里“小”的核心是斜率与扰动，而不只是厚度数值小。</strong></p>
         </article>
         <article class="p-step"><span>02 / TANGENCY</span><h3>流体不能穿透翼型表面</h3>
-          <p class="p-formula">v′<sub>±</sub>/U∞ ≈ dy<sub>±</sub>/dx − α</p>
+          <p class="p-formula"><span class="math-display" data-tex="\frac{v'_\pm}{U_\infty}\simeq\frac{\mathrm{d}y_\pm}{\mathrm{d}x}-\alpha">v′<sub>±</sub>/U∞ ≈ dy<sub>±</sub>/dx − α</span></p>
           <p>实际不可穿透条件是 v/u = dy/dx。对小迎角和小斜率展开后，就得到上式。它说明：表面斜率决定流线必须偏转多少；迎角 α 则改变来流相对表面的方向。上、下表面用 ± 区分。</p>
         </article>
         <article class="p-step"><span>03 / BERNOULLI</span><h3>速度的变化怎样成为压力变化</h3>
-          <p class="p-formula">C<sub>p</sub> = 1 − |V|²/U∞² ≈ −2u′/U∞</p>
+          <p class="p-formula"><span class="math-display" data-tex="C_p=1-\frac{|\boldsymbol{V}|^2}{U_\infty^2}\simeq-\frac{2u'}{U_\infty}">C<sub>p</sub> = 1 − |V|²/U∞² ≈ −2u′/U∞</span></p>
           <p>精确的速度平方含有 u′²、v′² 等二阶项，也包含与迎角相关的高阶乘积。忽略这些项后，压力变化对轴向扰动速度呈线性。因此可以先把三个扰动速度相加，再把三项一阶 C<sub>p</sub> 相加。</p>
         </article>
       </div>
@@ -156,31 +156,31 @@
       <div class="p-mechanism-grid">
         <article class="p-step"><span>VORTEX SHEET / γ</span><h3>迎角 + 弯度 → 上下表面速度差</h3>
           <p>迎角和中弧线让翼型上下表面需要不同的切向速度，用沿弦向分布的涡片来表示。这里采用<strong>顺时针为正</strong>的片强度 γ，与保角变换页面采用的逆时针正环量约定不同。</p>
-          <p class="p-formula">u′<sub>+</sub> − u′<sub>−</sub> = γ</p>
+          <p class="p-formula"><span class="math-display" data-tex="u'_+-u'_-=\gamma">u′<sub>+</sub> − u′<sub>−</sub> = γ</span></p>
           <p>上表面速度增加、压力降低；下表面反之，形成压力差并贡献升力。这个例子对应的解析分布为：</p>
-          <p class="p-formula">γ/U∞ = 2α√[(1−X)/X] + 16m√[X(1−X)]</p>
+          <p class="p-formula"><span class="math-display" data-tex="\frac{\gamma(X)}{U_\infty}=2\alpha\sqrt{\frac{1-X}{X}}+16m\sqrt{X(1-X)}">γ/U∞ = 2α√[(1−X)/X] + 16m√[X(1−X)]</span></p>
           <p>第一项由迎角产生，第二项来自本页采用的抛物线中弧线。它满足尾缘 γ(1) = 0 的库塔条件；公式<strong>不能直接推广到任意弯度线</strong>。</p>
         </article>
         <article class="p-step"><span>SOURCE SHEET / q</span><h3>厚度 → 流体向上下两侧绕行</h3>
           <p>厚度让上、下表面相对中弧线向外偏移，可以在零厚度参考线上布置源汇片。源强为正表示局部向外排流，为负表示吸入；其正、负变化来自半厚度的斜率。</p>
-          <p class="p-formula">q(x) = 2U∞ dy<sub>s</sub>/dx</p>
+          <p class="p-formula"><span class="math-display" data-tex="q(x)=2U_\infty\frac{\mathrm{d}y_s}{\mathrm{d}x}">q(x) = 2U∞ dy<sub>s</sub>/dx</span></p>
           <p>本页厚度分布得到 q/U∞ = πt cos(πX)，前半弦为源、后半弦为汇；因为翼型闭合，沿弦积分的净源强为零。</p>
-          <p class="p-formula">∫₀ᶜ q(x) dx = 0</p>
+          <p class="p-formula"><span class="math-display" data-tex="\int_0^c q(x)\,\mathrm{d}x=0">∫₀ᶜ q(x) dx = 0</span></p>
           <p>厚度会改变两侧共同的压力分布，但在此一阶薄翼模型中不产生上下表面的净压力差，因此不改变一阶 C<sub>L</sub>。</p>
         </article>
       </div>
       <div class="p-derivation">
         <h3>片强度怎样真正变成速度？</h3>
         <p>沿参考弦线放置理想奇点片，不意味着真实翼型在持续向外喷水或内部存在一条实体涡层；这是重建外部势流、满足不穿透条件的数学方法。对于本页采用的符号约定：</p>
-        <p class="p-formula">u′<sub>γ,±</sub> = ±γ(x)/2，　v′<sub>s,±</sub> = ±q(x)/2</p>
+        <p class="p-formula"><span class="math-display" data-tex="u'_{\gamma,\pm}=\pm\frac{\gamma(x)}{2},\qquad v'_{s,\pm}=\pm\frac{q(x)}{2}">u′<sub>γ,±</sub> = ±γ(x)/2，　v′<sub>s,±</sub> = ±q(x)/2</span></p>
         <p>涡片造成切向速度跳跃；源汇片造成法向速度跳跃。源汇片还会在参考线上诱导共同的轴向扰动：</p>
-        <p class="p-formula">u′<sub>s</sub>(x) = (1/2π) PV∫₀ᶜ q(ξ)/(x−ξ) dξ</p>
+        <p class="p-formula"><span class="math-display" data-tex="u'_s(x)=\frac{1}{2\pi}\operatorname{PV}\!\int_0^c\frac{q(\xi)}{x-\xi}\,\mathrm{d}\xi">u′<sub>s</sub>(x) = (1/2π) PV∫₀ᶜ q(ξ)/(x−ξ) dξ</span></p>
         <p>PV 表示<strong>柯西主值</strong>，用来处理积分核在 ξ = x 处的奇性。交互图中的厚度压力贡献就是由这一积分的数值求积得到；它不是单纯依靠几何形状画出来的曲线。</p>
       </div>
       <div class="p-derivation">
         <h3>为什么小扰动模型会预测升力？</h3>
         <p>压力差 ΔC<sub>p</sub> = C<sub>p,下</sub> − C<sub>p,上</sub> = 2γ/U∞。沿弦积分得到一阶升力系数：</p>
-        <p class="p-formula">C<sub>L</sub> = ∫₀¹ ΔC<sub>p</sub> dX = 2π(α + 2m)</p>
+        <p class="p-formula"><span class="math-display" data-tex="C_L=\int_0^1\Delta C_p(X)\,\mathrm{d}X=2\pi(\alpha+2m)">C<sub>L</sub> = ∫₀¹ ΔC<sub>p</sub> dX = 2π(α + 2m)</span></p>
         <p>α 必须用弧度，m 是弯度比。对于这个特定的抛物线中弧线，零升力迎角为 α<sub>L=0</sub> = −2m（弧度）。例如 m = 0.02、α = 0 时仍然有正升力；而 α = m = 0、仅有厚度时，一阶升力为零。</p>
       </div>
     </section>
