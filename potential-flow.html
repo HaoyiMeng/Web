@@ -8,7 +8,7 @@
   <title>Potential Flow · Physics Lab — Haoyi Studio</title>
   <link rel="icon" type="image/svg+xml" href="./assets/favicon.svg">
   <link rel="stylesheet" href="./assets/potential-flow.css?v=20261122b">
-  <script type="module" src="./js/potential-flow-ui.mjs?v=20261122b"></script>
+  <script type="module" src="./js/potential-flow-ui.mjs?v=20261123a"></script>
 </head>
 <body>
 <header class="studio-header">
@@ -39,6 +39,7 @@
       <div class="loop-strip" id="loop-panel" hidden><div><span>外向通量 ∮ V · n ds</span><strong id="loop-flux">—</strong><small>m²/s · 包围的净源强 <b id="loop-q">—</b></small></div><div><span>逆时针环量 ∮ V · t ds</span><strong id="loop-gamma">—</strong><small>m²/s · 包围的净涡强 <b id="loop-g">—</b></small></div><div class="loop-geometry"><label for="loop-radius">半径 R / m</label><input id="loop-radius" type="number" min="0.15" max="20" step="0.1" value="1.5"><button id="hide-loop">移除回路</button></div><p id="loop-warning" hidden>回路穿过奇点邻域，请调整位置或半径。</p></div>
     </section>
     <aside class="sidebar" aria-label="流场设置">
+<section class="panel"><div class="panel-heading"><h2>模型组合</h2><span>ASSEMBLY</span></div><button id="split-cylinder" hidden>拆分为独立元素</button><button id="merge-cylinder">合并为圆柱</button><p id="assembly-note" class="parameter-note" role="status"></p><p class="parameter-note">合并状态来流速率最低为 0.01 m/s；调整速率保持半径和环量 Γ，环量比随之变化。偶极矩由圆柱半径控制；独立调节请先拆分。</p></section>
       <section class="panel cylinder-panel" id="cylinder-panel" hidden aria-label="有环量圆柱绕流">
         <div class="panel-heading"><h2>有环量圆柱绕流</h2><span id="cylinder-state">亚临界</span></div>
         <p class="cylinder-formula">λ = Γ / (4πaU∞)</p>

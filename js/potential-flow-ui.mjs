@@ -13,7 +13,7 @@ let view={x:0,y:0,span:12},probe={x:0,y:1.5},loop=null,paused=matchMedia('(prefe
 let particles=[],drag=null,lastTime=0,frameId=0;
 const layers={streams:true,potentials:true,arrows:false,particles:true,grid:true,probe:true};
 let scalar='none',density=10;
-let body=null;
+let body=null,grouped=false,detached=false;
 const fmt=(v,n=2)=>!Number.isFinite(v)?'—':Math.abs(v)<.5*10**(-n)?(0).toFixed(n):Math.abs(v)>=10000?v.toExponential(2):v.toFixed(n);
 const clamp=(v,min,max)=>Math.min(max,Math.max(min,v));
 const scale=()=>width/view.span;
@@ -27,6 +27,7 @@ function make(type,x,y,strength){
   return {id:nextId++,type:type==='sink'?'source':type,x,y,strength:strength??(type==='sink'?-8:8),angle:0,separation:2,lockMoment:false,moment:16,enabled:true};
 }
 function preset(name){
+  grouped=name==='cylinder';detached=false;
   elements=[];nextId=1;uniform={speed:0,angle:0};
   view={x:0,y:0,span:12};probe={x:0,y:1.5};loop=null;
   if(name==='default'){uniform.speed=.6;elements=[make('source',-2,0),make('sink',2,0)];}
@@ -52,6 +53,7 @@ function preset(name){
 function syncAll(){syncInspector();syncList();syncLoop();}
 function syncInspector(){
   const e=selectedElement();
+  for(const id of ['strength-range','strength-number'])$(id).disabled=grouped&&e?.type==='doublet';
   $('no-selection').hidden=!!e;$('selection-controls').hidden=!e;
   $('selected-type').textContent=e?typeOf(e).toUpperCase():'SELECT';
   if(!e)return;
@@ -100,7 +102,17 @@ function syncLoop(){
   $('loop-q').textContent=m?fmt(m.enclosedQ,2):'—';$('loop-g').textContent=m?fmt(m.enclosedGamma,2):'—';
 }
 function recompute(){
-  body=cylinderModel(elements,uniform);
+  if(grouped){
+    const d=elements.find(e=>e.type==='doublet'),anchor=selectedElement()||d;
+    for(const e of elements){e.x=anchor.x;e.y=anchor.y;e.enabled=true;}
+    d.strength=Math.max(1e-8,Math.abs(d.strength));
+    d.angle=((uniform.angle+360)%360)-180;
+  }
+  body=detached?null:cylinderModel(elements,uniform);
+  $('split-cylinder').hidden=!grouped;$('merge-cylinder').hidden=grouped;
+  $('assembly-note').textContent=grouped?'已合并：位置、方向和半径联动；修改独立元素前请拆分。':'合并会将点涡移到偶极子中心，并让偶极子与来流反向。仅支持一个偶极子及可选点涡。';
+  for(const id of ['delete','duplicate','element-enabled'])$(id).disabled=grouped;
+  if(grouped)$('scene-name').textContent='圆柱绕流 · 已合并';
   field=exteriorField(compileField(elements,uniform),body);dirty=true;particles=[];updateProbe();syncLoop();syncCylinder();
   $('empty-overlay').hidden=field.parts.length>0||uniform.speed>0;
   const cut=scalar==='phi'?field.parts.some(e=>e.type==='vortex'):scalar==='psi'?field.parts.some(e=>e.type==='source'):false;
@@ -144,9 +156,10 @@ function setTool(t){
   if(t==='probe'){layers.probe=true;$('show-probe').checked=true;}
 }
 function addElement(type,x,y){
+  if(grouped){$('tool-hint').textContent='请先点击“拆分为独立元素”，再添加新元素。';return;}
   if(elements.length>=16){$('tool-hint').textContent='最多可放置 16 个元素，请删除或复用已有元素。';return;}
   const e=make(type,x,y);elements.push(e);selected=e.id;syncAll();recompute();
-  $('scene-name').textContent='自由组合';
+  $('scene-name').textContent=grouped?'圆柱绕流 · 已合并':'自由组合';
 }
 function resize(){
   const rect=canvas.getBoundingClientRect();width=rect.width;height=rect.height;dpr=Math.min(devicePixelRatio||1,2);
@@ -328,6 +341,14 @@ function frame(time){
   if(layers.particles)drawParticles(dt);drawLoop();drawElements();if(layers.probe)drawProbe();
 }
 
+$('split-cylinder').addEventListener('click',()=>{grouped=false;detached=true;$('scene-name').textContent='自由组合 · 已拆分';recompute();syncAll();});
+$('merge-cylinder').addEventListener('click',()=>{
+  const d=elements.filter(e=>e.type==='doublet');
+  if(d.length!==1||elements.some(e=>!['doublet','vortex'].includes(e.type))){$('assembly-note').textContent='无法合并：请保留一个偶极子和可选点涡，移除其他类型或多余偶极子。';return;}
+  selected=d[0].id;uniform.speed=Math.max(.01,uniform.speed||1);d[0].strength=Math.abs(d[0].strength)||TAU*uniform.speed;
+  grouped=true;detached=false;$('uniform-speed').value=uniform.speed;$('uniform-range').value=uniform.speed;
+  recompute();syncAll();
+});
 // Events and keyboard equivalents.
 document.querySelectorAll('[data-tool]').forEach(b=>b.addEventListener('click',()=>setTool(b.dataset.tool)));
 $('preset').addEventListener('change',()=>preset($('preset').value));$('reset').addEventListener('click',()=>preset($('preset').value));
@@ -336,10 +357,14 @@ function numeric(id,fn,min,max,event='input'){
   $(id).addEventListener(event,()=>{const raw=$(id).value;if(raw.trim()==='')return;const n=Number(raw);if(!Number.isFinite(n))return;const v=clamp(n,min,max);fn(v);if(n!==v)$(id).value=v;});
   if($(id).type==='number')$(id).addEventListener('blur',()=>{if(!$(id).value||!Number.isFinite(Number($(id).value))){syncInspector();syncCylinder();}});
 }
-function updateElement(fn,source){const e=selectedElement();if(!e)return;fn(e);recompute();syncList();
+function updateElement(fn,source){const e=selectedElement();if(!e)return;
+  if(grouped&&e.type==='doublet'&&['strength-range','strength-number'].includes(source))return;
+  const oldAngle=e.angle;fn(e);
+  if(grouped&&e.type==='doublet'&&e.angle!==oldAngle){uniform.angle=((e.angle+360)%360)-180;$('uniform-angle').value=uniform.angle;}
+  recompute();syncList();
   // Avoid replacing the focused number field while typing a decimal.
   const active=document.activeElement,value=active?.value;syncInspector();if(source&&active?.id===source)active.value=value;
-  $('scene-name').textContent='自由组合';
+  $('scene-name').textContent=grouped?'圆柱绕流 · 已合并':'自由组合';
 }
 for(const id of ['strength-range','strength-number'])numeric(id,v=>updateElement(e=>{if(e.type==='pair'&&e.lockMoment)e.moment=v;else e.strength=v;},id),-1e6,1e6);
 for(const axis of ['x','y'])numeric('element-'+axis,v=>updateElement(e=>e[axis]=v,'element-'+axis),-100,100);
@@ -347,11 +372,13 @@ for(const id of ['element-angle','angle-range'])numeric(id,v=>updateElement(e=>e
 for(const id of ['separation-number','separation-range'])numeric(id,v=>updateElement(e=>e.separation=v,id),.04,8);
 $('element-enabled').addEventListener('change',()=>updateElement(e=>e.enabled=$('element-enabled').checked));
 $('lock-moment').addEventListener('change',()=>updateElement(e=>{const locked=$('lock-moment').checked;if(locked)e.moment=e.strength*e.separation;else e.strength=e.moment/e.separation;e.lockMoment=locked;}));
-function removeSelected(){elements=elements.filter(e=>e.id!==selected);selected=elements.at(-1)?.id??null;syncAll();recompute();}
+function removeSelected(){if(grouped)return;elements=elements.filter(e=>e.id!==selected);selected=elements.at(-1)?.id??null;syncAll();recompute();}
 $('delete').addEventListener('click',removeSelected);
-$('duplicate').addEventListener('click',()=>{const e=selectedElement();if(!e||elements.length>=16)return;const clone={...e,id:nextId++,x:e.x+.6,y:e.y+.6};elements.push(clone);selected=clone.id;syncAll();recompute();});
-for(const id of ['uniform-speed','uniform-range'])numeric(id,v=>{uniform.speed=v;const other=id==='uniform-speed'?'uniform-range':'uniform-speed';if(v>Number($('uniform-range').max))$('uniform-range').max=v;$(other).value=v;recompute();},0,10);
-numeric('uniform-angle',v=>{uniform.angle=v;recompute();},-180,180);
+$('duplicate').addEventListener('click',()=>{const e=selectedElement();if(grouped||!e||elements.length>=16)return;const clone={...e,id:nextId++,x:e.x+.6,y:e.y+.6};elements.push(clone);selected=clone.id;syncAll();recompute();});
+for(const id of ['uniform-speed','uniform-range'])numeric(id,v=>{const radius=body?.radius;uniform.speed=grouped?Math.max(.01,v):v;
+  if(grouped&&radius){elements.find(e=>e.type==='doublet').strength=TAU*uniform.speed*radius*radius;}
+  v=uniform.speed;$(id).value=v;const other=id==='uniform-speed'?'uniform-range':'uniform-speed';if(v>Number($('uniform-range').max))$('uniform-range').max=v;$(other).value=v;recompute();syncInspector();},0,10);
+numeric('uniform-angle',v=>{uniform.angle=v;recompute();syncInspector();},-180,180);
 numeric('loop-radius',v=>{if(loop){loop.r=v;syncLoop();}},.15,20);
 $('hide-loop').addEventListener('click',()=>{loop=null;syncLoop();if(tool==='loop')setTool('select');});
 for(const key of Object.keys(layers))$('show-'+key).addEventListener('change',()=>{layers[key]=$('show-'+key).checked;dirty=true;if(key==='particles')particles=[];});

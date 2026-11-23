@@ -51,10 +51,19 @@ input('cylinder-ratio',0);assert.match($('cylinder-stagnation').textContent,/两
 assert.match($('cylinder-values').textContent,/Γ = 0.000/);render();
 $('show-potentials').checked=true;$('show-potentials').fire('change');
 for(const name of ['none','phi','psi','speed']){$('background').value=name;$('background').fire('change');render();}
-// The model must disappear immediately when the superposition is no longer a cylinder.
+// Grouped direction, position and speed preserve the cylinder.
+input('uniform-angle',35);assert.equal($('cylinder-panel').hidden,false);assert.equal($('element-angle').value,'-145');
+input('element-angle',60);assert.equal($('uniform-angle').value,'-120');assert.equal($('cylinder-panel').hidden,false);
+input('element-x',2);input('element-y',-1);assert.equal($('cylinder-panel').hidden,false);
+input('uniform-speed',0);assert.equal($('uniform-speed').value,'0.01');assert.equal($('cylinder-panel').hidden,false);
+assert.equal($('cylinder-radius').value,'2');
+$('reset').fire('click');$('split-cylinder').fire('click');assert.equal($('cylinder-panel').hidden,true);
+input('element-angle',45);input('element-x',2);$('merge-cylinder').fire('click');assert.equal($('cylinder-panel').hidden,false);
+$('reset').fire('click');$('split-cylinder').fire('click');
+// Independent components can change geometry after explicit split.
 $('element-list').children[1].fire('click');input('strength-number',8);input('element-x',.5);
 assert.equal($('cylinder-panel').hidden,true);render();
-input('element-x',0);assert.equal($('cylinder-panel').hidden,false);
+input('element-x',0);assert.equal($('cylinder-panel').hidden,true);$('merge-cylinder').fire('click');assert.equal($('cylinder-panel').hidden,false);$('split-cylinder').fire('click');
 input('uniform-speed',0);assert.equal($('cylinder-panel').hidden,true);render();
 $('reset').fire('click');assert.equal($('cylinder-panel').hidden,false);
 // Mobile-sized canvas and every existing preset still execute all rendering paths.
