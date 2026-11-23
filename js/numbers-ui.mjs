@@ -20,6 +20,7 @@ const escape = (value) => String(value).replace(/[&<>"']/g, (char) => ({
 const symbol = (value) => escape(value).replace(/_([a-z]+)/g, '<sub>$1</sub>');
 
 function renderCatalog() {
+  window.MathJax?.typesetClear?.([grid]);
   const matches = searchNumbers(search.value, category);
   grid.innerHTML = matches.map((item) => `
     <a class="number-card" data-category="${item.category}" href="#${item.id}">
@@ -32,6 +33,7 @@ function renderCatalog() {
 }
 
 function renderDetail(item) {
+  window.MathJax?.typesetClear?.([detail]);
   detail.innerHTML = `
     <a class="number-back" href="#">返回数字目录</a>
     <div class="number-detail-head">
