@@ -4,6 +4,7 @@ import {navierStokesFormula} from './formulas-navier-stokes.mjs';
 import {vectorToolsFormula} from './formulas-vector.mjs';
 import {theoremFormulas} from './formulas-theorems.mjs';
 
+import {glauertFormula} from './formulas-glauert.mjs';
 import {thinAirfoilFormula} from './formulas-thin-airfoil.mjs';
 
 const rho=v('ρ'), vel=b('v'), sigma=b('σ'), tau=b('τ'), force=b('b');
@@ -95,7 +96,9 @@ export const formulas = [
   ...energyFormulas.filter(item=>item.id!=='entropy'),
   navierStokesFormula,
   thinAirfoilFormula,
+  glauertFormula,
   ...energyFormulas.filter(item=>item.id==='entropy'),
   vectorToolsFormula,
   ...theoremFormulas,
 ].map(item=>({...item,group:item.group || (item.id==='vector-tools'?'operations':item.id==='navier-stokes'?'models':theoremFormulas.some(theorem=>theorem.id===item.id)?'theorems':'balance')}));
+

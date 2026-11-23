@@ -1,5 +1,6 @@
 /* Standardized short LaTeX previews for Library summaries. */
 const symbols = {
+  "A₀、Aₙ": "A_0,\\;A_n",
   "∂ / ∂t": "\\frac{\\partial}{\\partial t}",
   "ρ": "\\rho",
   "ρv": "\\rho\\boldsymbol{v}",
@@ -34,3 +35,4 @@ export const mathSymbol = value => {
   return '<span class="math-inline" data-tex="'+escape(tex)+'">'+escape(value)+'</span>';
 };
 export const mathSymbols = symbols;
+

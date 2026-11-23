@@ -1,4 +1,4 @@
-import {v,b,o,n,row,sub,sup,frac,eq,plus,par,equation} from './formula-math.mjs';
+import {v,b,o,n,row,sub,sup,frac,eq,plus,par,equation,texEquation as T} from './formula-math.mjs';
 
 const U=sub(v('V'),o('∞')), cp=sub(v('C'),v('p')), cl=sub(v('C'),v('l'));
 const up=sup(v('u'),o('′')), vp=sup(v('v'),o('′')), x=v('x'), xi=v('ξ'), c=v('c');
@@ -78,13 +78,22 @@ export const thinAirfoilFormula = {
     {id:'tangency',title:'切向条件',english:'Tangency condition',summary:'把诱导速度与翼型表面的斜率连接起来。',takeaway:'源涡分布给出速度；切向条件要求这些速度符合翼型几何。边界条件在一阶近似下移到弦线计算。',blocks:[
       {title:'无穿透条件',text:'速度沿表面切线，法向分量为零。此处 u、v 必须用总速度。',equations:[E('速度与表面相切','V·n = 0，dy±/dx = v±/u±',row(eq(row(b('V'),o('·'),b('n')),n(0)),o(','),eq(derivative(sup(v('y'),o('±'))),frac(sup(v('v'),o('±')),sup(v('u'),o('±'))))))]},
       {title:'代入小扰动并线性化',text:'cos α ≈ 1、sin α ≈ α；分子本身是一阶小量，分母中的 u′ 对比值只带来二阶修正，所以分母取 V∞。',equations:[E('一阶速度分量','u ≈ V∞，v ≈ V∞α + v′',row(v('u'),o('≈'),U,o(','),v('v'),o('≈'),U,v('α'),o('+'),vp)),E('线性化切向方程','dy±/dx ≈ α + v′±/V∞',row(derivative(sup(v('y'),o('±'))),o('≈'),v('α'),o('+'),frac(sup(v('v'),o('′±')),U)))]},
-      {title:'连接弯度与厚度',text:'令 y± = ym ± ys。将上下侧条件取平均得到中弧线方程，取差得到厚度对应的源强。以下等式在一阶模型内成立。',equations:[...original.steps[1].equations,original.steps[3].equations[0],original.steps[4].equations[2],original.steps[3].equations[3]]},
+      {title:'后续求解',text:'将上下侧切向条件取平均可建立中弧线积分方程，取差可确定厚度源强。相关几何分解、求解公式和升力结论统一收录于 Glauert 薄翼理论卡片。'},
     ]},
-    {id:'pressure',title:'压力系数',english:'Pressure coefficient',summary:'从伯努利关系展开到一阶结果，最后再做叠加。',takeaway:'速度按矢量相加；各项 Cp 只有在一阶近似下才能代数相加。均匀来流始终只加一次。',blocks:[
-      {title:'从伯努利关系开始',text:'二维、不可压缩势流中，由总速度的平方得到压力系数。',equations:[E('压力系数定义','Cp = 1 − (u²+v²)/V∞²',eq(cp,row(n(1),o('−'),frac(plus(sq(v('u')),sq(v('v'))),sq(U))))),original.steps[5].equations[0]]},
-      {title:'展开并识别二阶小量',text:'利用 cos²α + sin²α = 1。αv′/V∞、u′²/V∞²、v′²/V∞² 都属于二阶；一阶只留下轴向扰动项。',equations:[E('未舍弃小量的展开式','Cp = −2(u′cosα + v′sinα)/V∞ − (u′²+v′²)/V∞²',eq(cp,row(o('−'),frac(row(n(2),par(plus(row(up,v('cos'),v('α')),row(vp,v('sin'),v('α'))))),U),o('−'),frac(plus(sq(up),sq(vp)),sq(U))))),E('上下表面的一阶压力系数','Cp± ≈ −2u′±/V∞',row(sup(cp,o('±')),o('≈'),o('−'),frac(row(n(2),sup(v('u'),o('′±'))),U)))]},
-      {title:'三种扰动的叠加',text:'把迎角、弯度、厚度引起的扰动速度相加，再用同一个线性关系换算成 Cp。',equations:[E('轴向扰动相加','u′ = u′α + u′m + u′s',eq(up,plus(sub(up,v('α')),sub(up,v('m')),sub(up,v('s'))))),original.steps[5].equations[1]]},
+    {id:'pressure',title:'压力系数',english:'Pressure coefficient',summary:'从总速度的伯努利关系，得到可叠加的一阶压力系数。',takeaway:'一阶压力系数只依赖轴向扰动；完整伯努利关系包含二阶项。',blocks:[
+      {title:'定义与总速度',text:'总速度先叠加，再取速度平方。U∞ 与本卡片 V∞ 表示同一来流速率。',equations:[
+        T('压力系数定义','Cp = (p−p∞)/(ρU∞²/2) = 1−(u²+v²)/U∞²',String.raw`C_p=\frac{p-p_\infty}{\tfrac12\rho U_\infty^2}=1-\frac{u^2+v^2}{U_\infty^2}`),
+        T('代入总速度分量','Cp = 1−[(U∞cosα+u′)²+(U∞sinα+v′)²]/U∞²',String.raw`C_p=1-\frac{(U_\infty\cos\alpha+u')^2+(U_\infty\sin\alpha+v')^2}{U_\infty^2}`),
+      ]},
+      {title:'展开与一阶近似',text:'先用三角恒等式展开，再忽略迎角与扰动的乘积以及扰动速度平方。上下表面分别使用各自的轴向扰动。',equations:[
+        T('展开式（未舍弃二阶项）','Cp = −2(u′cosα+v′sinα)/U∞ − (u′²+v′²)/U∞²',String.raw`C_p=-\frac{2(u'\cos\alpha+v'\sin\alpha)}{U_\infty}-\frac{(u')^2+(v')^2}{U_\infty^2}`),
+        T('一阶压力系数','Cp± ≈ −2u′±/U∞',String.raw`C_p^{\pm}\simeq-\frac{2u'_{\pm}}{U_\infty}`),
+      ]},
+      {title:'三种扰动的叠加',text:'迎角、弯度和厚度的扰动可线性相加。压力系数的代数叠加仅在一阶近似内成立，均匀来流只计入一次。',equations:[
+        T('扰动与压力系数叠加','u′ = u′α+u′m+u′s；Cp ≈ Cp,α+Cp,m+Cp,s',String.raw`\begin{aligned}u'&=u'_\alpha+u'_m+u'_s,\\C_p&\simeq C_{p,\alpha}+C_{p,m}+C_{p,s}=-\frac{2(u'_\alpha+u'_m+u'_s)}{U_\infty}.\end{aligned}`),
+      ]},
     ]},
   ],
-  supplement:[{title:'Kutta 条件',text:'要进一步求出涡分布，还需要后缘条件。尖后缘要求上下侧速度连续，薄翼模型中写成 γ(c) = 0。',equations:[original.steps[4].equations[3]]},original.steps[6],{...original.example,equations:[...original.example.equations,original.equations[1]]}],
+  supplement:[],
+  sources:[{title:'Glauert 公式卡片：系数、Kutta 条件、压力差与升力',url:'./formulas.html#glauert'},...original.sources],
 };

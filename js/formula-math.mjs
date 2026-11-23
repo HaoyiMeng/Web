@@ -10,7 +10,7 @@ export const t = (s) => `<mtext>${esc(s)}</mtext>`;
 export const row = (...s) => `<mrow>${s.join('')}</mrow>`;
 export const sub = (a, c) => `<msub>${a}${c}</msub>`;
 export const sup = (a, c) => `<msup>${a}${c}</msup>`;
-export const frac = (a, c) => `<mfrac>${a}${c}</mfrac>`;
+export const frac = (a, c) => `<mfrac>${row(a)}${row(c)}</mfrac>`;
 export const eq = (...s) => s.join(o('='));
 export const plus = (...s) => s.join(o('+'));
 export const par = (s) => row(o('('),s,o(')'));
@@ -23,3 +23,7 @@ export const integral = (domain, body, measure='V') => row(sub(o('∫'),domain),
 export const surface = (body) => row(sub(o('∮'),row(o('∂'),v('Ω'))),body,v('d'),v('A'));
 export const math = (s) => `<math xmlns="http://www.w3.org/1998/Math/MathML" display="block">${s}</math>`;
 export const equation = (label,text,markup) => ({label,text,math:math(markup)});
+
+
+// TeX formulas retain readable fallback text when the renderer is unavailable.
+export const texEquation = (label,text,tex) => ({label,text,math:`<span class="math-display" data-tex="${esc(tex)}">${esc(text)}</span>`});

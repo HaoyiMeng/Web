@@ -12,8 +12,9 @@ export function renderSequence(item, group, {escape, equations, paragraphs}) {
     <div class="formula-subcards">${item.cards.map((card, index) => `<details class="formula-subcard"${index === 0 ? ' open' : ''}>
       <summary><span class="formula-subcard-order">${String(index+1).padStart(2,'0')}</span><span><strong id="thin-${card.id}" tabindex="-1">${escape(card.title)}</strong><span class="formula-subcard-english" lang="en">${escape(card.english)}</span><span class="formula-subcard-description">${escape(card.summary)}</span></span></summary>
       <div class="formula-subcard-body">${blocks(card.blocks)}<p class="formula-takeaway">${escape(card.takeaway)}</p></div></details>`).join('')}</div></div></div>
-    <div class="formula-sequence-extras"><span>REFERENCE &amp; NOTES</span><h2>附录与延伸</h2><p>符号约定、适用条件与升力结论，按需查阅。</p></div>
+    <div class="formula-sequence-extras"><span>REFERENCE &amp; NOTES</span><h2>附录与延伸</h2><p>符号约定与适用条件，按需查阅。</p></div>
     <details class="formula-supplement"><summary>符号与适用条件</summary><div><dl class="formula-term-list">${item.terms.map(([term,definition])=>`<dt>${escape(term)}</dt><dd>${escape(definition)}</dd>`).join('')}</dl><section class="formula-conditions"><h2>适用条件</h2><ul>${item.conditions.map(text=>`<li>${escape(text)}</li>`).join('')}</ul></section></div></details>
-    <details class="formula-supplement"><summary>后续补充：Kutta 条件、升力与薄平板</summary><div>${blocks(item.supplement)}<section class="formula-meaning">${paragraphs(item.meaning)}</section></div></details>
+    ${item.supplement.length ? `<details class="formula-supplement"><summary>补充结论</summary><div>${blocks(item.supplement)}</div></details>` : ''}
     <section class="formula-sources"><h2>参考与实验</h2><p>${escape(item.sourceNote)}</p>${item.sources.map(source=>`<a href="${escape(source.url)}">${escape(source.title)}</a>`).join('')}</section>`;
 }
+

@@ -47,3 +47,8 @@ mjx-container[display="true"] { display:block; margin:.35em 0 !important; text-a
 .math-standard-examples{display:flex;flex-wrap:wrap;align-items:center;gap:11px;justify-content:flex-end}
 .math-standard-examples span{border:1px solid #415e60;border-radius:7px;padding:10px 13px;background:#102329;color:#c3ebdf;white-space:nowrap;min-width:55px;text-align:center}
 @media(max-width:780px){.math-standard-summary{flex-direction:column;align-items:stretch}.math-standard-examples{justify-content:flex-start}}
+
+
+/* Preserve display-sized fractions and full formula width on narrow cards. */
+.formula-equation .math-display { min-width:max-content; padding:.4rem .25rem; color:var(--math-ink); }
+.formula-equation math { font-family:"STIX Two Math","Cambria Math",math; }

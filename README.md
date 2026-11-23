@@ -4,6 +4,9 @@ A personal interactive study space focused on physics, aerospace and music.
 
 ## Features
 
+- Glauert formula reference (`formulas.html#glauert`): Fourier coefficients, ideal and zero-lift incidence, circulation and lift in one card, linked to the full Study Notes derivation. The first-order card retains perturbations and pressure; overlapping solution results are consolidated into Glauert. Pressure formulas use LaTeX; the shared MathML fraction helper groups each operand to ensure exactly two children.
+
+
 - Shared math renderer: pinned MathJax 3.2.2 (`tex-mml-chtml`) typesets all existing semantic MathML and new LaTeX across the formula/numbers libraries and relevant labs; math-rich editorial pages have been migrated to `data-tex` with readable text fallbacks. Formula-summary symbols also use a common notation mapping. Two CDN endpoints are attempted; native MathML remains the fallback when offline. New formulas follow [Math Style Guide](docs/MATH_STYLE_GUIDE.md). 
 - Study Notes (`study-notes.html`): Library index for independently readable engineering notes. Glauert has been moved out of the Physics Lab experiment catalogue; the small-perturbation experiment and formula reference still cross-link to it.
 - Glauert thin-airfoil theory (`glauert.html`): standalone Chinese/English derivation from source/vortex sheet choice and the principal-value tangency equation through the theta substitution, Fourier coefficients A0/An, ideal and zero-lift incidence, lift and circulation. Includes accurate standalone SVG diagrams for source/vortex sheets, the integral kernel and exact semicircle projection, plus an interactive two-chart parabolic-camber model with an x/c probe, and links to Study Notes, small perturbations and the formula library.
@@ -99,4 +102,5 @@ Focus history and tasks, as well as metronome preferences, are saved in the brow
 ## Maintenance
 
 The repository remains under the owner's GitHub account. Never commit passwords, API keys, or private documents. Cloudflare Pages can redeploy automatically when new commits are pushed to `main`.
+
 
