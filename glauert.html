@@ -49,7 +49,7 @@
 <section class="g-section" id="g-map" aria-labelledby="g-map-title">
 <div class="g-section-head"><p class="g-eyebrow">01 / OVERVIEW</p><h2 id="g-map-title">从几何到升力：需要解决什么问题？</h2></div>
 <p>薄翼理论把有厚度的真实翼型简化为弦线附近的一组理想奇点。已知翼型上下表面 y⁺(x)、y⁻(x) 和迎角 α，先将几何分成<strong>中弧线</strong>与<strong>半厚度</strong>，再分别处理：</p>
-<div class="g-math"><small>GEOMETRY / 几何分解</small>y<sub>m</sub> = (y⁺ + y⁻)/2　　y<sub>s</sub> = (y⁺ − y⁻)/2</div>
+<div class="g-math"><small>GEOMETRY / 几何分解</small><span class="math-display" data-tex="\begin{aligned}y_m(x)&amp;=\frac{y^+(x)+y^-(x)}{2},\\[4pt]y_s(x)&amp;=\frac{y^+(x)-y^-(x)}{2}.\end{aligned}">y<sub>m</sub> = (y⁺ + y⁻)/2　　y<sub>s</sub> = (y⁺ − y⁻)/2</span></div>
 <div class="g-workflow"><span>迎角 α + 中弧线 y<sub>m</sub></span><b>→</b><span>涡片 γ</span><b>→</b><span>升力</span><span>半厚度 y<sub>s</sub></span><b>→</b><span>源片 q</span><b>→</b><span>厚度流场</span></div>
 <p>这是二维、定常、不可压、无黏、无旋外流中的<strong>一阶线性薄翼近似</strong>。此处 α、表面斜率和扰动速度比均视为小量。位于零厚度弦线上的奇点是数学表示，并不是实体翼型中存在真实的“涡层”或“喷水孔”。</p>
 <table class="g-term-table"><thead><tr><th>符号 / Symbol</th><th>含义 / Meaning</th></tr></thead><tbody>
@@ -73,7 +73,7 @@
 </div>
 <h3>厚度的源片强度怎样求？</h3>
 <p>对称厚翼在 α = 0 时，有 y⁻ = −y⁺。源片在参考弦线两侧诱导法向速度 v′⁺ = +q/2、v′⁻ = −q/2；上表面线性切向条件给出 dy⁺/dx = v′⁺/U∞。于是：</p>
-<div class="g-math"><small>SOURCE SHEET / 源片</small>q(x) = 2U∞ · dy<sub>s</sub>/dx</div>
+<div class="g-math"><small>SOURCE SHEET / 源片</small><span class="math-display" data-tex="q(x)=2U_\infty\frac{\mathrm{d}y_s}{\mathrm{d}x}">q(x) = 2U∞ · dy<sub>s</sub>/dx</span></div>
 <p>若前后缘半厚度都为零，∫₀ᶜ q(x)dx = 2U∞[y<sub>s</sub>(c) − y<sub>s</sub>(0)] = 0。前半部可以是源、后半部是汇，但总源量为零。源片的轴向扰动在上下两侧相同，所以一阶压力差为零；理想对称翼型在零迎角时不产生升力。</p>
 <div class="g-hint">关键区分：<strong>源片对应上下两侧法向速度的跳跃；涡片对应切向速度的跳跃。</strong>这解释了为什么升力问题主要研究 γ，而不是 q。</div>
 </section>
@@ -81,14 +81,14 @@
 <section class="g-section" id="g-equation" aria-labelledby="g-equation-title">
 <div class="g-section-head"><p class="g-eyebrow">03 / BOUNDARY CONDITION</p><h2 id="g-equation-title">由切向边界条件推出奇异积分方程</h2></div>
 <p>中弧线记为 y<sub>m</sub>(x)。真实物理条件是流体速度必须沿翼面切向，不能穿透。小斜率近似后，参考弦线上的法向扰动速度满足：</p>
-<div class="g-math"><small>TANGENCY / 线性化切向条件</small>dy<sub>m</sub>/dx = α + v′(x)/U∞</div>
+<div class="g-math"><small>TANGENCY / 线性化切向条件</small><span class="math-display" data-tex="\frac{\mathrm{d}y_m}{\mathrm{d}x}=\alpha+\frac{v'(x)}{U_\infty}">dy<sub>m</sub>/dx = α + v′(x)/U∞</span></div>
 <p>涡片在上下两面诱导相同的法向速度，但产生相反的切向扰动速度：</p>
-<div class="g-math">u′<sub>γ,+</sub> = +γ(x)/2　　u′<sub>γ,−</sub> = −γ(x)/2</div>
+<div class="g-math"><span class="math-display" data-tex="u'_{\gamma,+}(x)=+\frac{\gamma(x)}{2},\qquad u'_{\gamma,-}(x)=-\frac{\gamma(x)}{2}">u′<sub>γ,+</sub> = +γ(x)/2　　u′<sub>γ,−</sub> = −γ(x)/2</span></div>
 <p>它在弦线上的共同法向速度通过二维涡的 Biot–Savart 叠加得到。注意 x′ 是积分变量，x 是观察点；当 x′ → x，必须按主值理解积分：</p>
-<div class="g-math"><small>INDUCED VELOCITY / 涡片法向诱导速度</small>v′(x) = −(1/2π) PV ∫₀ᶜ γ(x′)/(x−x′) dx′</div>
+<div class="g-math"><small>INDUCED VELOCITY / 涡片法向诱导速度</small><span class="math-display" data-tex="v'(x)=-\frac{1}{2\pi}\operatorname{PV}\!\int_0^c\frac{\gamma(x')}{x-x'}\,\mathrm{d}x'">v′(x) = −(1/2π) PV ∫₀ᶜ γ(x′)/(x−x′) dx′</span></div>
 <figure class="g-figure g-figure-boundary"><div class="g-figure-scroll"><img src="./assets/glauert-boundary.svg" alt="积分变量 x′ 与观察位置 x 的区别；涡片引起上下切向速度跳跃，源片引起上下法向速度跳跃。" loading="lazy" decoding="async" width="1000" height="455"></div><figcaption><strong>图 2 · 诱导速度与速度跳跃。</strong> x′ 是沿弦积分的源点，x 是固定观察点。下方分别表示涡片与源片的局部跃变条件；箭头表示扰动速度，不代表总来流方向。</figcaption></figure>
 <p>将其代回切向条件，得到 Glauert 方法的出发点：</p>
-<div class="g-math g-math--alt"><small>FUNDAMENTAL INTEGRAL EQUATION / 基本积分方程</small>(1/2π) PV ∫₀ᶜ γ(x′)/(x−x′) dx′ = U∞[α − dy<sub>m</sub>/dx]</div>
+<div class="g-math g-math--alt"><small>FUNDAMENTAL INTEGRAL EQUATION / 基本积分方程</small><span class="math-display" data-tex="\frac{1}{2\pi}\operatorname{PV}\!\int_0^c\frac{\gamma(x')}{x-x'}\,\mathrm{d}x'=U_\infty\left(\alpha-\frac{\mathrm{d}y_m}{\mathrm{d}x}\right)">(1/2π) PV ∫₀ᶜ γ(x′)/(x−x′) dx′ = U∞[α − dy<sub>m</sub>/dx]</span></div>
 <p>右侧的 α 和中弧线斜率已知；未知的是整个函数 γ(x′)。<strong>接下来进行坐标变换与级数展开，就是为了把这一函数方程变成代数系数问题。</strong></p>
 <div class="g-hint">本页涡片强度采用 γ = u′⁺ − u′⁻ 的正升力约定。若在其他教材中使用逆时针为正的环量 Γ<sub>ccw</sub>，其环量符号可能相反；不要只对照符号而忽略方向约定。</div>
 </section>
@@ -96,11 +96,11 @@
 <section class="g-section" id="g-transform" aria-labelledby="g-transform-title">
 <div class="g-section-head"><p class="g-eyebrow">04 / GLAUERT TRANSFORMATION</p><h2 id="g-transform-title">为什么把 x 换成 θ？</h2></div>
 <p>原积分核包含 x − x′，而涡片在前缘可能具有平方根奇性。Glauert 采用半圆投影作为新坐标，把弦向区间映射为角区间 0 ≤ θ ≤ π：</p>
-<div class="g-math"><small>COORDINATE TRANSFORM / 半圆映射</small>x = (c/2)(1 − cos θ)，　dx = (c/2)sin θ dθ</div>
+<div class="g-math"><small>COORDINATE TRANSFORM / 半圆映射</small><span class="math-display" data-tex="x=\frac{c}{2}(1-\cos\theta),\qquad \mathrm{d}x=\frac{c}{2}\sin\theta\,\mathrm{d}\theta">x = (c/2)(1 − cos θ)，　dx = (c/2)sin θ dθ</span></div>
 <figure class="g-figure g-figure-theta"><div class="g-figure-scroll"><img src="./assets/glauert-theta.svg" alt="精确半圆映射：x=c/2(1−cosθ)；θ=0、π/2、π 对应前缘、中点、后缘；θ=60° 对应 x=c/4。" loading="lazy" decoding="async" width="960" height="480"></div><figcaption><strong>图 3 · 半圆到翼弦的水平投影。</strong> θ 均匀分布不代表 x 均匀分布。例如 θ = 60° 时，x/c = 1/4。图中半圆仅用于变量变换，不是实际翼型。</figcaption></figure>
 <p>图是投影坐标的示意，不是翼型真正的几何外形。变换后，积分分母变为 (c/2)(cos θ′ − cos θ)，微分 dx′ 则提供 sin θ′。这样三角积分可以用标准恒等式处理。</p>
 <h3>选择满足后缘条件的涡片展开</h3>
-<div class="g-math g-math--alt"><small>GLAUERT SERIES / 涡片强度</small>γ(θ) = 2U∞ [ A₀(1 + cos θ)/sin θ + ∑<sub>n=1</sub><sup>∞</sup> Aₙ sin(nθ) ]</div>
+<div class="g-math g-math--alt"><small>GLAUERT SERIES / 涡片强度</small><span class="math-display" data-tex="\gamma(\theta)=2U_\infty\left[A_0\frac{1+\cos\theta}{\sin\theta}+\sum_{n=1}^{\infty}A_n\sin(n\theta)\right]">γ(θ) = 2U∞ [ A₀(1 + cos θ)/sin θ + ∑<sub>n=1</sub><sup>∞</sup> Aₙ sin(nθ) ]</span></div>
 <p>A₀ 项来自有迎角平板的标准解；后面是以 sin(nθ) 为基底的弯度修正。对尖锐后缘，在 θ → π 时这些项都趋于零，因此满足线性理论的 Kutta 后缘条件 γ(c) = 0。</p>
 <p>相反，θ → 0 时，A₀(1+cos θ)/sin θ ≈ 2A₀/θ，意味着非零 A₀ 会带来前缘奇性。<strong>数学上的前缘发散不能被误认为真实黏性流场有无限速度。</strong></p>
 </section>
@@ -112,11 +112,11 @@
 <article class="g-step"><h3>把涡片展开拆成 A₀ 和 Aₙ 两组</h3><p>积分左侧化为 U∞/π [A₀G₀(θ) + ∑<sub>n≥1</sub>AₙGₙ(θ)]。定义两个关键的三角积分 G₀ 与 Gₙ，分别处理基本解和高阶模态。</p></article>
 <article class="g-step"><h3>使用标准的主值积分恒等式</h3><p>当 0 &lt; θ &lt; π 且 n≥1 时，下列两个积分有解析结果。这里的正负号取决于我们已经固定的分母 cos θ′ − cos θ。</p></article>
 </div>
-<div class="g-math"><small>THE TWO KEY IDENTITIES / 两个关键积分</small>G₀ = PV ∫₀<sup>π</sup> (1 + cos θ′)/(cos θ′ − cos θ) dθ′ = π<br>Gₙ = PV ∫₀<sup>π</sup> sin θ′ · sin(nθ′)/(cos θ′ − cos θ) dθ′ = −π cos(nθ)</div>
+<div class="g-math"><small>THE TWO KEY IDENTITIES / 两个关键积分</small><span class="math-display" data-tex="\begin{aligned}G_0(\theta)&amp;=\operatorname{PV}\!\int_0^\pi\frac{1+\cos\theta'}{\cos\theta'-\cos\theta}\,\mathrm{d}\theta'=\pi,\\[6pt]G_n(\theta)&amp;=\operatorname{PV}\!\int_0^\pi\frac{\sin\theta'\sin(n\theta')}{\cos\theta'-\cos\theta}\,\mathrm{d}\theta'=-\pi\cos(n\theta).\end{aligned}">G₀ = PV ∫₀<sup>π</sup> (1 + cos θ′)/(cos θ′ − cos θ) dθ′ = π<br>Gₙ = PV ∫₀<sup>π</sup> sin θ′ · sin(nθ′)/(cos θ′ − cos θ) dθ′ = −π cos(nθ)</span></div>
 <p>于是左边成为 U∞[A₀ − ∑<sub>n≥1</sub>Aₙ cos(nθ)]，与右侧 U∞(α − dy<sub>m</sub>/dx) 比较，并约去 U∞：</p>
-<div class="g-math g-math--alt"><small>REDUCED FOURIER EQUATION / 化简后的主方程</small>A₀ − ∑<sub>n=1</sub><sup>∞</sup>Aₙ cos(nθ) = α − dy<sub>m</sub>/dx</div>
+<div class="g-math g-math--alt"><small>REDUCED FOURIER EQUATION / 化简后的主方程</small><span class="math-display" data-tex="A_0-\sum_{n=1}^{\infty}A_n\cos(n\theta)=\alpha-\frac{\mathrm{d}y_m}{\mathrm{d}x}">A₀ − ∑<sub>n=1</sub><sup>∞</sup>Aₙ cos(nθ) = α − dy<sub>m</sub>/dx</span></div>
 <p>移项得到另一种更适合提取系数的写法：</p>
-<div class="g-math">dy<sub>m</sub>/dx = (α − A₀) + ∑<sub>n=1</sub><sup>∞</sup>Aₙ cos(nθ)</div>
+<div class="g-math"><span class="math-display" data-tex="\frac{\mathrm{d}y_m}{\mathrm{d}x}=(\alpha-A_0)+\sum_{n=1}^{\infty}A_n\cos(n\theta)">dy<sub>m</sub>/dx = (α − A₀) + ∑<sub>n=1</sub><sup>∞</sup>Aₙ cos(nθ)</span></div>
 <p>这是后续提取 Fourier 系数的核心方程。<strong>重要的转换已经发生：几何斜率函数被写成一组余弦系数。</strong></p>
 </section>
 
@@ -124,15 +124,15 @@
 <div class="g-section-head"><p class="g-eyebrow">06 / FOURIER ORTHOGONALITY</p><h2 id="g-coefficients-title">如何一步步提取 A₀ 和 Aₙ？</h2></div>
 <h3>先求 A₀：把方程直接积分</h3>
 <p>从 0 到 π 对 θ 积分。因为 n≥1 时 ∫₀<sup>π</sup> cos(nθ)dθ = 0，所有高阶项消失：</p>
-<div class="g-math">∫₀<sup>π</sup> [dy<sub>m</sub>/dx]dθ = π(α − A₀)</div>
-<div class="g-math g-math--alt"><small>ZEROTH COEFFICIENT / 零阶系数</small>A₀ = α − (1/π) ∫₀<sup>π</sup> [dy<sub>m</sub>/dx]dθ = α − α<sub>ID</sub></div>
+<div class="g-math"><span class="math-display" data-tex="\int_0^\pi\frac{\mathrm{d}y_m}{\mathrm{d}x}\,\mathrm{d}\theta=\pi(\alpha-A_0)">∫₀<sup>π</sup> [dy<sub>m</sub>/dx]dθ = π(α − A₀)</span></div>
+<div class="g-math g-math--alt"><small>ZEROTH COEFFICIENT / 零阶系数</small><span class="math-display" data-tex="A_0=\alpha-\frac{1}{\pi}\int_0^\pi\frac{\mathrm{d}y_m}{\mathrm{d}x}\,\mathrm{d}\theta=\alpha-\alpha_{\mathrm{ID}}">A₀ = α − (1/π) ∫₀<sup>π</sup> [dy<sub>m</sub>/dx]dθ = α − α<sub>ID</sub></span></div>
 <p>这里 α<sub>ID</sub> = (1/π) ∫₀<sup>π</sup> (dy<sub>m</sub>/dx)dθ 称作<strong>理想迎角（incidenza ideale）</strong>：使 A₀ = 0，也就是消除该级数前缘 A₀ 奇性项的迎角。</p>
 <h3>再求 Aₙ：乘 cos(mθ) 后积分</h3>
 <p>在同一方程两边乘 cos(mθ)，m ≥ 1，然后对 θ ∈ [0,π] 积分。常数项的积分为零，且余弦族满足正交性：</p>
-<div class="g-math"><small>ORTHOGONALITY / 余弦正交性</small>∫₀<sup>π</sup> cos(mθ)cos(nθ)dθ = { π/2 （m=n≥1）； 0 （m≠n） }</div>
+<div class="g-math"><small>ORTHOGONALITY / 余弦正交性</small><span class="math-display" data-tex="\int_0^\pi\cos(m\theta)\cos(n\theta)\,\mathrm{d}\theta=\begin{cases}\dfrac{\pi}{2},&amp;m=n\ge1,\\[4pt]0,&amp;m\ne n.\end{cases}">∫₀<sup>π</sup> cos(mθ)cos(nθ)dθ = { π/2 （m=n≥1）； 0 （m≠n） }</span></div>
 <p>无限级数里只有 n=m 的那一项保留下来：</p>
-<div class="g-math">∫₀<sup>π</sup> [dy<sub>m</sub>/dx]cos(mθ)dθ = (π/2) A<sub>m</sub></div>
-<div class="g-math g-math--alt"><small>HIGHER COEFFICIENTS / 高阶系数</small>Aₙ = (2/π) ∫₀<sup>π</sup> [dy<sub>m</sub>/dx]cos(nθ)dθ，n ≥ 1</div>
+<div class="g-math"><span class="math-display" data-tex="\int_0^\pi\frac{\mathrm{d}y_m}{\mathrm{d}x}\cos(m\theta)\,\mathrm{d}\theta=\frac{\pi}{2}A_m">∫₀<sup>π</sup> [dy<sub>m</sub>/dx]cos(mθ)dθ = (π/2) A<sub>m</sub></span></div>
+<div class="g-math g-math--alt"><small>HIGHER COEFFICIENTS / 高阶系数</small><span class="math-display" data-tex="A_n=\frac{2}{\pi}\int_0^\pi\frac{\mathrm{d}y_m}{\mathrm{d}x}\cos(n\theta)\,\mathrm{d}\theta,\quad n\ge1">Aₙ = (2/π) ∫₀<sup>π</sup> [dy<sub>m</sub>/dx]cos(nθ)dθ，n ≥ 1</span></div>
 <p>注意积分里的导数仍是 <strong>dy<sub>m</sub>/dx</strong>，不是 dy<sub>m</sub>/dθ。你要先使用 x(θ) 将翼型斜率表达成 θ 的函数，然后按 θ 积分，不能漏掉变量之间的关系。</p>
 <div class="g-hint">这段推导真正用到的核心数学工具只有<strong>三角函数的正交性</strong>。A₀ 是斜率的平均项（连同迎角），而 Aₙ 是斜率投影到 cos(nθ) 上的结果。</div>
 </section>
@@ -140,10 +140,10 @@
 <section class="g-section" id="g-lift" aria-labelledby="g-lift-title">
 <div class="g-section-head"><p class="g-eyebrow">07 / PHYSICAL OUTPUT</p><h2 id="g-lift-title">有了 Aₙ，升力和压力差怎样求？</h2></div>
 <p>在涡片约定下，上、下侧切向速度之差为 γ，因此线性化伯努利关系给出下表面减上表面的压力系数差：</p>
-<div class="g-math">ΔC<sub>p</sub> = C<sub>p,lower</sub> − C<sub>p,upper</sub> = 2γ(x)/U∞</div>
+<div class="g-math"><span class="math-display" data-tex="\Delta C_p=C_{p,\mathrm{lower}}-C_{p,\mathrm{upper}}=\frac{2\gamma(x)}{U_\infty}">ΔC<sub>p</sub> = C<sub>p,lower</sub> − C<sub>p,upper</sub> = 2γ(x)/U∞</span></div>
 <p>单位展长环量定义为 Γ<sub>lift</sub> = ∫₀ᶜγ(x)dx。把 Glauert 级数和 dx = (c/2)sinθ dθ 代入，只有 A₀ 和 A₁ 在全弦积分后留下贡献：</p>
-<div class="g-math"><small>CIRCULATION / 正升力约定的环量</small>Γ<sub>lift</sub> = π U∞ c (A₀ + A₁/2)</div>
-<div class="g-math g-math--alt"><small>THIN-AIRFOIL LIFT / 二维升力系数</small>C<sub>L</sub> = 2Γ<sub>lift</sub>/(U∞ c) = 2π(A₀ + A₁/2)</div>
+<div class="g-math"><small>CIRCULATION / 正升力约定的环量</small><span class="math-display" data-tex="\Gamma_{\mathrm{lift}}=\pi U_\infty c\left(A_0+\frac{A_1}{2}\right)">Γ<sub>lift</sub> = π U∞ c (A₀ + A₁/2)</span></div>
+<div class="g-math g-math--alt"><small>THIN-AIRFOIL LIFT / 二维升力系数</small><span class="math-display" data-tex="C_L=\frac{2\Gamma_{\mathrm{lift}}}{U_\infty c}=2\pi\left(A_0+\frac{A_1}{2}\right)">C<sub>L</sub> = 2Γ<sub>lift</sub>/(U∞ c) = 2π(A₀ + A₁/2)</span></div>
 <div class="g-two">
 <article class="g-card g-card--soft"><h3>理想迎角 α<sub>ID</sub></h3><p>A₀ = 0 时的迎角，即 α<sub>ID</sub> = (1/π)∫₀<sup>π</sup> y′<sub>m</sub>(θ)dθ。</p></article>
 <article class="g-card g-card--gold"><h3>零升力迎角 α<sub>L=0</sub></h3><p>C<sub>L</sub> = 0 时的迎角，即 α<sub>L=0</sub> = α<sub>ID</sub> − A₁/2。</p></article>
@@ -154,7 +154,7 @@
 <section class="g-section" id="g-model" aria-labelledby="g-model-title">
 <div class="g-section-head"><p class="g-eyebrow">08 / INTERACTIVE EXAMPLE</p><h2 id="g-model-title">自己改变迎角与弯度，观察 A₀、A₁ 和 γ(x)</h2></div>
 <p>为了得到可核对的解析结果，实验固定使用<strong>抛物线中弧线</strong> y<sub>m</sub>/c = 4mX(1−X)，X = x/c。此处 m 是最大弯度比，没有厚度项。</p>
-<div class="g-math">dy<sub>m</sub>/dx = 4m(1−2X) = 4m cos θ　⇒　A₀ = α，A₁ = 4m，A<sub>n≥2</sub> = 0</div>
+<div class="g-math"><span class="math-display" data-tex="\frac{\mathrm{d}y_m}{\mathrm{d}x}=4m(1-2X)=4m\cos\theta\;\Longrightarrow\;\begin{cases}A_0=\alpha,\\A_1=4m,\\A_{n\ge2}=0.\end{cases}">dy<sub>m</sub>/dx = 4m(1−2X) = 4m cos θ　⇒　A₀ = α，A₁ = 4m，A<sub>n≥2</sub> = 0</span></div>
 <div class="g-model" aria-label="Glauert 涡片交互实验">
  <div class="g-model-head"><div><p class="g-eyebrow">LIVE / ANALYTICAL MODEL</p><h3>Glauert Vortex Sheet</h3></div><div class="g-preset" role="group" aria-label="示例工况"><button type="button" data-g-case="flat">仅迎角</button><button type="button" data-g-case="camber">仅弯度</button><button type="button" data-g-case="combined">叠加</button><button type="button" data-g-case="zero-lift">零升力迎角</button></div></div>
  <div class="g-model-grid">
