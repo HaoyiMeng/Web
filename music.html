@@ -10,6 +10,12 @@
 <link rel="stylesheet" href="./assets/styles.css" />
 <link rel="stylesheet" href="./assets/sections.css" />
 <link rel="stylesheet" href="./assets/workspace-v3.css" />
+<style>
+  /* Small transparent cameo at the bottom of the Music Lab catalog only. */
+  .music-ryo-wrap{display:flex;justify-content:flex-end;margin:9px 15px 0;pointer-events:none}
+  .music-ryo-wrap img{display:block;width:94px;max-width:25vw;height:auto;opacity:.92;object-fit:contain}
+  @media(max-width:600px){.music-ryo-wrap{margin:8px 3px 0}.music-ryo-wrap img{width:78px}}
+</style>
 <script type="module" src="./js/navigation.mjs"></script>
 <script type="module" src="./js/site.mjs"></script>
 
@@ -35,6 +41,7 @@
    <div class="tile-tags"><span>E–A–D–G</span><span>Notes & Chords</span></div>
  </a></nav>
 <div class="desk-subnote"><strong>STUDIO NOTE</strong><span>浏览器节拍器需要主动点击播放；iPhone 锁屏或切后台后，声音可能停止。</span></div>
+<div class="music-ryo-wrap" aria-hidden="true"><img src="./assets/ryo-yamada-chibi.png" alt="" width="160" height="160" loading="lazy" decoding="async"></div>
 <div class="desk-footer-row"><strong>✳ HAOYI STUDIO</strong><span>Back anytime. Keep exploring.</span></div></main>
 <footer class="workspace-footer">Made to learn, at your own pace. © 2026</footer>
 </div>
