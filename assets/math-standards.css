@@ -38,3 +38,12 @@ mjx-container[display="true"] { display:block; margin:.35em 0 !important; text-a
  .math-display {font-size:1em;}
 }
 @media(prefers-reduced-motion:reduce){ mjx-container {transition:none!important;} }
+
+.math-standard-summary{display:flex;align-items:center;justify-content:space-between;gap:20px;padding:18px 21px;margin:0 0 23px;border:1px solid #3c5459;border-radius:13px;background:#17272d}
+.math-standard-summary>div{min-width:0}
+.math-standard-summary .math-standard-kicker{display:block;font-size:.72rem;letter-spacing:.13em;font-weight:700;color:#91c8bf;margin-bottom:9px}
+.math-standard-summary strong{font-size:1rem;color:#e0f2e9}
+.math-standard-summary p{font-size:.84rem;color:#a9c1c2;line-height:1.8;margin:6px 0 0}
+.math-standard-examples{display:flex;flex-wrap:wrap;align-items:center;gap:11px;justify-content:flex-end}
+.math-standard-examples span{border:1px solid #415e60;border-radius:7px;padding:10px 13px;background:#102329;color:#c3ebdf;white-space:nowrap;min-width:55px;text-align:center}
+@media(max-width:780px){.math-standard-summary{flex-direction:column;align-items:stretch}.math-standard-examples{justify-content:flex-start}}
