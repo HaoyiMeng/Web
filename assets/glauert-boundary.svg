@@ -1,0 +1,37 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1000 455" role="img" aria-labelledby="title desc">
+<title id="title">涡片和源片的速度跳跃，以及奇异积分中的两个位置变量</title>
+<desc id="desc">上方一条涡片展示积分源点 x′ 与观察点 x、相距 x−x′，以及诱导法向速度。下方分别展示涡片上下侧切向速度相反，源片上下侧法向速度相反。</desc>
+<defs><marker id="mint" markerWidth="7" markerHeight="7" refX="6" refY="3.5" orient="auto-start-reverse"><path d="M0 0L7 3.5L0 7Z" fill="#72d9ce"/></marker>
+<marker id="gold" markerWidth="7" markerHeight="7" refX="6" refY="3.5" orient="auto-start-reverse"><path d="M0 0L7 3.5L0 7Z" fill="#f1cf8a"/></marker>
+<marker id="gray" markerWidth="7" markerHeight="7" refX="6" refY="3.5" orient="auto-start-reverse"><path d="M0 0L7 3.5L0 7Z" fill="#789aaa"/></marker>
+<style>text{font-family:Inter,'Noto Sans SC','Microsoft YaHei',sans-serif;fill:#dcecf0;font-size:15px}.tiny{font-size:12px;fill:#9ab7c2}.small{font-size:14px;fill:#a9c3c9}.mint{fill:#79dfd4}.gold{fill:#f1d699}.line{stroke:#7bded2;stroke-width:3}.axis{stroke:#637f90;stroke-width:1.6}.dash{stroke:#688b99;stroke-width:1.1;stroke-dasharray:5 5}</style></defs>
+<rect x="1" y="1" width="998" height="453" rx="16" fill="#0c1821" stroke="#2a4654"/>
+<text x="28" y="36" class="tiny" style="letter-spacing:1.8px">INDUCED VELOCITY · CAUCHY PRINCIPAL VALUE</text>
+<text x="28" y="65" style="font-size:20px;font-weight:700">涡片上的积分源点与观察点</text>
+<path d="M90 160 H920" class="line"/>
+<path d="M85 160 H938" class="axis" marker-end="url(#gray)" fill="none"/>
+<text x="95" y="181" class="tiny">前缘 x′=0</text><text x="852" y="181" class="tiny">后缘 x′=c</text>
+<g fill="#152d34" stroke="#79d9ce" stroke-width="1.8"><circle cx="175" cy="160" r="7"/><circle cx="260" cy="160" r="7"/><circle cx="345" cy="160" r="7"/><circle cx="430" cy="160" r="7"/><circle cx="515" cy="160" r="7"/><circle cx="600" cy="160" r="7"/><circle cx="685" cy="160" r="7"/><circle cx="770" cy="160" r="7"/></g>
+<circle cx="345" cy="160" r="11" fill="#eac77e" stroke="#0d1923" stroke-width="4"/>
+<circle cx="685" cy="160" r="11" fill="#73e0d2" stroke="#0d1923" stroke-width="4"/>
+<line x1="345" y1="149" x2="345" y2="103" class="dash"/><line x1="685" y1="149" x2="685" y2="103" class="dash"/>
+<text x="315" y="94" class="gold">x′ · 积分源点</text><text x="645" y="94" class="mint">x · 观察点</text>
+<path d="M345 214 H685" stroke="#f1d699" stroke-width="1.6" marker-end="url(#gold)"/><path d="M685 214 H345" stroke="#f1d699" stroke-width="1.6" marker-end="url(#gold)"/>
+<text x="515" y="207" text-anchor="middle" class="gold">x − x′</text>
+<path d="M685 146 V105" stroke="#72d9ce" stroke-width="2.3" marker-end="url(#mint)"/>
+<text x="701" y="121" class="small">v′γ(x)</text>
+<text x="500" y="253" text-anchor="middle" class="tiny">在 x′ = x 的位置按主值积分处理；曲线上不表示实际存在一个具有实体厚度的涡层</text>
+<!-- bottom explanatory boxes -->
+<rect x="26" y="275" width="465" height="154" rx="11" fill="#112733" stroke="#345362"/>
+<rect x="509" y="275" width="465" height="154" rx="11" fill="#18252d" stroke="#405160"/>
+<text x="46" y="300" class="mint" style="font-size:15px;font-weight:700">VORTEX SHEET / 涡片 γ</text>
+<text x="530" y="300" class="gold" style="font-size:15px;font-weight:700">SOURCE SHEET / 源片 q</text>
+<line x1="76" y1="365" x2="440" y2="365" stroke="#78dbce" stroke-width="3.3"/>
+<path d="M185 347 H324" stroke="#72d9ce" stroke-width="2.2" marker-end="url(#mint)"/>
+<path d="M324 386 H185" stroke="#f1cf8a" stroke-width="2.2" marker-end="url(#gold)"/>
+<text x="339" y="343" class="tiny">u′+ = +γ/2</text><text x="339" y="404" class="tiny">u′− = −γ/2</text>
+<line x1="559" y1="365" x2="925" y2="365" stroke="#f1cf8a" stroke-width="3.3"/>
+<path d="M736 363 V316" stroke="#72d9ce" stroke-width="2.2" marker-end="url(#mint)"/>
+<path d="M757 367 V413" stroke="#f1cf8a" stroke-width="2.2" marker-end="url(#gold)"/>
+<text x="767" y="328" class="tiny">v′+ = +q/2</text><text x="767" y="408" class="tiny">v′− = −q/2</text>
+</svg>
