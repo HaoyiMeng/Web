@@ -112,12 +112,32 @@ function route(initial = false) {
   }
 }
 
+function markSequenceChapter(id) {
+  detail.querySelectorAll('.formula-sequence-nav button[data-jump]').forEach(button => {
+    if(button.dataset.jump === id) button.setAttribute('aria-current','step');
+    else button.removeAttribute('aria-current');
+  });
+}
 detail.addEventListener('click',(event)=>{
+  const expand=event.target.closest('button[data-formula-expand]');
+  if(expand) {
+    const shouldOpen=expand.dataset.formulaExpand === 'all';
+    detail.querySelectorAll('.formula-subcards > details').forEach(card=>{card.open=shouldOpen;});
+    return;
+  }
+  const summary=event.target.closest('.formula-subcard > summary');
+  if(summary) {
+    const heading=summary.querySelector('[id^="thin-"]');
+    if(heading) markSequenceChapter(heading.id);
+    return;
+  }
   const button=event.target.closest('button[data-jump]');
   if(!button) return;
   const target=document.getElementById(button.dataset.jump);
+  if(!target) return;
   const card=target.closest('details');
   if(card) card.open=true;
+  markSequenceChapter(button.dataset.jump);
   target.focus({preventScroll:true});
   target.scrollIntoView({behavior:'instant',block:'start'});
 });
