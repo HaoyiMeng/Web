@@ -113,3 +113,12 @@ body{background:#0b1017}
   .g-chart-title{font-size:11px}
   .g-probe-readouts{gap:10px 14px}
 }
+
+/* Preserve readable axes on narrow viewports; horizontal scrolling is intentional. */
+@media(max-width:700px){
+  .g-chart-region{overflow-x:auto;scrollbar-color:#48616c #14252d}
+  .g-chart-region .g-chart{min-width:600px;max-width:none;touch-action:pan-x}
+  .g-geometry{overflow-x:auto}
+  .g-geometry svg{min-width:550px;max-width:none}
+  .g-chart-region:after{content:"曲线可横向滑动 · 可用下方滑块准确设置观察点";display:block;color:#90aeb6;font-size:10px;margin:6px 0 0}
+}
