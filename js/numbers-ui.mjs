@@ -1,4 +1,5 @@
 import { numbers, categories, searchNumbers } from './numbers-data.mjs';
+import { mathSymbol } from './math-notation.mjs';
 
 const catalog = document.getElementById('numbers-catalog');
 const detail = document.getElementById('number-detail');
@@ -22,7 +23,7 @@ function renderCatalog() {
   const matches = searchNumbers(search.value, category);
   grid.innerHTML = matches.map((item) => `
     <a class="number-card" data-category="${item.category}" href="#${item.id}">
-      <div class="number-card-top"><span class="number-symbol">${symbol(item.symbol)}</span><span class="number-category">${categories[item.category]}</span></div>
+      <div class="number-card-top"><span class="number-symbol">${mathSymbol(item.symbol)}</span><span class="number-category">${categories[item.category]}</span></div>
       <h2>${item.name}</h2><span class="number-italian" lang="it">${item.italian}</span>
       <p>${item.summary}</p><span class="number-card-foot">查看公式与应用</span>
     </a>`).join('');
@@ -34,9 +35,9 @@ function renderDetail(item) {
   detail.innerHTML = `
     <a class="number-back" href="#">返回数字目录</a>
     <div class="number-detail-head">
-      <span class="number-detail-symbol" aria-hidden="true">${symbol(item.symbol)}</span>
+      <span class="number-detail-symbol" aria-hidden="true">${mathSymbol(item.symbol)}</span>
       <div class="number-detail-name"><span class="number-category">${categories[item.category]}</span>
-        <h1 id="number-title" tabindex="-1">${item.name} <span>${symbol(item.symbol)}</span></h1>
+        <h1 id="number-title" tabindex="-1">${item.name} <span>${mathSymbol(item.symbol)}</span></h1>
         <p lang="it">${item.italian}</p></div>
     </div>
     <div class="number-formula" role="group" aria-label="定义公式：${escape(item.formulaText)}">${item.formula}</div>
