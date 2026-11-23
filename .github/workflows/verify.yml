@@ -4,34 +4,47 @@ on:
     branches: [main]
   pull_request:
     branches: [main]
+permissions:
+  contents: read
 jobs:
   verify:
+    name: verify (${{ matrix.suite }})
     runs-on: ubuntu-latest
+    timeout-minutes: 10
+    strategy:
+      # A failing module must not hide results from unrelated modules.
+      fail-fast: false
+      matrix:
+        include:
+          - suite: syntax
+            command: find js tests -type f -name '*.mjs' -print0 | xargs -0 -n1 node --check
+          - suite: pages
+            command: node tests/site.test.mjs
+          - suite: nozzle
+            command: node tests/nozzle.test.mjs
+          - suite: potential-flow
+            command: |
+              node tests/potential-flow.test.mjs
+              node tests/potential-flow-ui.test.mjs
+          - suite: conformal
+            command: |
+              node tests/conformal.test.mjs
+              node tests/conformal-ui.test.mjs
+          - suite: perturbation
+            command: |
+              node tests/perturbation.test.mjs
+              node tests/perturbation-ui.test.mjs
+          - suite: bass
+            command: |
+              node tests/bass-theory.test.mjs
+              node tests/bass-chords.test.mjs
+              node tests/bass-audio.test.mjs
+              node tests/bass-ui.test.mjs
     steps:
       - uses: actions/checkout@v4
       - uses: actions/setup-node@v4
         with:
           node-version: '22'
-      - name: Check JavaScript syntax
-        run: find js tests -type f -name '*.mjs' -print0 | xargs -0 -n1 node --check
-      - name: Check static pages and links
-        run: node tests/site.test.mjs
-      - name: Check nozzle model
-        run: node tests/nozzle.test.mjs
-      - name: Check potential flow model
-        run: |
-          node tests/potential-flow.test.mjs
-          node tests/potential-flow-ui.test.mjs
-      - name: Check conformal mapping model
-        run: |
-          node tests/conformal.test.mjs
-          node tests/conformal-ui.test.mjs
-          node tests/perturbation.test.mjs
-          node tests/perturbation-ui.test.mjs
-      - name: Check bass intervals and audio
-        run: |
-          node tests/bass-theory.test.mjs
-          node tests/bass-chords.test.mjs
-          node tests/bass-audio.test.mjs
-          node tests/bass-ui.test.mjs
-
+      - name: Check ${{ matrix.suite }}
+        shell: bash
+        run: ${{ matrix.command }}
