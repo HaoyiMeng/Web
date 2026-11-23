@@ -19,6 +19,7 @@ const equations = (items = []) => items.map((entry) => `<figure class="formula-e
 
 const groupFor = (item) => formulaGroups.find((group) => group.id === item.group);
 function renderCatalog() {
+  window.MathJax?.typesetClear?.([grid]);
   const visibleGroups = formulaGroups.filter((group) => activeGroup === 'all' || group.id === activeGroup);
   grid.innerHTML = visibleGroups.map((group) => {
     const members = formulas.filter((item) => item.group === group.id);
@@ -56,6 +57,7 @@ function operatorSections(item) {
 }
 
 function renderArticle(item) {
+  window.MathJax?.typesetClear?.([detail]);
   if (item.cards) {
     detail.dataset.formulaGroup = item.group;
     detail.innerHTML = renderSequence(item, groupFor(item), {escape, equations, paragraphs});
