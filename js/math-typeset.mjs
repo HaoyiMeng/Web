@@ -7,7 +7,6 @@ const sources = [
   'https://cdnjs.cloudflare.com/ajax/libs/mathjax/3.2.2/es5/tex-mml-chtml.js'
 ];
 const config = {
-  loader: {load: []},
   tex: {
     inlineMath: [['\\(', '\\)']],
     displayMath: [['\\[', '\\]']],
@@ -15,9 +14,7 @@ const config = {
     packages: {'[+]': ['noerrors', 'noundefined']},
     macros: {
       dd: '\\mathrm{d}',
-      pv: '\\operatorname{PV}',
-      Re: '\\operatorname{Re}',
-      Ma: '\\operatorname{Ma}'
+      pv: '\\operatorname{PV}'
     }
   },
   chtml: {scale: 1.02, matchFontHeight: false},
@@ -73,7 +70,12 @@ async function start() {
     console.warn('[math] MathJax unavailable; preserving plain-text and native MathML fallbacks.');
     return;
   }
-  await window.MathJax.startup.promise;
+  try { await window.MathJax.startup.promise; }
+  catch(error) {
+    document.documentElement.classList.add('math-fallback');
+    console.warn('[math] Startup failed; keeping original MathML and readable text.',error);
+    return;
+  }
   const targets = [document.body];
   for (const el of targets)prepare(el);
   isReady = true;
