@@ -18,8 +18,8 @@
 <text x="315" y="94" class="gold">x′ · 积分源点</text><text x="645" y="94" class="mint">x · 观察点</text>
 <path d="M345 214 H685" stroke="#f1d699" stroke-width="1.6" marker-end="url(#gold)"/><path d="M685 214 H345" stroke="#f1d699" stroke-width="1.6" marker-end="url(#gold)"/>
 <text x="515" y="207" text-anchor="middle" class="gold">x − x′</text>
-<path d="M685 146 V105" stroke="#72d9ce" stroke-width="2.3" marker-end="url(#mint)"/>
-<text x="701" y="121" class="small">v′γ(x)</text>
+<path d="M685 146 V105" stroke="#72d9ce" stroke-width="2.3" marker-start="url(#mint)" marker-end="url(#mint)"/>
+<text x="701" y="121" class="small">v′γ(x)（有符号）</text>
 <text x="500" y="253" text-anchor="middle" class="tiny">在 x′ = x 的位置按主值积分处理；曲线上不表示实际存在一个具有实体厚度的涡层</text>
 <!-- bottom explanatory boxes -->
 <rect x="26" y="275" width="465" height="154" rx="11" fill="#112733" stroke="#345362"/>
