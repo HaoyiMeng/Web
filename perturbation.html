@@ -7,8 +7,8 @@
   <title>小扰动的影响 · Haoyi Studio</title>
   <link rel="icon" type="image/svg+xml" href="./assets/favicon.svg">
   <link rel="stylesheet" href="./assets/conformal.css?v=20261123c">
-  <link rel="stylesheet" href="./assets/perturbation.css?v=20261123a">
-  <script type="module" src="./js/perturbation-ui.mjs?v=20261123c"></script>
+  <link rel="stylesheet" href="./assets/perturbation.css?v=20261123b">
+  <script type="module" src="./js/perturbation-ui.mjs?v=20261123d"></script>
   <script type="module" src="./js/site.mjs"></script>
 </head>
 <body>
@@ -24,69 +24,103 @@
       <div class="mapping-equation"><span>LINEARIZED PRESSURE</span><strong>C<sub>p</sub> ≈ −2u′/U∞</strong><small>小迎角、薄翼与弱扰动的一阶近似</small></div>
     </section>
 
-    <section class="p-overview" aria-label="理解模型的三个步骤">
-      <div><span>01 / GEOMETRY</span><h2>先拆几何</h2><p>上表面 y<sub>+</sub> = y<sub>m</sub> + y<sub>s</sub>；下表面 y<sub>−</sub> = y<sub>m</sub> − y<sub>s</sub>。中弧线管弯度，半厚度管厚度。</p></div>
-      <div><span>02 / VELOCITY</span><h2>再叠速度</h2><p>总流场 = 均匀来流 + 迎角扰动 + 弯度扰动 + 厚度扰动。先叠加速度矢量，不能先叠加速度大小。</p></div>
-      <div><span>03 / PRESSURE</span><h2>最后算压力</h2><p>用伯努利方程把局部速度变成 C<sub>p</sub>。只有忽略二阶小量之后，各部分压力贡献才近似可加。</p></div>
-    </section>
-
     <section class="perturbation-lab" id="small-perturbations" aria-labelledby="p-heading">
       <div class="intro p-experiment-head">
-        <div><p class="eyebrow">INTERACTIVE / THIN AIRFOIL MODEL</p><h2 id="p-heading">改变一个因素，看它影响什么</h2>
-        <p class="subtitle">下方所有图形联动；可以单独打开某种扰动，也可以观察三种效应叠加。</p></div>
-        <button id="p-reset" type="button">恢复默认参数</button>
+        <div>
+          <p class="eyebrow">INTERACTIVE / THIN AIRFOIL THEORY</p>
+          <h2 id="p-heading">小扰动实验台<span class="p-heading-dot">.</span></h2>
+          <p class="subtitle">改动左侧参数，右侧曲线同步变化；灰色虚线是保存的参考工况。</p>
+        </div>
+        <span class="p-live-badge"><span aria-hidden="true"></span> LIVE MODEL</span>
       </div>
-      <div class="p-examples" role="group" aria-label="典型实验">
-        <button type="button" data-p-case="alpha">只看迎角</button>
-        <button type="button" data-p-case="camber">只看弯度</button>
-        <button type="button" data-p-case="thickness">只看厚度</button>
-        <button type="button" data-p-case="all">三个因素叠加</button>
-      </div>
-      <p class="note">演示使用固定的几何族：X = x/c，y<sub>m</sub>/c = 4mX(1−X)，y<sub>s</sub>/c = (t/2)sin(πX)。m 为最大弯度比，t 为最大厚度比；为了突出机制，这不是某个实际翼型的精确几何。</p>
       <div class="p-layout">
-        <section class="control-panel" aria-label="扰动参数">
-          <h3>三种扰动来源</h3>
-          <label class="p-toggle"><input id="p-incidence" type="checkbox" checked>迎角贡献 · incidence</label>
-          <label for="p-alpha">迎角 α = <output id="p-alpha-value">3</output>°</label>
-          <input id="p-alpha" type="range" min="-10" max="10" step="0.25" value="3">
-          <label class="p-toggle"><input id="p-bending" type="checkbox" checked>弯度贡献 · camber</label>
-          <label for="p-camber">最大弯度 m = <output id="p-camber-value">2</output>%</label>
-          <input id="p-camber" type="range" min="-5" max="5" step="0.1" value="2">
-          <label class="p-toggle"><input id="p-body" type="checkbox" checked>厚度贡献 · thickness</label>
-          <label for="p-thickness">最大厚度 t = <output id="p-thickness-value">6</output>%</label>
-          <input id="p-thickness" type="range" min="0" max="12" step="0.25" value="6">
-          <label for="p-x" class="p-toggle">观测位置 x/c = <output id="p-x-value">0.4</output></label>
-          <input id="p-x" type="range" min="0.01" max="0.99" step="0.005" value="0.4">
-          <label class="p-toggle p-quadratic-toggle"><input id="p-quadratic" type="checkbox" checked>显示保留二次项的 C<sub>p</sub>（虚线）</label>
-          <p class="note">拖动观测位置可读取该截面上、下表面的数据。图形刻意不采样 x/c = 0 和 1，避免把前缘奇异性掩盖成有限值。</p>
+        <aside class="control-panel p-control-rail" aria-label="扰动参数">
+          <div class="p-control-head"><div><span class="p-panel-kicker">PARAMETER SPACE</span><h3>扰动来源</h3></div><button id="p-reset" type="button">重置</button></div>
+          <div class="p-examples" role="group" aria-label="典型实验">
+            <button type="button" data-p-case="alpha">仅迎角</button>
+            <button type="button" data-p-case="camber">仅弯度</button>
+            <button type="button" data-p-case="thickness">仅厚度</button>
+            <button type="button" data-p-case="all">全部叠加</button>
+          </div>
+          <div class="p-param-card">
+            <label class="p-toggle" for="p-incidence"><input id="p-incidence" type="checkbox" checked><span>迎角影响 <small>INCIDENCE</small></span></label>
+            <label class="p-slider-label" for="p-alpha"><span>迎角 α</span><strong><output id="p-alpha-value">3</output>°</strong></label>
+            <input id="p-alpha" type="range" min="-10" max="10" step="0.25" value="3">
+          </div>
+          <div class="p-param-card">
+            <label class="p-toggle" for="p-bending"><input id="p-bending" type="checkbox" checked><span>弯度影响 <small>CAMBER</small></span></label>
+            <label class="p-slider-label" for="p-camber"><span>最大弯度 m</span><strong><output id="p-camber-value">2</output>%</strong></label>
+            <input id="p-camber" type="range" min="-5" max="5" step="0.1" value="2">
+          </div>
+          <div class="p-param-card">
+            <label class="p-toggle" for="p-body"><input id="p-body" type="checkbox" checked><span>厚度影响 <small>THICKNESS</small></span></label>
+            <label class="p-slider-label" for="p-thickness"><span>最大厚度 t</span><strong><output id="p-thickness-value">6</output>%</strong></label>
+            <input id="p-thickness" type="range" min="0" max="12" step="0.25" value="6">
+          </div>
+          <div class="p-param-card p-position-card">
+            <label class="p-slider-label" for="p-x"><span>测量位置 x/c</span><strong><output id="p-x-value">0.4</output></strong></label>
+            <input id="p-x" type="range" min="0.01" max="0.99" step="0.005" value="0.4">
+          </div>
+          <details class="p-control-details"><summary>模型几何与显示选项</summary>
+            <label class="p-toggle" for="p-quadratic"><input id="p-quadratic" type="checkbox" checked>显示二次项 C<sub>p</sub>（细虚线）</label>
+            <p>演示翼型采用 X = x/c、y<sub>m</sub>/c = 4mX(1−X)、y<sub>s</sub>/c = (t/2)sin(πX)。这是教学用几何族，不是某个真实翼型的精确解。</p>
+            <p>图表不显示 x/c = 0 与 1 的端点，避免将理论奇异性误画为有限值。</p>
+          </details>
+        </aside>
+
+        <section class="p-plots" aria-labelledby="p-plot-heading">
+          <div class="p-visual-header">
+            <div><span class="p-panel-kicker">LIVE RESPONSE</span><h3 id="p-plot-heading">流场响应</h3></div>
+            <span class="p-visual-hint">切换图表 · 观察实时变化</span>
+          </div>
+          <div class="p-chart-tabs" role="tablist" aria-label="选择观察的图表">
+            <button type="button" role="tab" id="p-tab-pressure" aria-selected="true" aria-controls="p-view-pressure" data-p-view="pressure">压力分布 C<sub>p</sub></button>
+            <button type="button" role="tab" id="p-tab-sheets" aria-selected="false" aria-controls="p-view-sheets" data-p-view="sheets">涡片 / 源汇片</button>
+            <button type="button" role="tab" id="p-tab-shape" aria-selected="false" aria-controls="p-view-shape" data-p-view="shape">几何 / 速度</button>
+          </div>
+          <div class="p-visual-stage">
+            <div class="p-plot-pane" id="p-view-pressure" role="tabpanel" aria-labelledby="p-tab-pressure">
+              <div class="p-plot-label"><strong>上下表面压力系数</strong><span><i class="p-key p-key--upper"></i> 上侧 <i class="p-key p-key--lower"></i> 下侧</span></div>
+              <svg id="p-pressure" viewBox="0 0 600 260" role="img" aria-label="上、下表面 Cp 分布；灰虚线为参考工况；负 Cp 朝上"></svg>
+            </div>
+            <div class="p-plot-pane" id="p-view-sheets" role="tabpanel" aria-labelledby="p-tab-sheets" hidden>
+              <div class="p-plot-label"><strong>奇点片强度</strong><span><i class="p-key p-key--source"></i> q/U∞ <i class="p-key p-key--upper"></i> γ/U∞</span></div>
+              <svg id="p-sheets" viewBox="0 0 600 260" role="img" aria-label="源汇片 q 与涡片 γ 沿弦向的强度"></svg>
+            </div>
+            <div class="p-plot-pane" id="p-view-shape" role="tabpanel" aria-labelledby="p-tab-shape" hidden>
+              <div class="p-plot-label"><strong>翼型轮廓及局部速度矢量</strong><span>灰：来流 · 金：扰动 · 青：合速度</span></div>
+              <svg id="p-shape" viewBox="0 0 600 250" role="img" aria-label="翼型中弧线、上、下表面及三种速度矢量"></svg>
+            </div>
+          </div>
+          <div class="p-plot-tools">
+            <label for="p-keep-scale"><input id="p-keep-scale" type="checkbox" checked>保持纵轴比例</label>
+            <button id="p-save-baseline" type="button">保存当前作参考</button>
+            <span id="p-baseline-status" aria-live="polite">灰虚线：初始工况</span>
+          </div>
+          <div class="p-live-values" aria-label="实时计算值">
+            <div><span>上侧 C<sub>p</sub></span><strong id="p-cp-upper">—</strong></div>
+            <div><span>下侧 C<sub>p</sub></span><strong id="p-cp-lower">—</strong></div>
+            <div><span>升力系数 C<sub>L</sub></span><strong id="p-cl">—</strong></div>
+            <div><span>与参考工况 ΔC<sub>L</sub></span><strong id="p-cl-delta">—</strong></div>
+            <div class="p-secondary-value"><span>局部 |V′| / U∞</span><strong id="p-ratio">—</strong></div>
+            <div class="p-secondary-value"><span>二次项 |ΔC<sub>p</sub>|</span><strong id="p-error">—</strong></div>
+          </div>
+          <p class="p-validity" id="p-validity" role="status"></p>
+          <p class="p-plot-footnote">默认锁定纵轴：扩大取值范围时坐标轴可扩展，但不会因缩小扰动而自动缩紧。灰虚线为参考工况，细彩色虚线是保留二次项后的结果，<strong>不是精确解</strong>。</p>
         </section>
-        <div class="p-plots">
-          <div class="p-plot-label"><strong>01. 翼型与局部速度</strong><span>灰：来流 · 金：扰动 · 青：合速度</span></div>
-          <svg id="p-shape" viewBox="0 0 600 250" role="img" aria-label="翼型中弧线、上下表面及来流、扰动、合速度矢量"></svg>
-          <div class="p-plot-label"><strong>02. 上下表面压力系数 C<sub>p</sub></strong><span>青：上侧 · 金：下侧 · 虚线：二次项</span></div>
-          <svg id="p-pressure" viewBox="0 0 600 260" role="img" aria-label="上、下表面压力系数分布，负Cp在图表上方"></svg>
-          <div class="p-plot-label"><strong>03. 奇点片强度</strong><span>紫：源汇片 q/U∞ · 青：涡片 γ/U∞</span></div>
-          <svg id="p-sheets" viewBox="0 0 600 260" role="img" aria-label="源汇片与涡片强度沿弦向的分布"></svg>
-          <p class="note">实线：线性化 C<sub>p</sub> ≈ −2u′/U∞。虚线：把同一份一阶扰动速度代回未线性化的伯努利表达式；<strong>虚线不是精确解，也不能直接当作真实误差</strong>。</p>
-        </div>
       </div>
-      <section class="probe-panel" aria-label="观测截面数值">
-        <div class="probe-title"><h2>当前截面的计算结果</h2><span class="probe-symbol">x / c</span></div>
-        <div class="probe-values">
-          <div><span>上侧 C<sub>p</sub>（一阶）</span><strong id="p-cp-upper">—</strong></div>
-          <div><span>下侧 C<sub>p</sub>（一阶）</span><strong id="p-cp-lower">—</strong></div>
-          <div><span>整个翼型 C<sub>L</sub>（一阶）</span><strong id="p-cl">—</strong></div>
-          <div><span>局部最大 |V′| / U∞</span><strong id="p-ratio">—</strong></div>
-          <div><span>两侧最大 |ΔC<sub>p</sub>|（虚线−实线）</span><strong id="p-error">—</strong></div>
-        </div>
-        <p class="note" id="p-validity" role="status"></p>
-      </section>
       <div class="p-contributions" aria-label="三种扰动分别做了什么">
         <div><h3>① 迎角的影响</h3><p id="p-part-0"></p></div>
         <div><h3>② 弯度的影响</h3><p id="p-part-1"></p></div>
         <div><h3>③ 厚度的影响</h3><p id="p-part-2"></p></div>
       </div>
       <p id="p-sum" class="p-sum" aria-live="polite"></p>
+    </section>
+
+    <section class="p-overview" aria-label="理解模型的三个步骤">
+      <div><span>01 / GEOMETRY</span><h2>先拆几何</h2><p>上表面 y<sub>+</sub> = y<sub>m</sub> + y<sub>s</sub>；下表面 y<sub>−</sub> = y<sub>m</sub> − y<sub>s</sub>。中弧线管弯度，半厚度管厚度。</p></div>
+      <div><span>02 / VELOCITY</span><h2>再叠速度</h2><p>总流场 = 均匀来流 + 迎角扰动 + 弯度扰动 + 厚度扰动。先叠加速度矢量，不能先叠加速度大小。</p></div>
+      <div><span>03 / PRESSURE</span><h2>最后算压力</h2><p>用伯努利方程把局部速度变成 C<sub>p</sub>。只有忽略二阶小量之后，各部分压力贡献才近似可加。</p></div>
     </section>
 
     <section class="p-guide" aria-labelledby="p-guide-title">
