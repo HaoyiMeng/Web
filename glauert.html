@@ -159,9 +159,21 @@
  <div class="g-sliders">
   <div><label for="g-alpha"><span>迎角 α</span><output id="g-alpha-val">3.0°</output></label><input id="g-alpha" type="range" min="-8" max="8" step="0.0001" value="3"></div>
   <div><label for="g-camber"><span>最大弯度 m/c</span><output id="g-camber-val">2.0%</output></label><input id="g-camber" type="range" min="-5" max="5" step="0.1" value="2"></div>
-  <div class="g-card"><h3>曲线含义</h3><p><span style="color:#69d9cc">━━</span> γ 总分布<br><span style="color:#b5a1f3">┄┄</span> 仅迎角贡献<br><span style="color:#f1ce8d">┄┄</span> 仅弯度贡献<br>纵轴 γ/U∞，横轴 X = x/c。</p></div>
+  <div class="g-card"><h3>解析分解</h3><p>总涡片由迎角和中弧线弯度线性叠加。靠近前缘，A₀ 项可能产生强烈的平方根奇性；图表保持真实的线性 x/c 横坐标。</p></div>
  </div>
- <div class="g-model-chart"><svg class="g-chart" id="g-plot" viewBox="0 0 720 310" role="img" aria-label="涡片分布 γ/U∞ 随 x/c 变化"></svg><p class="g-model-note" id="g-state" aria-live="polite"></p></div>
+ <div class="g-model-chart">
+  <div class="g-chart-title"><strong>沿弦涡片强度 γ/U∞</strong><span>点击图表设置观察位置 · 浅色区域表示积分面积</span></div>
+  <div class="g-chart-region"><svg class="g-chart" id="g-plot" viewBox="0 0 720 320" role="img" aria-label="涡片分布 γ/U∞ 随 x/c 变化的交互曲线" tabindex="0"></svg></div>
+  <div class="g-legend"><span><i></i>总涡片 γ</span><span class="g-legend-alpha"><i></i>迎角贡献</span><span class="g-legend-camber"><i></i>弯度贡献</span></div>
+  <div class="g-probe-row"><label for="g-probe"><span>观察位置 X = x/c</span><output id="g-probe-val">0.400</output></label>
+    <input id="g-probe" type="range" min="0.01" max="0.99" step="0.005" value="0.40" aria-label="选择沿翼弦的观察位置">
+    <div class="g-probe-readouts"><span>γ/U∞ = <strong id="g-gamma-probe">—</strong></span><span>ΔC<sub>p</sub> = <strong id="g-dcp-probe">—</strong></span><span>y<sub>m</sub>/c = <strong id="g-y-probe">—</strong></span></div>
+  </div>
+  <div class="g-geometry"><div class="g-chart-title"><strong>中弧线几何 y<sub>m</sub>(X)</strong><span>仅弯度改变几何；迎角改变来流方向</span></div>
+   <svg id="g-camber-plot" viewBox="0 0 720 180" role="img" aria-label="抛物线中弧线及最大弯度位置"></svg>
+   <p class="g-geometry-caption">中弧线 y<sub>m</sub>/c = 4mX(1−X)；图中纵向比例约为横向的 1.9 倍，便于观察小弯度。</p>
+  </div>
+  <p class="g-model-note" id="g-state" aria-live="polite"></p></div>
  </div>
  <div class="g-stats" aria-label="解析计算结果">
   <div><span>零阶系数 A₀</span><strong id="g-a0">—</strong></div>
