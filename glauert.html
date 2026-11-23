@@ -118,7 +118,7 @@
 <article class="g-step"><h3>把涡片展开拆成 A₀ 和 Aₙ 两组</h3><p>积分左侧化为 U∞/π [A₀G₀(θ) + ∑<sub>n≥1</sub>AₙGₙ(θ)]。这一步正对应课堂笔记第三页右下角标出的 G₀ 与 Gₙ。</p></article>
 <article class="g-step"><h3>使用标准的主值积分恒等式</h3><p>当 0 &lt; θ &lt; π 且 n≥1 时，下列两个积分有解析结果。这里的正负号取决于我们已经固定的分母 cos θ′ − cos θ。</p></article>
 </div>
-<div class="g-math"><small>THE TWO KEY IDENTITIES / 两个关键积分</small>G₀ = PV ∫₀ᵖⁱ (1 + cos θ′)/(cos θ′ − cos θ) dθ′ = π<br>Gₙ = PV ∫₀ᵖⁱ sin θ′ · sin(nθ′)/(cos θ′ − cos θ) dθ′ = −π cos(nθ)</div>
+<div class="g-math"><small>THE TWO KEY IDENTITIES / 两个关键积分</small>G₀ = PV ∫₀<sup>π</sup> (1 + cos θ′)/(cos θ′ − cos θ) dθ′ = π<br>Gₙ = PV ∫₀<sup>π</sup> sin θ′ · sin(nθ′)/(cos θ′ − cos θ) dθ′ = −π cos(nθ)</div>
 <p>于是左边成为 U∞[A₀ − ∑<sub>n≥1</sub>Aₙ cos(nθ)]，与右侧 U∞(α − dy<sub>m</sub>/dx) 比较，并约去 U∞：</p>
 <div class="g-math g-math--alt"><small>REDUCED FOURIER EQUATION / 化简后的主方程</small>A₀ − ∑<sub>n=1</sub><sup>∞</sup>Aₙ cos(nθ) = α − dy<sub>m</sub>/dx</div>
 <p>移项得到另一种更适合提取系数的写法：</p>
@@ -129,16 +129,16 @@
 <section class="g-section" id="g-coefficients" aria-labelledby="g-coefficients-title">
 <div class="g-section-head"><p class="g-eyebrow">06 / FOURIER ORTHOGONALITY</p><h2 id="g-coefficients-title">如何一步步提取 A₀ 和 Aₙ？</h2></div>
 <h3>先求 A₀：把方程直接积分</h3>
-<p>从 0 到 π 对 θ 积分。因为 n≥1 时 ∫₀ᵖⁱ cos(nθ)dθ = 0，所有高阶项消失：</p>
-<div class="g-math">∫₀ᵖⁱ [dy<sub>m</sub>/dx]dθ = π(α − A₀)</div>
-<div class="g-math g-math--alt"><small>ZEROTH COEFFICIENT / 零阶系数</small>A₀ = α − (1/π) ∫₀ᵖⁱ [dy<sub>m</sub>/dx]dθ = α − α<sub>ID</sub></div>
-<p>这里 α<sub>ID</sub> = (1/π) ∫₀ᵖⁱ (dy<sub>m</sub>/dx)dθ 称作<strong>理想迎角（incidenza ideale）</strong>：使 A₀ = 0，也就是消除该级数前缘 A₀ 奇性项的迎角。</p>
+<p>从 0 到 π 对 θ 积分。因为 n≥1 时 ∫₀<sup>π</sup> cos(nθ)dθ = 0，所有高阶项消失：</p>
+<div class="g-math">∫₀<sup>π</sup> [dy<sub>m</sub>/dx]dθ = π(α − A₀)</div>
+<div class="g-math g-math--alt"><small>ZEROTH COEFFICIENT / 零阶系数</small>A₀ = α − (1/π) ∫₀<sup>π</sup> [dy<sub>m</sub>/dx]dθ = α − α<sub>ID</sub></div>
+<p>这里 α<sub>ID</sub> = (1/π) ∫₀<sup>π</sup> (dy<sub>m</sub>/dx)dθ 称作<strong>理想迎角（incidenza ideale）</strong>：使 A₀ = 0，也就是消除该级数前缘 A₀ 奇性项的迎角。</p>
 <h3>再求 Aₙ：乘 cos(mθ) 后积分</h3>
 <p>在同一方程两边乘 cos(mθ)，m ≥ 1，然后对 θ ∈ [0,π] 积分。常数项的积分为零，且余弦族满足正交性：</p>
-<div class="g-math"><small>ORTHOGONALITY / 余弦正交性</small>∫₀ᵖⁱ cos(mθ)cos(nθ)dθ = { π/2 （m=n≥1）； 0 （m≠n） }</div>
+<div class="g-math"><small>ORTHOGONALITY / 余弦正交性</small>∫₀<sup>π</sup> cos(mθ)cos(nθ)dθ = { π/2 （m=n≥1）； 0 （m≠n） }</div>
 <p>无限级数里只有 n=m 的那一项保留下来：</p>
-<div class="g-math">∫₀ᵖⁱ [dy<sub>m</sub>/dx]cos(mθ)dθ = (π/2) A<sub>m</sub></div>
-<div class="g-math g-math--alt"><small>HIGHER COEFFICIENTS / 高阶系数</small>Aₙ = (2/π) ∫₀ᵖⁱ [dy<sub>m</sub>/dx]cos(nθ)dθ，n ≥ 1</div>
+<div class="g-math">∫₀<sup>π</sup> [dy<sub>m</sub>/dx]cos(mθ)dθ = (π/2) A<sub>m</sub></div>
+<div class="g-math g-math--alt"><small>HIGHER COEFFICIENTS / 高阶系数</small>Aₙ = (2/π) ∫₀<sup>π</sup> [dy<sub>m</sub>/dx]cos(nθ)dθ，n ≥ 1</div>
 <p>注意积分里的导数仍是 <strong>dy<sub>m</sub>/dx</strong>，不是 dy<sub>m</sub>/dθ。你要先使用 x(θ) 将翼型斜率表达成 θ 的函数，然后按 θ 积分，不能漏掉变量之间的关系。</p>
 <div class="g-hint">这段推导真正用到的核心数学工具只有<strong>三角函数的正交性</strong>。A₀ 是斜率的平均项（连同迎角），而 Aₙ 是斜率投影到 cos(nθ) 上的结果。</div>
 </section>
@@ -151,7 +151,7 @@
 <div class="g-math"><small>CIRCULATION / 正升力约定的环量</small>Γ<sub>lift</sub> = π U∞ c (A₀ + A₁/2)</div>
 <div class="g-math g-math--alt"><small>THIN-AIRFOIL LIFT / 二维升力系数</small>C<sub>L</sub> = 2Γ<sub>lift</sub>/(U∞ c) = 2π(A₀ + A₁/2)</div>
 <div class="g-two">
-<article class="g-card g-card--soft"><h3>理想迎角 α<sub>ID</sub></h3><p>A₀ = 0 时的迎角，即 α<sub>ID</sub> = (1/π)∫₀ᵖⁱ y′<sub>m</sub>(θ)dθ。</p></article>
+<article class="g-card g-card--soft"><h3>理想迎角 α<sub>ID</sub></h3><p>A₀ = 0 时的迎角，即 α<sub>ID</sub> = (1/π)∫₀<sup>π</sup> y′<sub>m</sub>(θ)dθ。</p></article>
 <article class="g-card g-card--gold"><h3>零升力迎角 α<sub>L=0</sub></h3><p>C<sub>L</sub> = 0 时的迎角，即 α<sub>L=0</sub> = α<sub>ID</sub> − A₁/2。</p></article>
 </div>
 <p>这是一个容易混淆但重要的区别：<strong>消除 A₀ 项不等于消除总环量</strong>。有弯度时，即使 A₀ = 0，A₁/2 仍能贡献升力。</p>
@@ -165,7 +165,7 @@
  <div class="g-model-head"><div><p class="g-eyebrow">LIVE / ANALYTICAL MODEL</p><h3>Glauert Vortex Sheet</h3></div><div class="g-preset" role="group" aria-label="示例工况"><button type="button" data-g-case="flat">仅迎角</button><button type="button" data-g-case="camber">仅弯度</button><button type="button" data-g-case="combined">叠加</button><button type="button" data-g-case="zero-lift">零升力迎角</button></div></div>
  <div class="g-model-grid">
  <div class="g-sliders">
-  <div><label for="g-alpha"><span>迎角 α</span><output id="g-alpha-val">3.0°</output></label><input id="g-alpha" type="range" min="-8" max="8" step="0.01" value="3"></div>
+  <div><label for="g-alpha"><span>迎角 α</span><output id="g-alpha-val">3.0°</output></label><input id="g-alpha" type="range" min="-8" max="8" step="0.0001" value="3"></div>
   <div><label for="g-camber"><span>最大弯度 m/c</span><output id="g-camber-val">2.0%</output></label><input id="g-camber" type="range" min="-5" max="5" step="0.1" value="2"></div>
   <div class="g-card"><h3>曲线含义</h3><p><span style="color:#69d9cc">━━</span> γ 总分布<br><span style="color:#b5a1f3">┄┄</span> 仅迎角贡献<br><span style="color:#f1ce8d">┄┄</span> 仅弯度贡献<br>纵轴 γ/U∞，横轴 X = x/c。</p></div>
  </div>
