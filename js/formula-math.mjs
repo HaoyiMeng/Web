@@ -1,4 +1,6 @@
-// Native MathML: no network dependency for formula rendering.
+// Semantic MathML authoring remains supported; MathJax provides consistent CHTML output.
+// For NEW formulas use LaTeX data-tex markup (see docs/MATH_STYLE_GUIDE.md).
+// Keep MathML as a native, readable fallback if external scripts are unavailable.
 const esc = (value) => String(value).replace(/[&<>"']/g, (c) => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
 export const v = (s) => `<mi>${esc(s)}</mi>`;
 export const b = (s) => `<mi mathvariant="bold">${esc(s)}</mi>`;
