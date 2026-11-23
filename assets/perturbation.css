@@ -1,0 +1,25 @@
+/* Dedicated small-disturbance lab layout, layered over shared aerodynamic styles. */
+.p-hero .subtitle{max-width:680px}.p-hero .mapping-equation strong{font-size:27px}
+.p-overview,.p-step-grid,.p-mechanism-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:14px}
+.p-overview>div,.p-step,.p-derivation{background:var(--panel);border:1px solid var(--line);border-radius:12px;padding:21px}
+.p-overview>div{background:linear-gradient(130deg,#152631,#111c26)}
+.p-overview span,.p-step>span{display:block;color:var(--mint);font-size:11px;letter-spacing:.13em;font-weight:650;margin-bottom:12px}
+.p-overview h2{font-size:18px}.p-overview p,.p-step p,.p-derivation p,.p-guide-head p{font-size:14px;line-height:1.9;color:#afc2cc}
+.p-overview p{margin:10px 0 0}.p-overview p strong,.p-step p strong,.p-derivation strong{color:#e3f1ee}
+.perturbation-lab{margin-top:32px;padding-top:0;border:0}.perturbation-lab h2{font-size:25px}
+.p-experiment-head{align-items:flex-end}.p-examples{display:flex;flex-wrap:wrap;gap:9px;margin:8px 0 15px}
+.p-examples button{font-size:13px;min-height:37px;padding:7px 12px}.p-examples button[aria-pressed=true]{background:#23433f;border-color:var(--mint);color:#d1fff7}
+.p-layout .control-panel h3{margin:0 0 20px;font-size:18px}.p-layout .control-panel>input[type=range]{display:block}
+.p-quadratic-toggle{align-items:baseline;line-height:1.7}.p-plot-label{display:flex;justify-content:space-between;gap:12px;align-items:baseline;margin:20px 0 8px}
+.p-plot-label:first-child{margin-top:0}.p-plot-label strong{font-size:14px}.p-plot-label span{font-size:12px;color:var(--muted)}
+.p-plots svg{margin-bottom:7px}.p-contributions>div{background:#101d28}
+.p-contributions strong{color:#e7f0f3}.p-sum{padding:17px 20px;border:1px solid #315a5e;background:#142e30;border-radius:10px;color:#c7e7e2;font-size:14px;line-height:1.85}
+.p-guide{margin-top:36px}.p-guide-head{margin-bottom:18px}.p-guide-head h2{font-size:clamp(22px,2.4vw,30px)}
+.p-guide-head p:last-child{max-width:910px}.p-step h3,.p-derivation h3{font-size:17px;margin:0 0 12px}
+.p-step p:last-child,.p-derivation p:last-child{margin-bottom:0}
+.p-formula{font-family:Georgia,Times,serif!important;font-size:19px!important;color:#bff2e9!important;overflow-wrap:anywhere;line-height:1.75!important}
+.p-derivation{margin-top:14px;background:#11252b}.p-mechanism-grid{grid-template-columns:repeat(2,minmax(0,1fr))}
+.p-boundaries .p-step-grid .p-step{background:#121e28}.p-bottom-note{font-size:14px;line-height:1.85;padding:18px 4px;color:var(--muted)}
+.p-bottom-note a{color:var(--mint);text-decoration:underline;text-underline-offset:3px}
+@media(max-width:1050px){.p-overview,.p-step-grid{grid-template-columns:1fr 1fr}.p-overview>div:last-child,.p-step-grid>.p-step:last-child{grid-column:1/-1}}
+@media(max-width:700px){.p-overview,.p-step-grid,.p-mechanism-grid{grid-template-columns:1fr}.p-overview>div:last-child,.p-step-grid>.p-step:last-child{grid-column:auto}.p-plot-label{flex-direction:column;gap:2px}.p-experiment-head{align-items:flex-start}.p-hero .mapping-equation{display:none}.p-guide{margin-top:26px}.p-step,.p-derivation{padding:18px}.p-overview>div{padding:18px}}
