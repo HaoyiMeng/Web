@@ -1,6 +1,7 @@
 // Self-contained learning notes. α is thermal diffusivity; k is conductivity.
 const row = (...items) => `<mrow>${items.join('')}</mrow>`;
-const v = (s) => `<mi>${s}</mi>`;
+const uprightSymbols = new Set(['Re','Ma','Eu','Pr','Pe','Nu','Gr','St','Fr','We','Bi','Fo']);
+const v = (s) => `<mi${uprightSymbols.has(s)?' mathvariant="normal"':''}>${s}</mi>`;
 const n = (s) => `<mn>${s}</mn>`;
 const op = (s) => `<mo>${s}</mo>`;
 const sub = (a, b) => `<msub>${v(a)}${v(b)}</msub>`;
