@@ -1,4 +1,5 @@
 import { formulas, formulaGroups } from './formulas-data.mjs';
+import { mathSymbol } from './math-notation.mjs';
 import { renderSequence } from './formulas-sequence.mjs';
 
 const catalog = document.getElementById('formula-catalog');
@@ -25,7 +26,7 @@ function renderCatalog() {
       <h2 class="formula-group-title" id="formula-collection-${group.id}">${escape(group.label)} <span class="formula-group-count">${members.length} 张卡片</span></h2>
       <p class="formula-group-description">${escape(group.description)}</p>
       <div class="formula-grid">${members.map((item) => `<a class="formula-card" data-formula-group="${group.id}" href="#${item.id}">
-        <div class="formula-card-top"><span class="formula-symbol" aria-hidden="true">${escape(item.symbol)}</span><span class="formula-group-badge">${escape(group.label)}</span></div>
+        <div class="formula-card-top"><span class="formula-symbol" aria-hidden="true">${mathSymbol(item.symbol)}</span><span class="formula-group-badge">${escape(group.label)}</span></div>
         <h3>${escape(item.name)}</h3><p>${escape(item.summary)}</p><span class="formula-card-foot">公式 · 推导 · 物理意义</span>
       </a>`).join('')}</div></section>`;
   }).join('');
