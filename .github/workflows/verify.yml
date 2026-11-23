@@ -19,7 +19,9 @@ jobs:
           - suite: syntax
             command: find js tests -type f -name '*.mjs' -print0 | xargs -0 -n1 node --check
           - suite: pages
-            command: node tests/site.test.mjs
+            command: |
+              node tests/site.test.mjs
+              node tests/formulas-sequence.test.mjs
           - suite: nozzle
             command: node tests/nozzle.test.mjs
           - suite: potential-flow

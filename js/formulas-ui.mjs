@@ -1,4 +1,5 @@
 import { formulas, formulaGroups } from './formulas-data.mjs';
+import { renderSequence } from './formulas-sequence.mjs';
 
 const catalog = document.getElementById('formula-catalog');
 const detail = document.getElementById('formula-detail');
@@ -54,6 +55,12 @@ function operatorSections(item) {
 }
 
 function renderArticle(item) {
+  if (item.cards) {
+    detail.dataset.formulaGroup = item.group;
+    detail.innerHTML = renderSequence(item, groupFor(item), {escape, equations, paragraphs});
+    detail.setAttribute('aria-labelledby','formula-title');
+    return;
+  }
   const isToolbox = !!item.operatorGroups;
   const group = groupFor(item);
   detail.dataset.formulaGroup = item.group;
@@ -109,6 +116,8 @@ detail.addEventListener('click',(event)=>{
   const button=event.target.closest('button[data-jump]');
   if(!button) return;
   const target=document.getElementById(button.dataset.jump);
+  const card=target.closest('details');
+  if(card) card.open=true;
   target.focus({preventScroll:true});
   target.scrollIntoView({behavior:'instant',block:'start'});
 });

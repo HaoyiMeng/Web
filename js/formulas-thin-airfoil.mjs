@@ -11,7 +11,7 @@ const half=f=>frac(f,n(2));
 const sq=f=>sup(f,n(2));
 const E=equation;
 
-export const thinAirfoilFormula={
+const original={
   id:'thin-airfoil',group:'models',name:'一阶薄翼理论',italian:'Teoria dei profili sottili · First-order thin airfoil theory',symbol:'Cₗ ≈ 2πα',category:'空气动力学 · 小扰动近似',
   summary:'把小迎角、弯度与厚度的影响分开，查阅切向条件、源涡分布、压力与升力公式。',
   question:'翼型很薄、迎角很小时，怎样用弦线上的源和涡分布描述扰动，并求出上下表面的压力差与升力？',
@@ -49,3 +49,42 @@ export const thinAirfoilFormula={
   sourceNote:'依据课堂 Aerodinamica 第十四节与提供的笔记整理；本页采用顺时针为正的涡层强度 γ。可结合交互实验检查各项变化。',
 };
 
+const perturb = (component, kind) => sub(sup(v(component),o('′')),v(kind));
+const sourceU = perturb('u','s'), sourceV = perturb('v','s');
+const vortexU = perturb('u','γ'), vortexV = perturb('v','γ');
+const small = (body) => row(body,o('≪'),n(1));
+const speedComponents = E('总速度分量与扰动分量','u = V∞ cos α + u′，v = V∞ sin α + v′',row(eq(v('u'),plus(row(U,v('cos'),v('α')),up)),o(','),eq(v('v'),plus(row(U,v('sin'),v('α')),vp))));
+export const thinAirfoilFormula = {
+  ...original,
+  symbol:'V = V∞ + V′',
+  summary:'从微小扰动开始，依次理解源汇、涡分布、切向条件与压力系数。',
+  question:'先定义扰动，再求沿弦向源汇和涡分布诱导的 u′、v′；用表面切向条件把速度与几何连接起来，最后计算压力系数。',
+  equations:[], steps:[],
+  cards:[
+    {id:'perturbations',title:'微小扰动',english:'Small perturbations',summary:'先区分总速度与扰动速度，明确一阶近似保留什么。',takeaway:'u、v 是总速度分量；u′、v′ 是相对均匀来流的扰动。迎角、弯度与厚度是三种扰动来源。',blocks:[
+      {title:'速度分解',text:'取 x 沿弦线从前缘指向后缘，0 < x < c；y 向上。迎角 α 以弧度计算。',equations:[original.steps[0].equations[0],speedComponents]},
+      {title:'小量假设',text:'小迎角与弱扰动允许保留一阶项，忽略小量之间的乘积。翼型表面斜率也必须足够小。',equations:[E('小量条件','|α| ≪ 1，|u′|/V∞ ≪ 1，|v′|/V∞ ≪ 1',row(small(row(o('|'),v('α'),o('|'))),o(','),small(frac(row(o('|'),up,o('|')),U)),o(','),small(frac(row(o('|'),vp,o('|')),U))))]},
+    ]},
+    {id:'sources',title:'沿弦向的源汇分布',english:'Source and sink distribution',summary:'从微元源强 dQ 出发，分别计算水平与竖直扰动。',takeaway:'源汇层的 u′ 在上下两侧相同，v′ 则从 −q/2 跳到 +q/2。',blocks:[
+      {title:'微元源强',text:'ξ 是源的位置，x 是观测位置。q 的单位为 m/s，q > 0 为源，q < 0 为汇。',equations:[E('微元流量','dQ = q(ξ)dξ',eq(row(v('d'),v('Q')),row(at(v('q'),xi),v('d'),xi)))]},
+      {title:'对水平分量 u′ 的影响',text:'先求一个微元的作用，再沿整个弦长相加。PV 表示柯西主值：对 ξ = x 两侧对称取极限。',equations:[E('弦线上单个微元的水平速度（ξ ≠ x）','du′s = q(ξ)dξ/[2π(x−ξ)]',eq(row(v('d'),sourceU),frac(row(at(v('q'),xi),v('d'),xi),row(n(2),v('π'),par(row(x,o('−'),xi)))))),E('水平扰动的分布积分','u′s(x) = (1/2π) PV ∫₀ᶜ q(ξ)/(x−ξ)dξ',eq(at(sourceU),row(frac(n(1),row(n(2),v('π'))),integral(kernel(v('q')),true))))]},
+      {title:'对竖直分量 v′ 的影响',text:'取跨过源汇层的小控制体，流出量给出速度跳跃 v′+ − v′− = q。单独源汇层上下对称，因此各占一半。这里 +、− 指 y → 0+、y → 0− 的侧极限。',equations:[E('上下侧的竖直速度','v′s±(x) = ±q(x)/2',eq(at(sup(sourceV,o('±'))),row(o('±'),half(at(v('q'))))))]},
+    ]},
+    {id:'vortices',title:'沿弦向的涡分布',english:'Vortex distribution',summary:'从微元环量出发，观察另一种速度跳跃。',takeaway:'涡层的 u′ 从 −γ/2 跳到 +γ/2；v′ 在上下两侧相同。它与源汇层的作用恰好对应。',blocks:[
+      {title:'微元环量与正方向',text:'沿用笔记：涡片强度 γ 取顺时针为正，单位 m/s。γ 是单位弦长的环量，并非一般流场中的涡量 ∇×V。',equations:[E('微元顺时针环量','dΓcw = γ(ξ)dξ',eq(row(v('d'),sub(v('Γ'),v('cw'))),row(at(v('γ'),xi),v('d'),xi)))]},
+      {title:'对水平分量 u′ 的影响',text:'跨涡层的小回路给出切向速度跳跃 u′+ − u′− = γ；单独涡层上下反对称。',equations:[E('上下侧的水平速度','u′γ±(x) = ±γ(x)/2',eq(at(sup(vortexU,o('±'))),row(o('±'),half(at(v('γ'))))))]},
+      {title:'对竖直分量 v′ 的影响',text:'顺时针涡在其右侧诱导向下的速度，因此核函数前有负号。将各微元沿弦向积分，并以主值处理奇点。',equations:[E('弦线上单个微元的竖直速度（ξ ≠ x）','dv′γ = −γ(ξ)dξ/[2π(x−ξ)]',eq(row(v('d'),vortexV),row(o('−'),frac(row(at(v('γ'),xi),v('d'),xi),row(n(2),v('π'),par(row(x,o('−'),xi))))))),E('竖直扰动的分布积分','v′γ(x) = −(1/2π) PV ∫₀ᶜ γ(ξ)/(x−ξ)dξ',eq(at(vortexV),row(o('−'),frac(n(1),row(n(2),v('π'))),integral(kernel(v('γ')),true))))]},
+    ]},
+    {id:'tangency',title:'切向条件',english:'Tangency condition',summary:'把诱导速度与翼型表面的斜率连接起来。',takeaway:'源涡分布给出速度；切向条件要求这些速度符合翼型几何。边界条件在一阶近似下移到弦线计算。',blocks:[
+      {title:'无穿透条件',text:'速度沿表面切线，法向分量为零。此处 u、v 必须用总速度。',equations:[E('速度与表面相切','V·n = 0，dy±/dx = v±/u±',row(eq(row(b('V'),o('·'),b('n')),n(0)),o(','),eq(derivative(sup(v('y'),o('±'))),frac(sup(v('v'),o('±')),sup(v('u'),o('±'))))))]},
+      {title:'代入小扰动并线性化',text:'cos α ≈ 1、sin α ≈ α；分子本身是一阶小量，分母中的 u′ 对比值只带来二阶修正，所以分母取 V∞。',equations:[E('一阶速度分量','u ≈ V∞，v ≈ V∞α + v′',row(v('u'),o('≈'),U,o(','),v('v'),o('≈'),U,v('α'),o('+'),vp)),E('线性化切向方程','dy±/dx ≈ α + v′±/V∞',row(derivative(sup(v('y'),o('±'))),o('≈'),v('α'),o('+'),frac(sup(v('v'),o('′±')),U)))]},
+      {title:'连接弯度与厚度',text:'令 y± = ym ± ys。将上下侧条件取平均得到中弧线方程，取差得到厚度对应的源强。以下等式在一阶模型内成立。',equations:[...original.steps[1].equations,original.steps[3].equations[0],original.steps[4].equations[2],original.steps[3].equations[3]]},
+    ]},
+    {id:'pressure',title:'压力系数',english:'Pressure coefficient',summary:'从伯努利关系展开到一阶结果，最后再做叠加。',takeaway:'速度按矢量相加；各项 Cp 只有在一阶近似下才能代数相加。均匀来流始终只加一次。',blocks:[
+      {title:'从伯努利关系开始',text:'二维、不可压缩势流中，由总速度的平方得到压力系数。',equations:[E('压力系数定义','Cp = 1 − (u²+v²)/V∞²',eq(cp,row(n(1),o('−'),frac(plus(sq(v('u')),sq(v('v'))),sq(U))))),original.steps[5].equations[0]]},
+      {title:'展开并识别二阶小量',text:'利用 cos²α + sin²α = 1。αv′/V∞、u′²/V∞²、v′²/V∞² 都属于二阶；一阶只留下轴向扰动项。',equations:[E('未舍弃小量的展开式','Cp = −2(u′cosα + v′sinα)/V∞ − (u′²+v′²)/V∞²',eq(cp,row(o('−'),frac(row(n(2),par(plus(row(up,v('cos'),v('α')),row(vp,v('sin'),v('α'))))),U),o('−'),frac(plus(sq(up),sq(vp)),sq(U))))),E('上下表面的一阶压力系数','Cp± ≈ −2u′±/V∞',row(sup(cp,o('±')),o('≈'),o('−'),frac(row(n(2),sup(v('u'),o('′±'))),U)))]},
+      {title:'三种扰动的叠加',text:'把迎角、弯度、厚度引起的扰动速度相加，再用同一个线性关系换算成 Cp。',equations:[E('轴向扰动相加','u′ = u′α + u′m + u′s',eq(up,plus(sub(up,v('α')),sub(up,v('m')),sub(up,v('s'))))),original.steps[5].equations[1]]},
+    ]},
+  ],
+  supplement:[{title:'Kutta 条件',text:'要进一步求出涡分布，还需要后缘条件。尖后缘要求上下侧速度连续，薄翼模型中写成 γ(c) = 0。',equations:[original.steps[4].equations[3]]},original.steps[6],{...original.example,equations:[...original.example.equations,original.equations[1]]}],
+};
