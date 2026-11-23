@@ -1,0 +1,23 @@
+/* Library: published notes hub, restrained editorial presentation */
+.study-notes-page .notes-guide{display:flex;gap:16px;justify-content:space-between;flex-wrap:wrap;margin:8px 0 16px;color:#9fafb3;font-weight:730;font-size:11px;letter-spacing:.13em}
+.study-notes-page .notes-library{display:grid;grid-template-columns:minmax(0,1fr);gap:18px}
+.study-notes-page .notes-feature{--notes-accent:#8bdbcf;min-height:320px;display:grid;grid-template-columns:minmax(285px,.8fr) minmax(0,1.2fr);overflow:hidden;background:#18282e;border:1px solid #385258;border-radius:18px;color:#e9f5ef;text-decoration:none;transition:border-color .18s,background .18s}
+.study-notes-page .notes-feature:hover{background:#1e3035;border-color:#8bdbcf}
+.study-notes-page .notes-feature:focus-visible{outline:2px solid #bfece2;outline-offset:4px}
+.study-notes-page .notes-feature-art{display:flex;align-items:center;justify-content:center;padding:26px;background:radial-gradient(circle at 40% 35%,rgba(110,212,206,.12),transparent 65%),#111e26;border-right:1px solid #31464f}
+.study-notes-page .notes-feature-art svg{display:block;width:100%;max-width:430px;height:auto}
+.study-notes-page .notes-feature-body{padding:32px clamp(25px,4vw,42px);display:flex;flex-direction:column;min-width:0;align-items:flex-start}
+.study-notes-page .notes-feature-top{display:flex;justify-content:space-between;gap:14px;align-items:center;width:100%;margin-bottom:15px;font-size:11px;letter-spacing:.13em;font-weight:700;color:#91bdba}
+.study-notes-page .notes-live{padding:6px 10px;border:1px solid #406e62;background:#203c3a;color:#d5f1e8;border-radius:999px;letter-spacing:0;white-space:nowrap}
+.study-notes-page .notes-feature h2{font-size:clamp(26px,3.4vw,39px);letter-spacing:-.045em;font-weight:660;margin:0 0 3px;line-height:1.18}
+.study-notes-page .notes-en{font-size:12px;letter-spacing:.04em;color:#b2cfca;margin:10px 0 14px}
+.study-notes-page .notes-summary{font-size:14px;line-height:1.9;color:#b7c8cc;margin:0 0 20px;max-width:600px}
+.study-notes-page .notes-feature-tags{display:flex;flex-wrap:wrap;gap:7px;margin-top:auto}
+.study-notes-page .notes-feature-tags span{padding:6px 9px;border:1px solid #3b555b;border-radius:6px;color:#aecdca;font-size:11px}
+.study-notes-page .notes-open{display:inline-flex;align-items:center;gap:8px;margin-top:23px;color:#b9e6df;font-size:13px;font-weight:750}
+.study-notes-page .notes-footer{margin-top:36px;border-top:1px solid #293a3c;padding:20px 0 18px}
+.study-notes-page .notes-footer strong{font-size:13px;color:#dbebdf}
+.study-notes-page .notes-footer p{font-size:13px;color:#9bafb4;line-height:1.85;max-width:760px}
+.study-notes-page .notes-footer a{color:#cfe8be;text-decoration:underline;text-underline-offset:3px}
+@media(max-width:740px){.study-notes-page .notes-feature{grid-template-columns:1fr}.study-notes-page .notes-feature-art{min-height:190px;max-height:235px;border-right:0;border-bottom:1px solid #31464f}.study-notes-page .notes-feature-art svg{max-width:350px}.study-notes-page .notes-feature-body{padding:25px 22px 27px}.study-notes-page .notes-feature-top{align-items:start;line-height:1.5}}
+@media(prefers-reduced-motion:reduce){.study-notes-page .notes-feature{transition:none}}
