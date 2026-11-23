@@ -1,4 +1,4 @@
-// Section 14: chord c=1, U∞=1. Sheet gamma is CLOCKWISE-positive.
+// Thin-airfoil demonstration: chord c=1, U∞=1. Sheet gamma is CLOCKWISE-positive.
 // Demonstration family: mean line 4m x(1-x), half thickness t sin(pi x)/2.
 const pi=Math.PI;
 export function thinModel({alpha=3,camber=.02,thickness=.06,incidence=true,bending=true,body=true}={}){
