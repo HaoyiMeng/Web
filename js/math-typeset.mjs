@@ -11,7 +11,6 @@ const config = {
     inlineMath: [['\\(', '\\)']],
     displayMath: [['\\[', '\\]']],
     processEscapes: true,
-    packages: {'[+]': ['noerrors', 'noundefined']},
     macros: {
       dd: '\\mathrm{d}',
       pv: '\\operatorname{PV}'
