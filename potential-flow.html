@@ -4,8 +4,11 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <meta name="theme-color" content="#0b1017">
-  <meta name="description" content="自由组合点源、点汇、点涡与偶极子，探索速度势、流函数、通量与环量。">
-  <title>Potential Flow · Physics Lab — Haoyi Studio</title>
+  <meta name="description" content="Potential Flow 势流实验：组合均匀流、源汇、点涡与偶极子，观察流函数、速度势、通量和环量。" />
+  <title>势流叠加与圆柱绕流 | Potential Flow — Haoyi Studio</title>
+<link rel="canonical" href="https://haoyistudio.com/potential-flow.html" />
+<meta property="og:title" content="势流叠加与圆柱绕流 | Potential Flow — Haoyi Studio" />
+<meta property="og:description" content="Potential Flow 势流实验：组合均匀流、源汇、点涡与偶极子，观察流函数、速度势、通量和环量。" />
   <link rel="icon" type="image/svg+xml" href="./assets/favicon.svg">
   <link rel="stylesheet" href="./assets/potential-flow.css?v=20261122b">
   <script type="module" src="./js/potential-flow-ui.mjs?v=20261123a"></script>
@@ -13,12 +16,12 @@
 <body>
 <header class="studio-header">
   <a class="studio-brand" href="./index.html"><b>✳</b> HAOYI<span>/</span>STUDIO</a>
-  <nav aria-label="页面导航"><a href="./physics.html">Physics Lab</a><span>/</span><span>Potential Flow</span><span>/</span><a href="./conformal.html">保角变换</a></nav>
+  <nav aria-label="页面导航"><a href="./physics.html">Physics Lab</a><span>/</span><span>势流叠加 · Potential Flow</span><span>/</span><a href="./conformal.html">保角变换</a></nav>
   <span class="header-tag">二维势流实验台</span>
 </header>
 <main>
   <section class="lab-heading">
-    <div><div class="eyebrow">PHYSICS LAB · FREE EXPLORATION</div><h1>Potential <em>Flow.</em><span>势与流</span></h1><p>放置、叠加、测量。让 φ 与 ψ 对应同一个流场。</p></div>
+    <div><div class="eyebrow">PHYSICS LAB · FREE EXPLORATION</div><h1>Potential <em>Flow.</em><span>势流与流场叠加</span></h1><p>放置、叠加、测量。让 φ 与 ψ 对应同一个流场。</p></div>
     <div class="scene-actions"><label for="preset">实验场景</label><select id="preset"><option value="cylinder">圆柱绕流 · 匀流＋偶极子＋点涡</option><option value="default" selected>源汇与均匀来流</option><option value="empty">空白实验台</option><option value="uniform">均匀流</option><option value="source">单个点源</option><option value="vortex">单个点涡</option><option value="pair">有限源汇对</option><option value="doublet">理想偶极子</option><option value="spiral">源与涡的叠加</option></select><button id="reset" title="恢复当前预设">重置场景</button></div>
   </section>
   <div class="lab-layout">
