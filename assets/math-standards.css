@@ -1,0 +1,40 @@
+/* Shared mathematical typography — scientific notation across Haoyi Studio.
+   MathJax 3.2 CHTML normalizes browser differences for both TeX and MathML. */
+:root { --math-ink: #edf6f1; --math-muted: #acbfca; }
+.math-display { display:block; min-width:0; font-size:1.08em; line-height:1.55; text-align:center; }
+.math-inline { display:inline; white-space:nowrap; }
+[data-tex] { font-variant-ligatures:none; }
+mjx-container { color:inherit; max-width:100%; text-align:inherit; line-height:1.3; }
+mjx-container[display="true"] { display:block; margin:.35em 0 !important; text-align:center; }
+.g-math mjx-container, .p-formula mjx-container, .formula-equation mjx-container, .number-formula mjx-container { color:var(--math-ink); }
+.g-math, .p-formula, .formula-equation, .number-formula {
+  font-family: inherit;
+  font-size:clamp(1rem,1.3vw,1.18rem);
+  font-weight:400;
+  font-variant-numeric:lining-nums;
+  letter-spacing:normal;
+  line-height:1.7;
+  overflow-x:auto;
+  overscroll-behavior-inline:contain;
+  -webkit-overflow-scrolling:touch;
+  scrollbar-width:thin;
+}
+.g-math .math-display, .p-formula .math-display { min-width:max-content; }
+.g-math .math-display { color:#eff8f5; }
+.formula-equation { position:relative; }
+.formula-equation math, .number-formula math { font-family:inherit; font-size:1em; }
+.formula-symbol .math-inline, .number-symbol .math-inline { white-space:nowrap; }
+.formula-symbol mjx-container, .number-symbol mjx-container { font-size:1em !important; }
+.p-formula { white-space:normal !important; }
+.p-formula mjx-container { vertical-align:middle; }
+.mapping-equation .math-display { text-align:left; font-size:1.2rem; }
+.mapping-equation mjx-container[display="true"] { text-align:left; }
+.g-math small, .g-math .g-eq-label { font-family:Inter,"Segoe UI","Microsoft YaHei",sans-serif; }
+.math-standards-note { color:#a9bac2; font-size:.85rem; line-height:1.8; }
+.math-typeset-error { color:#f5cda7; }
+@media(max-width:720px){
+ .g-math, .p-formula, .formula-equation, .number-formula {font-size:1rem;padding-left:13px;padding-right:13px;}
+ .mapping-equation .math-display {font-size:1.05rem;}
+ .math-display {font-size:1em;}
+}
+@media(prefers-reduced-motion:reduce){ mjx-container {transition:none!important;} }
