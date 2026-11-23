@@ -19,7 +19,7 @@
   </header>
   <main>
     <section class="intro p-hero">
-      <div><p class="eyebrow">AERODYNAMICS / SMALL PERTURBATIONS</p><h1>小扰动的<em>影响.</em></h1>
+      <div><p class="eyebrow">AERODYNAMICS / SMALL PERTURBATIONS</p><h1>小扰动的<em>影响</em></h1>
         <p class="subtitle">一片薄翼为什么能产生升力？把迎角、弯度、厚度分别打开，看速度如何叠加、压力如何改变。</p></div>
       <div class="mapping-equation"><span>LINEARIZED PRESSURE</span><strong>C<sub>p</sub> ≈ −2u′/U∞</strong><small>小迎角、薄翼与弱扰动的一阶近似</small></div>
     </section>
@@ -129,6 +129,14 @@
           <p class="p-formula">∫₀ᶜ q(x) dx = 0</p>
           <p>厚度会改变两侧共同的压力分布，但在此一阶薄翼模型中不产生上下表面的净压力差，因此不改变一阶 C<sub>L</sub>。</p>
         </article>
+      </div>
+      <div class="p-derivation">
+        <h3>片强度怎样真正变成速度？</h3>
+        <p>沿参考弦线放置理想奇点片，不意味着真实翼型在持续向外喷水或内部存在一条实体涡层；这是重建外部势流、满足不穿透条件的数学方法。对于本页采用的符号约定：</p>
+        <p class="p-formula">u′<sub>γ,±</sub> = ±γ(x)/2，　v′<sub>s,±</sub> = ±q(x)/2</p>
+        <p>涡片造成切向速度跳跃；源汇片造成法向速度跳跃。源汇片还会在参考线上诱导共同的轴向扰动：</p>
+        <p class="p-formula">u′<sub>s</sub>(x) = (1/2π) PV∫₀ᶜ q(ξ)/(x−ξ) dξ</p>
+        <p>PV 表示<strong>柯西主值</strong>，用来处理积分核在 ξ = x 处的奇性。交互图中的厚度压力贡献就是由这一积分的数值求积得到；它不是单纯依靠几何形状画出来的曲线。</p>
       </div>
       <div class="p-derivation">
         <h3>为什么小扰动模型会预测升力？</h3>
