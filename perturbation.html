@@ -1,0 +1,153 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#0b1017">
+  <meta name="description" content="小扰动的影响：交互探索迎角、弯度和厚度对薄翼速度场、压力系数与升力的贡献，理解线性化、涡片和源汇片。">
+  <title>小扰动的影响 · Haoyi Studio</title>
+  <link rel="icon" type="image/svg+xml" href="./assets/favicon.svg">
+  <link rel="stylesheet" href="./assets/conformal.css?v=20261123c">
+  <link rel="stylesheet" href="./assets/perturbation.css?v=20261123a">
+  <script type="module" src="./js/perturbation-ui.mjs?v=20261123c"></script>
+  <script type="module" src="./js/site.mjs"></script>
+</head>
+<body>
+  <header class="studio-header">
+    <a class="brand" href="./index.html">✳ HAOYI<span>/</span>STUDIO</a>
+    <nav aria-label="页面导航"><a href="./physics.html">Physics Lab</a><span>/</span><span>小扰动的影响</span></nav>
+    <a class="sibling" href="./conformal.html">保角变换 ↗</a>
+  </header>
+  <main>
+    <section class="intro p-hero">
+      <div><p class="eyebrow">AERODYNAMICS / SMALL PERTURBATIONS</p><h1>小扰动的<em>影响.</em></h1>
+        <p class="subtitle">一片薄翼为什么能产生升力？把迎角、弯度、厚度分别打开，看速度如何叠加、压力如何改变。</p></div>
+      <div class="mapping-equation"><span>LINEARIZED PRESSURE</span><strong>C<sub>p</sub> ≈ −2u′/U∞</strong><small>小迎角、薄翼与弱扰动的一阶近似</small></div>
+    </section>
+
+    <section class="p-overview" aria-label="理解模型的三个步骤">
+      <div><span>01 / GEOMETRY</span><h2>先拆几何</h2><p>上表面 y<sub>+</sub> = y<sub>m</sub> + y<sub>s</sub>；下表面 y<sub>−</sub> = y<sub>m</sub> − y<sub>s</sub>。中弧线管弯度，半厚度管厚度。</p></div>
+      <div><span>02 / VELOCITY</span><h2>再叠速度</h2><p>总流场 = 均匀来流 + 迎角扰动 + 弯度扰动 + 厚度扰动。先叠加速度矢量，不能先叠加速度大小。</p></div>
+      <div><span>03 / PRESSURE</span><h2>最后算压力</h2><p>用伯努利方程把局部速度变成 C<sub>p</sub>。只有忽略二阶小量之后，各部分压力贡献才近似可加。</p></div>
+    </section>
+
+    <section class="perturbation-lab" id="small-perturbations" aria-labelledby="p-heading">
+      <div class="intro p-experiment-head">
+        <div><p class="eyebrow">INTERACTIVE / THIN AIRFOIL MODEL</p><h2 id="p-heading">改变一个因素，看它影响什么</h2>
+        <p class="subtitle">下方所有图形联动；可以单独打开某种扰动，也可以观察三种效应叠加。</p></div>
+        <button id="p-reset" type="button">恢复默认参数</button>
+      </div>
+      <div class="p-examples" role="group" aria-label="典型实验">
+        <button type="button" data-p-case="alpha">只看迎角</button>
+        <button type="button" data-p-case="camber">只看弯度</button>
+        <button type="button" data-p-case="thickness">只看厚度</button>
+        <button type="button" data-p-case="all">三个因素叠加</button>
+      </div>
+      <p class="note">演示使用固定的几何族：X = x/c，y<sub>m</sub>/c = 4mX(1−X)，y<sub>s</sub>/c = (t/2)sin(πX)。m 为最大弯度比，t 为最大厚度比；为了突出机制，这不是某个实际翼型的精确几何。</p>
+      <div class="p-layout">
+        <section class="control-panel" aria-label="扰动参数">
+          <h3>三种扰动来源</h3>
+          <label class="p-toggle"><input id="p-incidence" type="checkbox" checked>迎角贡献 · incidence</label>
+          <label for="p-alpha">迎角 α = <output id="p-alpha-value">3</output>°</label>
+          <input id="p-alpha" type="range" min="-10" max="10" step="0.25" value="3">
+          <label class="p-toggle"><input id="p-bending" type="checkbox" checked>弯度贡献 · camber</label>
+          <label for="p-camber">最大弯度 m = <output id="p-camber-value">2</output>%</label>
+          <input id="p-camber" type="range" min="-5" max="5" step="0.1" value="2">
+          <label class="p-toggle"><input id="p-body" type="checkbox" checked>厚度贡献 · thickness</label>
+          <label for="p-thickness">最大厚度 t = <output id="p-thickness-value">6</output>%</label>
+          <input id="p-thickness" type="range" min="0" max="12" step="0.25" value="6">
+          <label for="p-x" class="p-toggle">观测位置 x/c = <output id="p-x-value">0.4</output></label>
+          <input id="p-x" type="range" min="0.01" max="0.99" step="0.005" value="0.4">
+          <label class="p-toggle p-quadratic-toggle"><input id="p-quadratic" type="checkbox" checked>显示保留二次项的 C<sub>p</sub>（虚线）</label>
+          <p class="note">拖动观测位置可读取该截面上、下表面的数据。图形刻意不采样 x/c = 0 和 1，避免把前缘奇异性掩盖成有限值。</p>
+        </section>
+        <div class="p-plots">
+          <div class="p-plot-label"><strong>01. 翼型与局部速度</strong><span>灰：来流 · 金：扰动 · 青：合速度</span></div>
+          <svg id="p-shape" viewBox="0 0 600 250" role="img" aria-label="翼型中弧线、上下表面及来流、扰动、合速度矢量"></svg>
+          <div class="p-plot-label"><strong>02. 上下表面压力系数 C<sub>p</sub></strong><span>青：上侧 · 金：下侧 · 虚线：二次项</span></div>
+          <svg id="p-pressure" viewBox="0 0 600 260" role="img" aria-label="上、下表面压力系数分布，负Cp在图表上方"></svg>
+          <div class="p-plot-label"><strong>03. 奇点片强度</strong><span>紫：源汇片 q/U∞ · 青：涡片 γ/U∞</span></div>
+          <svg id="p-sheets" viewBox="0 0 600 260" role="img" aria-label="源汇片与涡片强度沿弦向的分布"></svg>
+          <p class="note">实线：线性化 C<sub>p</sub> ≈ −2u′/U∞。虚线：把同一份一阶扰动速度代回未线性化的伯努利表达式；<strong>虚线不是精确解，也不能直接当作真实误差</strong>。</p>
+        </div>
+      </div>
+      <section class="probe-panel" aria-label="观测截面数值">
+        <div class="probe-title"><h2>当前截面的计算结果</h2><span class="probe-symbol">x / c</span></div>
+        <div class="probe-values">
+          <div><span>上侧 C<sub>p</sub>（一阶）</span><strong id="p-cp-upper">—</strong></div>
+          <div><span>下侧 C<sub>p</sub>（一阶）</span><strong id="p-cp-lower">—</strong></div>
+          <div><span>整个翼型 C<sub>L</sub>（一阶）</span><strong id="p-cl">—</strong></div>
+          <div><span>局部最大 |V′| / U∞</span><strong id="p-ratio">—</strong></div>
+          <div><span>两侧最大 |ΔC<sub>p</sub>|（虚线−实线）</span><strong id="p-error">—</strong></div>
+        </div>
+        <p class="note" id="p-validity" role="status"></p>
+      </section>
+      <div class="p-contributions" aria-label="三种扰动分别做了什么">
+        <div><h3>① 迎角的影响</h3><p id="p-part-0"></p></div>
+        <div><h3>② 弯度的影响</h3><p id="p-part-1"></p></div>
+        <div><h3>③ 厚度的影响</h3><p id="p-part-2"></p></div>
+      </div>
+      <p id="p-sum" class="p-sum" aria-live="polite"></p>
+    </section>
+
+    <section class="p-guide" aria-labelledby="p-guide-title">
+      <div class="p-guide-head"><p class="eyebrow">WHY IT WORKS</p><h2 id="p-guide-title">从教材中的三个关键方程理解</h2>
+      <p>小扰动理论不是“把翼型画薄一点”这么简单。关键步骤是先在参考直线上满足边界条件，再用叠加的扰动速度计算表面压力。</p></div>
+      <div class="p-step-grid">
+        <article class="p-step"><span>01 / ASSUMPTION</span><h3>把大问题变成小量问题</h3>
+          <p class="p-formula">V = V∞ + V′，其中 V′ = (u′, v′)</p>
+          <p>假设二维、定常、不可压、无黏且无旋，并且迎角（弧度）、翼型表面斜率和扰动速度都足够小。于是 |u′|/U∞、|v′|/U∞ ≪ 1，可以忽略二阶乘积。<strong>这里“小”的核心是斜率与扰动，而不只是厚度数值小。</strong></p>
+        </article>
+        <article class="p-step"><span>02 / TANGENCY</span><h3>流体不能穿透翼型表面</h3>
+          <p class="p-formula">v′<sub>±</sub>/U∞ ≈ dy<sub>±</sub>/dx − α</p>
+          <p>实际不可穿透条件是 v/u = dy/dx。对小迎角和小斜率展开后，就得到上式。它说明：表面斜率决定流线必须偏转多少；迎角 α 则改变来流相对表面的方向。上、下表面用 ± 区分。</p>
+        </article>
+        <article class="p-step"><span>03 / BERNOULLI</span><h3>速度的变化怎样成为压力变化</h3>
+          <p class="p-formula">C<sub>p</sub> = 1 − |V|²/U∞² ≈ −2u′/U∞</p>
+          <p>精确的速度平方含有 u′²、v′² 等二阶项，也包含与迎角相关的高阶乘积。忽略这些项后，压力变化对轴向扰动速度呈线性。因此可以先把三个扰动速度相加，再把三项一阶 C<sub>p</sub> 相加。</p>
+        </article>
+      </div>
+      <div class="p-derivation">
+        <h3>把迎角、弯度和厚度分成三项，究竟分的是什么？</h3>
+        <p>沿弦向的速度扰动可写成 u′ = u′<sub>α</sub> + u′<sub>m</sub> + u′<sub>s</sub>；法向速度同样叠加。<strong>线性理论的可叠加对象是速度势、速度和一阶压力系数</strong>，不是未经线性化的动压，也不是“迎角的升力 + 厚度的升力”这种对所有真实流动都成立的结论。</p>
+      </div>
+    </section>
+
+    <section class="p-guide" aria-labelledby="p-mechanism-title">
+      <div class="p-guide-head"><p class="eyebrow">VORTEX & SOURCE SHEETS</p><h2 id="p-mechanism-title">为什么弯度和迎角对应涡片，厚度对应源汇片？</h2></div>
+      <div class="p-mechanism-grid">
+        <article class="p-step"><span>VORTEX SHEET / γ</span><h3>迎角 + 弯度 → 上下表面速度差</h3>
+          <p>迎角和中弧线让翼型上下表面需要不同的切向速度，用沿弦向分布的涡片来表示。这里采用<strong>顺时针为正</strong>的片强度 γ，与保角变换页面采用的逆时针正环量约定不同。</p>
+          <p class="p-formula">u′<sub>+</sub> − u′<sub>−</sub> = γ</p>
+          <p>上表面速度增加、压力降低；下表面反之，形成压力差并贡献升力。这个例子对应的解析分布为：</p>
+          <p class="p-formula">γ/U∞ = 2α√[(1−X)/X] + 16m√[X(1−X)]</p>
+          <p>第一项由迎角产生，第二项来自本页采用的抛物线中弧线。它满足尾缘 γ(1) = 0 的库塔条件；公式<strong>不能直接推广到任意弯度线</strong>。</p>
+        </article>
+        <article class="p-step"><span>SOURCE SHEET / q</span><h3>厚度 → 流体向上下两侧绕行</h3>
+          <p>厚度让上、下表面相对中弧线向外偏移，可以在零厚度参考线上布置源汇片。源强为正表示局部向外排流，为负表示吸入；其正、负变化来自半厚度的斜率。</p>
+          <p class="p-formula">q(x) = 2U∞ dy<sub>s</sub>/dx</p>
+          <p>本页厚度分布得到 q/U∞ = πt cos(πX)，前半弦为源、后半弦为汇；因为翼型闭合，沿弦积分的净源强为零。</p>
+          <p class="p-formula">∫₀ᶜ q(x) dx = 0</p>
+          <p>厚度会改变两侧共同的压力分布，但在此一阶薄翼模型中不产生上下表面的净压力差，因此不改变一阶 C<sub>L</sub>。</p>
+        </article>
+      </div>
+      <div class="p-derivation">
+        <h3>为什么小扰动模型会预测升力？</h3>
+        <p>压力差 ΔC<sub>p</sub> = C<sub>p,下</sub> − C<sub>p,上</sub> = 2γ/U∞。沿弦积分得到一阶升力系数：</p>
+        <p class="p-formula">C<sub>L</sub> = ∫₀¹ ΔC<sub>p</sub> dX = 2π(α + 2m)</p>
+        <p>α 必须用弧度，m 是弯度比。对于这个特定的抛物线中弧线，零升力迎角为 α<sub>L=0</sub> = −2m（弧度）。例如 m = 0.02、α = 0 时仍然有正升力；而 α = m = 0、仅有厚度时，一阶升力为零。</p>
+      </div>
+    </section>
+
+    <section class="p-guide p-boundaries" aria-labelledby="p-boundaries-title">
+      <div class="p-guide-head"><p class="eyebrow">MODEL BOUNDARIES</p><h2 id="p-boundaries-title">什么时候不能相信这套近似？</h2></div>
+      <div class="p-step-grid">
+        <article class="p-step"><h3>前缘奇异性</h3><p>理想零厚度薄翼在非零迎角下，涡片强度可能在前缘按 1/√X 发散。图表避开端点只是避免绘图故障，并不意味着前缘真实流动符合小扰动假设。</p></article>
+        <article class="p-step"><h3>大迎角或厚翼</h3><p>迎角、表面斜率和局部扰动不再足够小时，二阶项不再小；大迎角可能发生黏性分离或失速，这个势流近似完全无法预测。</p></article>
+        <article class="p-step"><h3>不能拿虚线当真值</h3><p>虚线使用的是同一个一阶速度解，只是把速度平方项加回去。它可以演示线性化遗漏了什么，却不能代替更高阶模型、保角变换的同几何解或实验数据。</p></article>
+      </div>
+      <p class="p-bottom-note">学习建议：依次点击「只看迎角」「只看弯度」「只看厚度」，观察涡片 γ、源汇片 q 和上、下表面的 C<sub>p</sub> 是否同步改变，再打开三者叠加。与 <a href="./conformal.html">Joukowski 保角变换实验</a> 对照时，要先确认几何是否一致。</p>
+    </section>
+    <footer><span>HAOYI / STUDIO</span><span>Linearization · Thin-airfoil theory · Vortex & source sheets</span></footer>
+  </main>
+</body>
+</html>
