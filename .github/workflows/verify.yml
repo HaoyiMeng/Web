@@ -33,7 +33,9 @@ jobs:
               node tests/conformal.test.mjs
               node tests/conformal-ui.test.mjs
           - suite: glauert
-            command: node tests/glauert.test.mjs
+            command: |
+              node tests/glauert.test.mjs
+              node tests/glauert-notes.test.mjs
           - suite: perturbation
             command: |
               node tests/perturbation.test.mjs
