@@ -68,7 +68,7 @@
           </div>
           <details class="p-control-details"><summary>模型几何与显示选项</summary>
             <label class="p-toggle" for="p-quadratic"><input id="p-quadratic" type="checkbox" checked>显示二次项 C<sub>p</sub>（细虚线）</label>
-            <p>演示翼型采用 X = x/c、y<sub>m</sub>/c = 4mX(1−X)、y<sub>s</sub>/c = (t/2)sin(πX)。这是教学用几何族，不是某个真实翼型的精确解。</p>
+            <p>演示翼型采用 <span class="math-inline" data-tex="X=\frac xc">X = x/c</span>、<span class="math-inline" data-tex="\frac{y_m}{c}=4mX(1-X)">y<sub>m</sub>/c = 4mX(1−X)</span>、<span class="math-inline" data-tex="\frac{y_s}{c}=\frac t2\sin(\pi X)">y<sub>s</sub>/c = (t/2)sin(πX)</span>。这是教学用几何族，不是某个真实翼型的精确解。</p>
             <p>图表不显示 x/c = 0 与 1 的端点，避免将理论奇异性误画为有限值。</p>
           </details>
         </aside>
@@ -123,7 +123,7 @@
     </section>
 
     <section class="p-overview" aria-label="理解模型的三个步骤">
-      <div><span>01 / GEOMETRY</span><h2>先拆几何</h2><p>上表面 y<sub>+</sub> = y<sub>m</sub> + y<sub>s</sub>；下表面 y<sub>−</sub> = y<sub>m</sub> − y<sub>s</sub>。中弧线管弯度，半厚度管厚度。</p></div>
+      <div><span>01 / GEOMETRY</span><h2>先拆几何</h2><p>上表面 <span class="math-inline" data-tex="y^+=y_m+y_s">y<sub>+</sub> = y<sub>m</sub> + y<sub>s</sub></span>；下表面 <span class="math-inline" data-tex="y^-=y_m-y_s">y<sub>−</sub> = y<sub>m</sub> − y<sub>s</sub></span>。中弧线管弯度，半厚度管厚度。</p></div>
       <div><span>02 / VELOCITY</span><h2>再叠速度</h2><p>总流场 = 均匀来流 + 迎角扰动 + 弯度扰动 + 厚度扰动。先叠加速度矢量，不能先叠加速度大小。</p></div>
       <div><span>03 / PRESSURE</span><h2>最后算压力</h2><p>用伯努利方程把局部速度变成 C<sub>p</sub>。只有忽略二阶小量之后，各部分压力贡献才近似可加。</p></div>
     </section>
@@ -138,7 +138,7 @@
         </article>
         <article class="p-step"><span>02 / TANGENCY</span><h3>流体不能穿透翼型表面</h3>
           <p class="p-formula"><span class="math-display" data-tex="\frac{v'_\pm}{U_\infty}\simeq\frac{\mathrm{d}y_\pm}{\mathrm{d}x}-\alpha">v′<sub>±</sub>/U∞ ≈ dy<sub>±</sub>/dx − α</span></p>
-          <p>实际不可穿透条件是 v/u = dy/dx。对小迎角和小斜率展开后，就得到上式。它说明：表面斜率决定流线必须偏转多少；迎角 α 则改变来流相对表面的方向。上、下表面用 ± 区分。</p>
+          <p>实际不可穿透条件是 <span class="math-inline" data-tex="\frac vu=\frac{\mathrm dy}{\mathrm dx}">v/u = dy/dx</span>。对小迎角和小斜率展开后，就得到上式。它说明：表面斜率决定流线必须偏转多少；迎角 α 则改变来流相对表面的方向。上、下表面用 ± 区分。</p>
         </article>
         <article class="p-step"><span>03 / BERNOULLI</span><h3>速度的变化怎样成为压力变化</h3>
           <p class="p-formula"><span class="math-display" data-tex="C_p=1-\frac{|\boldsymbol{V}|^2}{U_\infty^2}\simeq-\frac{2u'}{U_\infty}">C<sub>p</sub> = 1 − |V|²/U∞² ≈ −2u′/U∞</span></p>
@@ -147,7 +147,7 @@
       </div>
       <div class="p-derivation">
         <h3>把迎角、弯度和厚度分成三项，究竟分的是什么？</h3>
-        <p>沿弦向的速度扰动可写成 u′ = u′<sub>α</sub> + u′<sub>m</sub> + u′<sub>s</sub>；法向速度同样叠加。<strong>线性理论的可叠加对象是速度势、速度和一阶压力系数</strong>，不是未经线性化的动压，也不是“迎角的升力 + 厚度的升力”这种对所有真实流动都成立的结论。</p>
+        <p>沿弦向的速度扰动可写成 <span class="math-inline" data-tex="u'=u'_\alpha+u'_m+u'_s">u′ = u′<sub>α</sub> + u′<sub>m</sub> + u′<sub>s</sub></span>；法向速度同样叠加。<strong>线性理论的可叠加对象是速度势、速度和一阶压力系数</strong>，不是未经线性化的动压，也不是“迎角的升力 + 厚度的升力”这种对所有真实流动都成立的结论。</p>
       </div>
     </section>
 
@@ -159,12 +159,12 @@
           <p class="p-formula"><span class="math-display" data-tex="u'_+-u'_-=\gamma">u′<sub>+</sub> − u′<sub>−</sub> = γ</span></p>
           <p>上表面速度增加、压力降低；下表面反之，形成压力差并贡献升力。这个例子对应的解析分布为：</p>
           <p class="p-formula"><span class="math-display" data-tex="\frac{\gamma(X)}{U_\infty}=2\alpha\sqrt{\frac{1-X}{X}}+16m\sqrt{X(1-X)}">γ/U∞ = 2α√[(1−X)/X] + 16m√[X(1−X)]</span></p>
-          <p>第一项由迎角产生，第二项来自本页采用的抛物线中弧线。它满足尾缘 γ(1) = 0 的库塔条件；公式<strong>不能直接推广到任意弯度线</strong>。</p>
+          <p>第一项由迎角产生，第二项来自本页采用的抛物线中弧线。它满足尾缘 <span class="math-inline" data-tex="\gamma(1)=0">γ(1) = 0</span> 的库塔条件；公式<strong>不能直接推广到任意弯度线</strong>。</p>
         </article>
         <article class="p-step"><span>SOURCE SHEET / q</span><h3>厚度 → 流体向上下两侧绕行</h3>
           <p>厚度让上、下表面相对中弧线向外偏移，可以在零厚度参考线上布置源汇片。源强为正表示局部向外排流，为负表示吸入；其正、负变化来自半厚度的斜率。</p>
           <p class="p-formula"><span class="math-display" data-tex="q(x)=2U_\infty\frac{\mathrm{d}y_s}{\mathrm{d}x}">q(x) = 2U∞ dy<sub>s</sub>/dx</span></p>
-          <p>本页厚度分布得到 q/U∞ = πt cos(πX)，前半弦为源、后半弦为汇；因为翼型闭合，沿弦积分的净源强为零。</p>
+          <p>本页厚度分布得到 <span class="math-inline" data-tex="\frac q{U_\infty}=\pi t\cos(\pi X)">q/U∞ = πt cos(πX)</span>，前半弦为源、后半弦为汇；因为翼型闭合，沿弦积分的净源强为零。</p>
           <p class="p-formula"><span class="math-display" data-tex="\int_0^c q(x)\,\mathrm{d}x=0">∫₀ᶜ q(x) dx = 0</span></p>
           <p>厚度会改变两侧共同的压力分布，但在此一阶薄翼模型中不产生上下表面的净压力差，因此不改变一阶 C<sub>L</sub>。</p>
         </article>
@@ -175,20 +175,20 @@
         <p class="p-formula"><span class="math-display" data-tex="u'_{\gamma,\pm}=\pm\frac{\gamma(x)}{2},\qquad v'_{s,\pm}=\pm\frac{q(x)}{2}">u′<sub>γ,±</sub> = ±γ(x)/2，　v′<sub>s,±</sub> = ±q(x)/2</span></p>
         <p>涡片造成切向速度跳跃；源汇片造成法向速度跳跃。源汇片还会在参考线上诱导共同的轴向扰动：</p>
         <p class="p-formula"><span class="math-display" data-tex="u'_s(x)=\frac{1}{2\pi}\operatorname{PV}\!\int_0^c\frac{q(\xi)}{x-\xi}\,\mathrm{d}\xi">u′<sub>s</sub>(x) = (1/2π) PV∫₀ᶜ q(ξ)/(x−ξ) dξ</span></p>
-        <p>PV 表示<strong>柯西主值</strong>，用来处理积分核在 ξ = x 处的奇性。交互图中的厚度压力贡献就是由这一积分的数值求积得到；它不是单纯依靠几何形状画出来的曲线。</p>
+        <p>PV 表示<strong>柯西主值</strong>，用来处理积分核在 <span class="math-inline" data-tex="\xi=x">ξ = x</span> 处的奇性。交互图中的厚度压力贡献就是由这一积分的数值求积得到；它不是单纯依靠几何形状画出来的曲线。</p>
       </div>
       <div class="p-derivation">
         <h3>为什么小扰动模型会预测升力？</h3>
-        <p>压力差 ΔC<sub>p</sub> = C<sub>p,下</sub> − C<sub>p,上</sub> = 2γ/U∞。沿弦积分得到一阶升力系数：</p>
+        <p>压力差 <span class="math-inline" data-tex="\Delta C_p=C_{p,\mathrm{lower}}-C_{p,\mathrm{upper}}=\frac{2\gamma}{U_\infty}">ΔC<sub>p</sub> = C<sub>p,下</sub> − C<sub>p,上</sub> = 2γ/U∞</span>。沿弦积分得到一阶升力系数：</p>
         <p class="p-formula"><span class="math-display" data-tex="C_L=\int_0^1\Delta C_p(X)\,\mathrm{d}X=2\pi(\alpha+2m)">C<sub>L</sub> = ∫₀¹ ΔC<sub>p</sub> dX = 2π(α + 2m)</span></p>
-        <p>α 必须用弧度，m 是弯度比。对于这个特定的抛物线中弧线，零升力迎角为 α<sub>L=0</sub> = −2m（弧度）。例如 m = 0.02、α = 0 时仍然有正升力；而 α = m = 0、仅有厚度时，一阶升力为零。</p>
+        <p>α 必须用弧度，m 是弯度比。对于这个特定的抛物线中弧线，零升力迎角为 <span class="math-inline" data-tex="\alpha_{L=0}=-2m">α<sub>L=0</sub> = −2m</span>（弧度）。例如 m = 0.02、α = 0 时仍然有正升力；而 α = m = 0、仅有厚度时，一阶升力为零。</p>
       </div>
     </section>
 
     <section class="p-guide p-boundaries" aria-labelledby="p-boundaries-title">
       <div class="p-guide-head"><p class="eyebrow">MODEL BOUNDARIES</p><h2 id="p-boundaries-title">什么时候不能相信这套近似？</h2></div>
       <div class="p-step-grid">
-        <article class="p-step"><h3>前缘奇异性</h3><p>理想零厚度薄翼在非零迎角下，涡片强度可能在前缘按 1/√X 发散。图表避开端点只是避免绘图故障，并不意味着前缘真实流动符合小扰动假设。</p></article>
+        <article class="p-step"><h3>前缘奇异性</h3><p>理想零厚度薄翼在非零迎角下，涡片强度可能在前缘按 <span class="math-inline" data-tex="\frac1{\sqrt X}">1/√X</span> 发散。图表避开端点只是避免绘图故障，并不意味着前缘真实流动符合小扰动假设。</p></article>
         <article class="p-step"><h3>大迎角或厚翼</h3><p>迎角、表面斜率和局部扰动不再足够小时，二阶项不再小；大迎角可能发生黏性分离或失速，这个势流近似完全无法预测。</p></article>
         <article class="p-step"><h3>不能拿虚线当真值</h3><p>虚线使用的是同一个一阶速度解，只是把速度平方项加回去。它可以演示线性化遗漏了什么，却不能代替更高阶模型、保角变换的同几何解或实验数据。</p></article>
       </div>
