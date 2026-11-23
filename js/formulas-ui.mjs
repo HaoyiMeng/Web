@@ -77,7 +77,7 @@ function renderArticle(item) {
       const target = formulas.find((entry)=>entry.id===id);
       return `<a href="#${target.id}">${escape(target.name)}</a>`;
     }).join('')}</nav>
-    <section class="formula-sources"><h2>参考资料</h2><p>公式、推导与符号采用本页明确的约定，以下公开资料可用于交叉核对。</p><ul>${item.sources.map((source)=>`<li><a href="${escape(source.url)}" target="_blank" rel="noopener noreferrer">${escape(source.title)}</a></li>`).join('')}</ul></section>`;
+    <section class="formula-sources"><h2>参考资料</h2><p>${escape(item.sourceNote || '公式、推导与符号采用本页明确的约定，以下公开资料可用于交叉核对。')}</p><ul>${item.sources.map((source)=>`<li><a href="${escape(source.url)}" target="_blank" rel="noopener noreferrer">${escape(source.title)}</a></li>`).join('')}</ul></section>`;
   detail.setAttribute('aria-labelledby','formula-title');
 }
 
