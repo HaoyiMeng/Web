@@ -10,41 +10,43 @@
 <link rel="stylesheet" href="./assets/styles.css" />
 <link rel="stylesheet" href="./assets/sections.css" />
 <link rel="stylesheet" href="./assets/workspace-v3.css" />
+<link rel="stylesheet" href="./assets/physics-catalog.css?v=20261123a" />
 <script type="module" src="./js/navigation.mjs"></script>
 <script type="module" src="./js/site.mjs"></script>
 
 </head>
-<body class="workspace-page">
+<body class="workspace-page physics-catalog">
 <div class="site-shell workspace-shell">
 <header class="site-header workspace-header" id="top"><a class="brand" href="./index.html" aria-label="Haoyi Studio 返回首页"><span class="brand-star">✳</span><span>HAOYI<span class="brand-dim">/</span>STUDIO</span></a><span class="workspace-badge">Physics Lab</span></header>
 <main id="main-content" class="workspace-main"><section class="workspace-intro" aria-labelledby="workspace-title">
   <a class="workspace-back" href="./index.html">← Back to workspace</a>
   <span class="workspace-kicker">03 / VISUAL SCIENCE</span>
   <h1 id="workspace-title">Physics, <em>in motion.</em></h1>
-  <p>把公式、假设和曲线变成可以操作的模型。</p></section><div class="desk-label"><strong>EXPERIMENTS</strong><span>04 LIVE / 00 IN PLANNING</span></div>
-<nav class="space-grid space-grid--submenu" aria-label="Physics Lab 工具目录"><a href="./nozzle.html" class="space-card space-card--nozzle">
-   <div class="tile-top"><span class="tile-icon"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M2 5h4l5 5h3l5-5h3M2 19h4l5-5h3l5 5h3M3 12h18"/></svg></span><span class="tile-arrow" aria-hidden="true">↗</span></div>
+  <p>把公式、假设和曲线变成可以操作的模型。</p></section><div class="desk-label"><strong>EXPERIMENTS</strong><span>4 个交互实验</span></div>
+<div class="physics-categories" aria-label="学科分类"><span class="category-propulsion">推进系统 · 1 个实验</span><span class="category-aero">空气动力学 · 3 个实验</span></div>
+<nav class="space-grid space-grid--submenu" aria-label="Physics Lab 工具目录"><a href="./nozzle.html" class="space-card physics-card physics-card--propulsion">
+   <div class="tile-top"><span class="tile-icon"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M2 5h4l5 5h3l5-5h3M2 19h4l5-5h3l5 5h3M3 12h18"/></svg></span><span class="physics-category">推进系统</span></div>
    <span class="tile-art tile-art--nozzle" aria-hidden="true"><svg viewBox="0 0 148 106"><path d="M4 10C35 10 40 48 70 48s40-38 72-38M4 95C35 95 40 57 70 57s40 38 72 38"/><path d="M2 53h144" stroke-dasharray="4 7"/><path d="M97 19v75" stroke-dasharray="2 5"/></svg></span>
-   <div class="tile-main"><span class="tile-overline">COMPRESSIBLE FLOW</span><strong class="space-title">De Laval Nozzle</strong><span class="space-description">从背压到阻塞流与正激波。</span></div>
-   <div class="tile-tags"><span>Live model</span><span>Quasi-1D</span></div>
+   <div class="tile-main"><span class="tile-overline">De Laval Nozzle</span><strong class="space-title">拉瓦尔喷管</strong><span class="space-description">从背压到阻塞流与正激波。</span></div>
+   <div class="tile-tags"><span>可压缩流</span><span>准一维模型</span></div>
  </a>
-<a href="./potential-flow.html" class="space-card space-card--physics">
-   <div class="tile-top"><span class="tile-icon"><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="3"/><path d="M2 7c5-8 15-8 20 0M2 17c5 8 15 8 20 0M3 12h4m10 0h4M12 3v4m0 10v4"/></svg></span></div>
+<a href="./potential-flow.html" class="space-card physics-card physics-card--aero">
+   <div class="tile-top"><span class="tile-icon"><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="3"/><path d="M2 7c5-8 15-8 20 0M2 17c5 8 15 8 20 0M3 12h4m10 0h4M12 3v4m0 10v4"/></svg></span><span class="physics-category">空气动力学</span></div>
    <span class="tile-art" aria-hidden="true"><svg viewBox="0 0 148 106"><circle cx="52" cy="53" r="8"/><circle cx="95" cy="53" r="8"/><path d="M52 45C40-10 110-10 95 45M52 61C40 116 110 116 95 61M52 45C30-35 125-35 95 45M52 61C30 142 125 142 95 61M60 53h27"/></svg></span>
-   <div class="tile-main"><span class="tile-overline">POTENTIAL FLOW</span><strong class="space-title">势与流 · Flow Lab</strong><span class="space-description">自由组合源、汇、点涡与偶极子，探索 φ 与 ψ。</span></div>
-   <div class="tile-tags"><span>Free exploration</span><span>2D potential flow</span></div>
+   <div class="tile-main"><span class="tile-overline">Potential Flow</span><strong class="space-title">势与流</strong><span class="space-description">自由组合源、汇、点涡与偶极子，探索 φ 与 ψ。</span></div>
+   <div class="tile-tags"><span>势流叠加</span><span>圆柱绕流</span></div>
  </a>
-<a href="./conformal.html" class="space-card space-card--wing">
-   <div class="tile-top"><span class="tile-icon"><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="6" cy="12" r="4"/><path d="M13 14c2-5 6-5 9-2-4 1-6 2-9 2z"/></svg></span></div>
+<a href="./conformal.html" class="space-card physics-card physics-card--aero">
+   <div class="tile-top"><span class="tile-icon"><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="6" cy="12" r="4"/><path d="M13 14c2-5 6-5 9-2-4 1-6 2-9 2z"/></svg></span><span class="physics-category">空气动力学</span></div>
    <span class="tile-art tile-art--wing" aria-hidden="true"><svg viewBox="0 0 148 106"><circle cx="31" cy="53" r="23"/><path d="M72 58c15-24 35-23 70-3-31 6-48 8-70 3zM62 29c21-15 55-14 81 2M62 78c22 12 52 14 81-1"/></svg></span>
-   <div class="tile-main"><span class="tile-overline">CONFORMAL MAPPING</span><strong class="space-title">保角变换 · Joukowski</strong><span class="space-description">从圆柱到翼型，探索流线、环量与库塔条件。</span></div>
-   <div class="tile-tags"><span>Linked planes</span><span>Kutta condition</span></div>
+   <div class="tile-main"><span class="tile-overline">Conformal Mapping</span><strong class="space-title">保角变换</strong><span class="space-description">从圆柱到翼型，探索流线、环量与库塔条件。</span></div>
+   <div class="tile-tags"><span>Joukowski 变换</span><span>库塔条件</span></div>
  </a>
-<a href="./perturbation.html" class="space-card space-card--wing">
-  <div class="tile-top"><span class="tile-icon"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M2 15c5-7 10-8 20-3-8 1-14 3-20 3zM2 15h20"/></svg></span><span class="tile-arrow" aria-hidden="true">↗</span></div>
+<a href="./perturbation.html" class="space-card physics-card physics-card--aero">
+  <div class="tile-top"><span class="tile-icon"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M2 15c5-7 10-8 20-3-8 1-14 3-20 3zM2 15h20"/></svg></span><span class="physics-category">空气动力学</span></div>
   <span class="tile-art tile-art--wing" aria-hidden="true"><svg viewBox="0 0 148 106"><path d="M2 55C34 28 75 20 141 59 94 64 35 64 2 55Z"/><path d="M3 55h140" stroke-dasharray="4 6"/><path d="M62 27C74 7 94 10 109 22"/></svg></span>
-  <div class="tile-main"><span class="tile-overline">SMALL PERTURBATIONS</span><strong class="space-title">小扰动的影响</strong><span class="space-description">从切向条件到 Cp：迎角、弯度、厚度的各自贡献。</span></div>
-  <div class="tile-tags"><span>Thin-airfoil theory</span><span>Interactive</span></div>
+  <div class="tile-main"><span class="tile-overline">Small Perturbations</span><strong class="space-title">小扰动的影响</strong><span class="space-description">从切向条件到 Cp：迎角、弯度、厚度的各自贡献。</span></div>
+  <div class="tile-tags"><span>薄翼理论</span><span>压力与升力</span></div>
  </a></nav>
 <div class="desk-subnote"><strong>STUDIO NOTE</strong><span>每个实验都尽量标注物理假设和适用范围。可视化帮助理解，但不能代替模型验证。</span></div>
 <div class="desk-footer-row"><strong>✳ HAOYI STUDIO</strong><span>Back anytime. Keep exploring.</span></div></main>
@@ -52,3 +54,4 @@
 </div>
 </body>
 </html>
+
