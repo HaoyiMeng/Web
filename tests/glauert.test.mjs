@@ -27,7 +27,8 @@ const atZeroLift=coefficients(-.04*180/Math.PI,2);
 near(atZeroLift.cl,0);
 
 const n=4096,dTheta=Math.PI/n;
-let integrated=0;
+// Trapezoid endpoint theta=0 has a finite limit A0(1+cos0)=2*A0.
+let integrated=rad(3)*dTheta;
 for(let i=1;i<n;i++){
  const theta=i*dTheta;
  const X=(1-Math.cos(theta))/2;
