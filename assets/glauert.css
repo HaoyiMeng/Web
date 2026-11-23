@@ -79,3 +79,37 @@ body{background:#0b1017}
 .g-end{padding:26px 0;color:#9bb1ba;font-size:12px;display:flex;justify-content:space-between;gap:20px;border-top:1px solid #263d47}
 @media(max-width:1040px){.g-main-grid{grid-template-columns:1fr;gap:15px}.g-toc{position:static;display:flex;flex-wrap:wrap;gap:4px;padding:14px}.g-toc strong{flex-basis:100%;margin:0 0 3px}.g-toc a{padding:8px}.g-model-grid{grid-template-columns:215px minmax(0,1fr)}}
 @media(max-width:700px){.g-hero{grid-template-columns:1fr;padding-top:8px}.g-main-grid{margin-top:17px}.g-two,.g-three,.g-model-grid{grid-template-columns:1fr}.g-section{margin-bottom:37px;padding-bottom:25px}.g-step{padding:18px 14px 18px 48px}.g-step:before{left:14px}.g-model{padding:15px}.g-stats{grid-template-columns:repeat(2,minmax(0,1fr))}.g-hero-note{padding:20px}.g-math{font-size:16px;padding:15px 12px}}
+
+/* Technical figures: accurate SVG assets with readable captions and mobile panning. */
+.g-figure{margin:23px 0 21px;border:1px solid #34505a;border-radius:13px;background:#101c26;overflow:hidden;box-shadow:0 12px 28px rgba(0,0,0,.09)}
+.g-figure-scroll{width:100%;overflow-x:auto;overflow-y:hidden;scrollbar-color:#48616c #14252d;overscroll-behavior-inline:contain}
+.g-figure-scroll img{display:block;width:100%;max-width:none;height:auto;background:#0c1720}
+.g-figure figcaption{padding:13px 19px 16px;font-size:12px;line-height:1.85;color:#a4b9c2;border-top:1px solid #293f4c;background:#14232b}
+.g-figure figcaption strong{color:#deede9;font-weight:690}
+.g-figure + p{margin-top:15px}
+.g-chart-region{position:relative;min-width:0}
+.g-chart{touch-action:pan-y;cursor:crosshair;user-select:none}
+.g-chart-title{display:flex;flex-wrap:wrap;justify-content:space-between;gap:10px;align-items:center;margin:0 0 10px;font-size:12px;color:#b8ccd0}
+.g-chart-title strong{color:#e0f3ee;font-weight:680}
+.g-legend{display:flex;gap:13px;flex-wrap:wrap;align-items:center;margin:9px 0 14px;font-size:12px;color:#b8cfd2}
+.g-legend span{display:inline-flex;align-items:center;gap:6px}
+.g-legend i{display:inline-block;width:23px;height:2px;background:#69d9cc;border-radius:2px}
+.g-legend .g-legend-alpha i{background:repeating-linear-gradient(90deg,#b5a1f3 0 6px,transparent 6px 10px)}
+.g-legend .g-legend-camber i{background:repeating-linear-gradient(90deg,#f1ce8d 0 3px,transparent 3px 8px)}
+.g-probe-row{margin:19px 0 0;padding:12px 13px;border-radius:9px;background:#10242c;border:1px solid #35505c}
+.g-probe-row label{display:flex;justify-content:space-between;align-items:center;gap:10px;margin-bottom:8px;font-size:12px;color:#b7d3cf}
+.g-probe-row output{font-size:14px;font-weight:760;color:#9de8dd;font-variant-numeric:tabular-nums}
+.g-probe-readouts{display:flex;flex-wrap:wrap;gap:15px;margin-top:12px;color:#b3cad0;font-size:12px}
+.g-probe-readouts strong{color:#e2f4ef;font-weight:760;font-variant-numeric:tabular-nums}
+.g-geometry{margin-top:18px;padding:16px;background:#101e27;border:1px solid #34505b;border-radius:10px}
+.g-geometry svg{width:100%;height:auto;display:block}
+.g-geometry-caption{font-size:11px!important;line-height:1.7!important;color:#90afb7!important;margin:9px 0 0!important}
+.g-model .g-sliders{gap:20px}
+.g-model .g-sliders input[type="range"]{min-height:28px}
+@media(max-width:700px){
+  .g-figure-scroll img{min-width:660px}
+  .g-figure-wide .g-figure-scroll img{min-width:820px}
+  .g-figure figcaption{padding:12px 14px 14px}
+  .g-chart-title{font-size:11px}
+  .g-probe-readouts{gap:10px 14px}
+}
