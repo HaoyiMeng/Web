@@ -4,6 +4,7 @@ if (year) year.textContent = String(new Date().getFullYear());
 const RECENT_KEY = 'haoyi-studio-recent-v1';
 const pages = {
   'potential-flow.html': { kind: 'physics', title: '势流与流场叠加', subtitle: 'Potential Flow · 圆柱绕流', icon: 'M4 8c5-5 11-5 16 0M4 16c5 5 11 5 16 0' },
+  'glauert.html': { kind: 'physics', title: 'Glauert 薄翼理论', subtitle: 'Fourier Coefficients · 涡片与环量', icon: 'M2 17c5-8 13-12 20-8M3 19h18M5 13l3-4 3 4' },
   'perturbation.html': { kind: 'physics', title: '薄翼小扰动理论', subtitle: 'Thin Airfoil Theory · 压力与升力', icon: 'M2 15c5-7 10-8 20-3-8 1-14 3-20 3zM2 15h20' },
   'numbers.html': { kind: 'library', title: '工程无量纲数', subtitle: 'Dimensionless Numbers · Re 与 Ma', icon: 'M9 3 5 21M18 3l-4 18M3 9h18M2 15h18' },
   'formulas.html': { kind: 'library', title: '流体力学公式', subtitle: 'Fluid Mechanics Equations · 定理与推导', icon: 'M18 4H6l7 8-7 8h12M4 4h2M4 20h2' },
