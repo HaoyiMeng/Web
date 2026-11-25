@@ -118,8 +118,8 @@
  .band-page .workspace-shell.site-shell{padding-inline:16px}.stage-map{padding:14px;border-radius:18px}
  .zone-heading{flex-wrap:wrap;gap:6px}.zone-heading span{font-size:.75rem}
  .stage-grid{margin-top:16px}.stage-grid .role-icon{width:46px;height:46px}.stage-grid .role-icon svg{width:25px;height:25px}
- .stage-grid .role-card{gap:5px;width:29%;padding:4px 1px}.stage-grid .role-name strong{font-size:.875rem}
- .stage-grid .role-name small{font-size:.75rem;line-height:1.2}.stage-center small{display:none}.stage-center strong{font-size:.75rem;letter-spacing:.1em}
+ .stage-grid .role-card{gap:5px;width:24%;padding:4px 1px}.stage-grid .role-name strong{font-size:.875rem}
+ .stage-grid .role-name small{display:none}.stage-grid [data-role=keys],.stage-grid [data-role=rhythm]{--y:37%}.stage-center small{display:none}.stage-center strong{font-size:.75rem;letter-spacing:.1em}
  .stage-direction{font-size:.6875rem}.stage-direction.front{bottom:5%}
  .stage-sidebar{grid-template-columns:1fr}.optional-grid{grid-template-columns:repeat(3,minmax(0,1fr))}
  .optional-grid .role-card{flex-direction:column;align-items:flex-start;padding:12px 8px;gap:8px}.optional-grid .role-name strong{font-size:.875rem}
@@ -130,7 +130,7 @@
  .extra-card,.role-section{padding:20px}.role-hero .section-tag{letter-spacing:0}
  .band-toolbar .section-tag{letter-spacing:.03em}
 }
-@media(max-width:360px){.stage-grid .role-name small{display:none}.stage-grid .role-icon{width:42px;height:42px}.stage-grid .role-card{gap:4px}.stage-direction.rear{top:5%}}
+@media(max-width:360px){.stage-grid .role-name small{display:none}.stage-grid .role-icon{width:38px;height:38px}.stage-grid .role-card{gap:4px}.stage-direction.rear{top:5%}}
 @media(prefers-reduced-motion:reduce){.band-page *{animation:none!important;transition:none!important;scroll-behavior:auto!important}}
 </style>
 <script type="module" src="./js/site.mjs"></script>
@@ -233,7 +233,7 @@ function show(id,source=null,focus=true){
  active=id;overview.hidden=!!id;details.hidden=!id;back.hidden=!id;label.textContent=id?'02 / ROLE PROFILE · 角色详情':'01 / STAGE MAP · 舞台总览';
  articles.forEach(a=>a.hidden=a.id!==id);nav.querySelectorAll('a').forEach(a=>{if(a.dataset.role===id)a.setAttribute('aria-current','page');else a.removeAttribute('aria-current')});
  const hero=id?document.getElementById(id).querySelector('.role-hero'):null;
- if(focus){const dest=id?label:overview;dest.scrollIntoView({block:'start',behavior:'auto'});}
+ if(focus){const dest=id?label:overview;dest.scrollIntoView({block:'start',behavior:'instant'});}
  if(clone&&hero){
   const end=hero.getBoundingClientRect();hero.style.visibility='hidden';clone.classList.add('role-flight');clone.removeAttribute('href');clone.setAttribute('aria-hidden','true');clone.tabIndex=-1;
   Object.assign(clone.style,{left:origin.left+'px',top:origin.top+'px',width:origin.width+'px',height:origin.height+'px'});document.body.append(clone);flight=clone;
