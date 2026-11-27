@@ -4,7 +4,7 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <meta name="theme-color" content="#0b0e13">
-<meta name="description" content="Haoyi Studio 学习笔记：航空航天、流体力学与工程科学的系统化推导与交互图解。阅读 Glauert 薄翼理论、涡片与傅里叶系数。">
+<meta name="description" content="Haoyi Studio 学习笔记：航空航天、流体力学与工程科学的系统化推导与交互图解。阅读源面与涡面、Glauert 薄翼理论、涡片与傅里叶系数。">
 <title>学习笔记 | Study Notes — Haoyi Studio</title>
 <link rel="canonical" href="https://haoyistudio.com/study-notes.html">
 <meta property="og:title" content="学习笔记 · Study Notes | Haoyi Studio">
@@ -26,8 +26,12 @@
 <h1 id="notes-title">学习笔记<em> · Study Notes.</em></h1>
 <p>按概念、推导和模型组织知识，保留假设、单位、符号约定及适用边界。每篇笔记都可以独立阅读，也可以接入相关实验。</p>
 </section>
-<div class="notes-guide"><span>NOTES / 已发布 01</span><span>AERODYNAMICS · 空气动力学</span></div>
+<div class="notes-guide"><span>NOTES / 已发布 02</span><span>AERODYNAMICS · 空气动力学</span></div>
 <nav class="notes-library" aria-label="学习笔记目录">
+<a class="notes-feature" href="./source-vortex-sheets.html" aria-label="阅读源面与涡面完整笔记">
+<div class="notes-feature-art" aria-hidden="true"><svg viewBox="0 0 450 260"><defs><marker id="sheet-index-arrow" markerWidth="6" markerHeight="6" refX="5" refY="3" orient="auto"><path d="M0 0L6 3L0 6Z" fill="#7fdccf"/></marker><marker id="sheet-index-vortex" markerWidth="6" markerHeight="6" refX="5" refY="3" orient="auto"><path d="M0 0L6 3L0 6Z" fill="#e6c584"/></marker></defs><path d="M24 68H425M24 182H425" stroke="#56727b" stroke-width="1.5"/><circle cx="44" cy="68" r="4" fill="#7fdccf"/><path d="M44 59V24M44 77V112" stroke="#7fdccf" stroke-width="2" marker-end="url(#sheet-index-arrow)"/><circle cx="44" cy="182" r="3.5" fill="#e6c584"/><circle cx="95" cy="68" r="4" fill="#7fdccf"/><path d="M95 59V24M95 77V112" stroke="#7fdccf" stroke-width="2" marker-end="url(#sheet-index-arrow)"/><circle cx="95" cy="182" r="3.5" fill="#e6c584"/><circle cx="146" cy="68" r="4" fill="#7fdccf"/><path d="M146 59V24M146 77V112" stroke="#7fdccf" stroke-width="2" marker-end="url(#sheet-index-arrow)"/><circle cx="146" cy="182" r="3.5" fill="#e6c584"/><circle cx="197" cy="68" r="4" fill="#7fdccf"/><path d="M197 59V24M197 77V112" stroke="#7fdccf" stroke-width="2" marker-end="url(#sheet-index-arrow)"/><circle cx="197" cy="182" r="3.5" fill="#e6c584"/><circle cx="248" cy="68" r="4" fill="#7fdccf"/><path d="M248 59V24M248 77V112" stroke="#7fdccf" stroke-width="2" marker-end="url(#sheet-index-arrow)"/><circle cx="248" cy="182" r="3.5" fill="#e6c584"/><circle cx="299" cy="68" r="4" fill="#7fdccf"/><path d="M299 59V24M299 77V112" stroke="#7fdccf" stroke-width="2" marker-end="url(#sheet-index-arrow)"/><circle cx="299" cy="182" r="3.5" fill="#e6c584"/><circle cx="350" cy="68" r="4" fill="#7fdccf"/><path d="M350 59V24M350 77V112" stroke="#7fdccf" stroke-width="2" marker-end="url(#sheet-index-arrow)"/><circle cx="350" cy="182" r="3.5" fill="#e6c584"/><circle cx="401" cy="68" r="4" fill="#7fdccf"/><path d="M401 59V24M401 77V112" stroke="#7fdccf" stroke-width="2" marker-end="url(#sheet-index-arrow)"/><circle cx="401" cy="182" r="3.5" fill="#e6c584"/><path d="M40 162h66 M106 202h-66" stroke="#e6c584" stroke-width="2" marker-end="url(#sheet-index-vortex)"/><path d="M141 162h66 M207 202h-66" stroke="#e6c584" stroke-width="2" marker-end="url(#sheet-index-vortex)"/><path d="M242 162h66 M308 202h-66" stroke="#e6c584" stroke-width="2" marker-end="url(#sheet-index-vortex)"/><path d="M343 162h66 M409 202h-66" stroke="#e6c584" stroke-width="2" marker-end="url(#sheet-index-vortex)"/><g fill="#b1c8cc" font-size="13"><text x="28" y="135">Source sheet · q(s)</text><text x="28" y="237">Vortex sheet · γ(s)</text></g></svg></div>
+<div class="notes-feature-body"><div class="notes-feature-top"><span>AERODYNAMICS / SINGULARITY DISTRIBUTIONS</span><span class="notes-live">已发布</span></div><h2>源面与涡面</h2><p class="notes-en">Source &amp; Vortex Sheets · Velocity Jumps · Panel Method</p><p class="notes-summary">从源心和涡心出发，回顾连续奇点分布、速度跳跃定理、切向边界条件、厚度与弯度分解、压力系数与升力，以及 Hess–Smith 面元法和三维涡面。</p><div class="notes-feature-tags"><span>10 节系统推导</span><span>矢量图解</span><span>3 个交互模型</span><span>中英术语</span></div><span class="notes-open">进入笔记 <span aria-hidden="true">↗</span></span></div></a>
+
 <a class="notes-feature" href="./glauert.html" aria-label="阅读 Glauert 薄翼理论完整笔记">
 <div class="notes-feature-art" aria-hidden="true">
 <svg viewBox="0 0 450 260" focusable="false">
